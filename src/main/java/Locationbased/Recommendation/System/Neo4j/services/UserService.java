@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -20,6 +20,7 @@ public class UserService {
         User user = new User();
 
         user.setName(request.getName());
+        // TODO: make sure this username doesn't exist.
         user.setUsername(request.getUsername());
         user.setRoles(request.getRoles());
         user.setPassword(passwordEncoder.encode(request.getPassword()));

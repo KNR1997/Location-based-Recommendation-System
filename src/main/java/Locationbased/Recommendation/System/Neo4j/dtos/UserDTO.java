@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.objects;
+package Locationbased.Recommendation.System.Neo4j.dtos;
 
 import lombok.Data;
 

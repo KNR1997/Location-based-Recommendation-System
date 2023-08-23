@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.objects;
+package Locationbased.Recommendation.System.Neo4j.dtos;
 
 import Locationbased.Recommendation.System.Neo4j.models.Lesson;
 import lombok.Data;
@@ -13,10 +13,12 @@ public class CourseDTO {
     private String title;
     private String teacher;
     private List<Lesson> lessons = new ArrayList<>();
+    private boolean isEnrolled;
+
+    public CourseDTO() {
+
+    }
 
     public CourseDTO(String identifier, String title, String teacher) {
-        this.identifier = identifier;
-        this.title = title;
-        this.teacher = teacher;
     }
 }
