@@ -1,7 +1,9 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
 import Locationbased.Recommendation.System.Neo4j.models.Course;
+import Locationbased.Recommendation.System.Neo4j.objects.CourseDTO;
 import Locationbased.Recommendation.System.Neo4j.services.CourseService;
+import Locationbased.Recommendation.System.Neo4j.services.LessonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,11 @@ import java.util.List;
 public class CourseController {
     private final CourseService courseService;
 
-    public CourseController(CourseService courseService) {
+    private final LessonService lessonService;
+
+    public CourseController(CourseService courseService, LessonService lessonService) {
         this.courseService = courseService;
+        this.lessonService = lessonService;
     }
 
     @GetMapping("/")
@@ -26,8 +31,12 @@ public class CourseController {
     }
 
     @GetMapping("/{identifier}")
-    public ResponseEntity<Course> courseDetails(@PathVariable String identifier) {
+    public ResponseEntity<CourseDTO> courseDetails(@PathVariable String identifier) {
         Course course = courseService.getCourseByIdentifier(identifier);
-        return new ResponseEntity<>(course, HttpStatus.OK);
+
+        CourseDTO responseCourse = new CourseDTO(course.getIdentifier(), course.getTitle(), course.getTeacher());
+        responseCourse.setLessons(lessonService.getAllLessonsByCourseIdentifier(course.getIdentifier()));
+
+        return new ResponseEntity<>(responseCourse, HttpStatus.OK);
     }
 }
