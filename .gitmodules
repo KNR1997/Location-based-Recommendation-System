@@ -1,0 +1,3 @@
+[submodule "src/main/react-app"]
+	path = src/main/react-app
+	url = https://github.com/KNR1997/Location-based-Recommendation-System.git
