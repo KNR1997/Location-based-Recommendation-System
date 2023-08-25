@@ -7,13 +7,13 @@ import org.springframework.data.neo4j.core.schema.Node;
 
 @Data
 @Node
-public class Interest {
+public class InterestField {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
+    private String fieldName;
 
-    public Interest() {
+    public InterestField() {
     }
 }
