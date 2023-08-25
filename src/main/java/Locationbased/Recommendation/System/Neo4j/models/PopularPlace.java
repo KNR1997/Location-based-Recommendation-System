@@ -7,20 +7,12 @@ import org.springframework.data.neo4j.core.schema.Node;
 
 @Data
 @Node
-public class Course {
-
+public class PopularPlace {
     @Id
     @GeneratedValue
     private Long id;
-    private String identifier;
+    private String name;
 
-    private String title;
-
-    private String teacher;
-
-//    @Relationship(type = "BELONGS_TO", direction = Relationship.Direction.INCOMING)
-//    private List<Lesson> lessons = new ArrayList<>();
-
-    public Course() {
+    public PopularPlace() {
     }
 }
