@@ -1,17 +1,16 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
 import Locationbased.Recommendation.System.Neo4j.dtos.InterestedFieldsDTO;
+import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.requests.UserLikeFieldRequest;
 import Locationbased.Recommendation.System.Neo4j.services.InterestFieldService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/interestFields")
@@ -33,5 +32,10 @@ public class InterestController {
         interestedFieldsDTO.setInterestFields(userLikeQueryResult.getFieldName());
 
         return new ResponseEntity<>(interestedFieldsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<Interest>> getAllInterestedFields() {
+        return new ResponseEntity<>(interestFieldService.getAllInterestFields(), HttpStatus.OK);
     }
 }
