@@ -6,6 +6,7 @@ import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepos
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +21,11 @@ public class InterestFieldService {
         this.userRepository = userRepository;
     }
 
-    public UserLikeQueryResult userLikeFieldsCreated(String username, String[] interestFields) {
+    public UserLikeQueryResult userLikeFieldsCreate(String username, ArrayList<Interest> interestArrayList) {
+        String[] interestFields = new String[interestArrayList.size()];
+        for (int i = 0; i < interestArrayList.size(); i++) {
+            interestFields[i] = interestArrayList.get(i).getName();
+        }
         List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, interestFields);
         return userLikeQueryResults.get(0);
     }

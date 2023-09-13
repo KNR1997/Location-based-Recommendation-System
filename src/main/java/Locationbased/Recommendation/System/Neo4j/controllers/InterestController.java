@@ -22,9 +22,9 @@ public class InterestController {
         this.interestFieldService = interestFieldService;
     }
 
-    @PostMapping("/created")
+    @PostMapping("/create")
     public ResponseEntity<InterestedFieldsDTO> userLikeFieldCreate(@RequestBody UserLikeFieldRequest request, Principal principal) {
-        UserLikeQueryResult userLikeQueryResult = interestFieldService.userLikeFieldsCreated(principal.getName(), request.getInterestFields());
+        UserLikeQueryResult userLikeQueryResult = interestFieldService.userLikeFieldsCreate(principal.getName(), request.getInterestArrayList());
 
         InterestedFieldsDTO interestedFieldsDTO = new InterestedFieldsDTO();
 
