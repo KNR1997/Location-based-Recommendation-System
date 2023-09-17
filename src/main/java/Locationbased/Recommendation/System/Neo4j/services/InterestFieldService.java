@@ -22,7 +22,19 @@ public class InterestFieldService {
         this.userRepository = userRepository;
     }
 
-    public UserLikeQueryResult userLikeFieldsCreate(String username, ArrayList<Interest> interestArrayList) {
+    public List<Interest> getAllInterestFields() {
+        return interestFieldRepository.findAll();
+    }
+
+    public UserLikeQueryResult createUserLikeFields(String username, ArrayList<Interest> interestArrayList) {
+        String[] interestFields = new String[interestArrayList.size()];
+        if(userRepository.userAlreadyCreatedLikedFields(username)) {
+            this.deleteAllUserLikedFields(username);
+        }
+        return createNewUserLikeFields(username, interestArrayList);
+    }
+
+    public UserLikeQueryResult createNewUserLikeFields(String username, ArrayList<Interest> interestArrayList) {
         String[] interestFields = new String[interestArrayList.size()];
         for (int i = 0; i < interestArrayList.size(); i++) {
             interestFields[i] = interestArrayList.get(i).getName();
@@ -31,11 +43,7 @@ public class InterestFieldService {
         return userLikeQueryResults.get(0);
     }
 
-    public List<Interest> getAllInterestFields() {
-        return interestFieldRepository.findAll();
-    }
-
-    public List<Interest> getUserLikedInterestFields(String userName){
+    public List<Interest> getUserLikedFields(String userName){
         List<Interest> interestList = new ArrayList<>();
         List<UserLikedFieldsResult> interestFields =  userRepository.getUserLikedInterestFields(userName);
         for (UserLikedFieldsResult userLikedFieldsResult: interestFields) {
@@ -43,4 +51,9 @@ public class InterestFieldService {
         }
         return interestList;
     }
+
+    void deleteAllUserLikedFields(String userName) {
+        userRepository.deleteAllUserLikedFields(userName);
+    }
+
 }

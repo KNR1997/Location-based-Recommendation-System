@@ -1,6 +1,5 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
-import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.queryResult.CourseEnrolmentQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
@@ -31,4 +30,12 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (:User {username: $userName})-[:LIKE]->(interestField:Interest) RETURN interestField AS likedField")
     List<UserLikedFieldsResult> getUserLikedInterestFields(String userName);
+
+    @Query("MATCH (user:User) WHERE user.username = $username " +
+            "RETURN EXISTS((user)-[:LIKE]->())")
+    Boolean userAlreadyCreatedLikedFields(String username);
+
+    @Query("MATCH (:User{username: $username})-[relationship:LIKE]->()" +
+            "DELETE relationship")
+    Void deleteAllUserLikedFields(String username);
 }

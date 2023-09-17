@@ -3,7 +3,6 @@ package Locationbased.Recommendation.System.Neo4j.controllers;
 import Locationbased.Recommendation.System.Neo4j.dtos.InterestedFieldsDTO;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.requests.UserLikeFieldRequest;
 import Locationbased.Recommendation.System.Neo4j.services.InterestFieldService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ public class InterestController {
 
     @PostMapping("/create")
     public ResponseEntity<InterestedFieldsDTO> userLikeFieldCreate(@RequestBody UserLikeFieldRequest request, Principal principal) {
-        UserLikeQueryResult userLikeQueryResult = interestFieldService.userLikeFieldsCreate(principal.getName(), request.getInterestArrayList());
+        UserLikeQueryResult userLikeQueryResult = interestFieldService.createUserLikeFields(principal.getName(), request.getInterestArrayList());
 
         InterestedFieldsDTO interestedFieldsDTO = new InterestedFieldsDTO();
 
@@ -42,7 +41,7 @@ public class InterestController {
 
     @GetMapping("/getUserLikedInterestFields")
     public ResponseEntity<List<Interest>> getUserLikedFields(Principal principal) {
-        List<Interest> userLikedInterestFields = interestFieldService.getUserLikedInterestFields(principal.getName());
+        List<Interest> userLikedInterestFields = interestFieldService.getUserLikedFields(principal.getName());
         return new ResponseEntity<>(userLikedInterestFields, HttpStatus.OK);
     }
 }
