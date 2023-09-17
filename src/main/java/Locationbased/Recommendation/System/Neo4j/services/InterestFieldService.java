@@ -2,6 +2,7 @@ package Locationbased.Recommendation.System.Neo4j.services;
 
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
+import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,14 @@ public class InterestFieldService {
 
     public List<Interest> getAllInterestFields() {
         return interestFieldRepository.findAll();
+    }
+
+    public List<Interest> getUserLikedInterestFields(String userName){
+        List<Interest> interestList = new ArrayList<>();
+        List<UserLikedFieldsResult> interestFields =  userRepository.getUserLikedInterestFields(userName);
+        for (UserLikedFieldsResult userLikedFieldsResult: interestFields) {
+            interestList.add(new Interest(userLikedFieldsResult));
+        }
+        return interestList;
     }
 }
