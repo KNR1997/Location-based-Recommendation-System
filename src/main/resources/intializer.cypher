@@ -4,6 +4,7 @@ CREATE
   (natureWildLife:Interest{name:"Nature & Wild Life"}),
   (camping:Interest{name:"Camping"}),
   (resort:Interest{name:"Resort"});
+CREATE (beach:Interest{name:"Beach"});
 
 CREATE
   (kandy:PopularPlaces{name:"Kandy"}),
@@ -109,7 +110,12 @@ CREATE
   (casuarinaBeach:Beach{name:"Casuarina Beach"}),
   (kahandamodaraBeach:Beach{name:"Kahandamodara Beach"}),
   (beruwalaBeach:Beach{name:"Beruwala Beach"}),
-  (batticaloaBeach:Beach{name:"Batticaloa Beach"});
+  (batticaloaBeach:Beach{name:"Batticaloa Beach"}),
+  (wijaya:Beach{name:"Wijaya"}),
+  (kalkudah:Beach{name:"Kalkudah", rating:7}),
+  (hiriketiya:Beach{name:"Hiriketiya", rating:5}),
+  (hikkaduwa:Beach{name:"Hikkaduwa", rating:5});
+
 
 CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Unawatuna'});
 CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Bentota'});
@@ -141,6 +147,90 @@ CREATE (:District {name: 'Jaffna'})-[:HAS_BEACH]->(:Beach {name: 'Casuarina Beac
 CREATE (:District {name: 'Hambantota'})-[:HAS_BEACH]->(:Beach {name: 'Kahandamodara Beach'});
 CREATE (:District {name: 'Kalutara'})-[:HAS_BEACH]->(:Beach {name: 'Beruwala Beach'});
 CREATE (:District {name: 'Batticaloa'})-[:HAS_BEACH]->(:Beach {name: 'Batticaloa Beach'});
+
+CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Wijaya'});
+CREATE (:District {name: 'Matara'})-[:HAS_BEACH]->(:Beach {name: 'Hiriketiya'});
+CREATE (:District {name: 'Batticaloa'})-[:HAS_BEACH]->(:Beach {name: 'Kalkudah'});
+
+// Overall rating
+MATCH (n:Beach {name: 'Mirissa'})     SET n.rating = 7;
+MATCH (n:Beach {name: 'Unawatuna'})   SET n.rating = 7;
+MATCH (n:Beach {name: 'Weligama'})    SET n.rating = 7;
+MATCH (n:Beach {name: 'Bentota'})     SET n.rating = 7;
+MATCH (n:Beach {name: 'Arugam Bay'})  SET n.rating = 7;
+MATCH (n:Beach {name: 'Nilaveli'})    SET n.rating = 7;
+MATCH (n:Beach {name: 'Kalpitiya'})   SET n.rating = 7;
+
+// Surfing rating
+MATCH (n:Beach {name: 'Arugam Bay'})  SET n.surfing = 9;
+MATCH (n:Beach {name: 'Hiriketiya'})  SET n.surfing = 9;
+MATCH (n:Beach {name: 'Hikkaduwa'})   SET n.surfing = 9;
+
+MATCH (n:Beach {name: 'Mirissa'})     SET n.surfing = 7;
+MATCH (n:Beach {name: 'Koggala'})     SET n.surfing = 7;
+MATCH (n:Beach {name: 'Weligama'})    SET n.surfing = 7;
+MATCH (n:Beach {name: 'Unawatuna'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Wijaya'})      SET n.surfing = 0;
+MATCH (n:Beach {name: 'Trincomalee'}) SET n.surfing = 0;
+MATCH (n:Beach {name: 'Tangalle'})    SET n.surfing = 0;
+
+MATCH (n:Beach {name: 'Unawatuna'})   SET n.surfing = 0;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Bentota'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Kalkudah'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Nilaveli'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Kalpitiya'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
+
+// Beach category nodes
+CREATE
+  (relaxation         :BeachCategory{name: "Relaxation"         }),
+  (surfing            :BeachCategory{name: "Surfing"            }),
+  (snorkeling         :BeachCategory{name: "Snorkeling"         }),
+  (wildLife           :BeachCategory{name: "WildLife"           }),
+  (party              :BeachCategory{name: "Party"              }),
+  (historic           :BeachCategory{name: "Historic"           }),
+  (deserted           :BeachCategory{name: "Deserted"           }),
+  (underWaterParadise :BeachCategory{name: "UnderWaterParadise" }),
+  (islandParadise     :BeachCategory{name: "IslandParadise"     });
+
+// Beach and Beach Category relationship
+CREATE (:Beach {name: 'Wijaya'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Relaxation'});
+CREATE (:Beach {name: 'Mirissa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Surfing'});
+CREATE (:Beach {name: 'Hiriketiya'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Surfing'});
+CREATE (:Beach {name: 'Trincomalee'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Snorkeling'});
+CREATE (:Beach {name: 'Tangalle'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Relaxation'});
+CREATE (:Beach {name: 'Koggala'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Surfing'});
+CREATE (:Beach {name: 'Koggala'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'WildLife'});
+CREATE (:Beach {name: 'Arugam Bay'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Surfing'});
+CREATE (:Beach {name: 'Unawatuna'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Relaxation'});
+CREATE (:Beach {name: 'Hikkaduwa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Surfing'});
+CREATE (:Beach {name: 'Hikkaduwa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Snorkeling'});
+CREATE (:Beach {name: 'Hikkaduwa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'WildLife'});
+
+
+
+
+
+
+
 
 
 
