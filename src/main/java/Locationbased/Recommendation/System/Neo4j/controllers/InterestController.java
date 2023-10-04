@@ -34,7 +34,7 @@ public class InterestController {
         return new ResponseEntity<>(interestedFieldsDTO, HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllInterestFields")
     public ResponseEntity<List<Interest>> getAllInterestedFields() {
         return new ResponseEntity<>(interestFieldService.getAllInterestFields(), HttpStatus.OK);
     }
