@@ -201,15 +201,15 @@ MATCH (n:Beach {name: 'Weligama'})   SET n.surfing = 5;
 
 // Beach category nodes
 CREATE
-  (relaxation         :BeachCategory{name: "Relaxation"         }),
-  (surfing            :BeachCategory{name: "Surfing"            }),
-  (snorkeling         :BeachCategory{name: "Snorkeling"         }),
-  (wildLife           :BeachCategory{name: "WildLife"           }),
-  (party              :BeachCategory{name: "Party"              }),
-  (historic           :BeachCategory{name: "Historic"           }),
-  (deserted           :BeachCategory{name: "Deserted"           }),
-  (underWaterParadise :BeachCategory{name: "UnderWaterParadise" }),
-  (islandParadise     :BeachCategory{name: "IslandParadise"     });
+  (relaxation         :SubCategory{name: "Relaxation"}),
+  (surfing            :SubCategory{name: "Surfing"}),
+  (snorkeling         :SubCategory{name: "Snorkeling"}),
+  (wildLife           :SubCategory{name: "WildLife"}),
+  (party              :SubCategory{name: "Party"}),
+  (historic           :SubCategory{name: "Historic"}),
+  (deserted           :SubCategory{name: "Deserted"}),
+  (underWaterParadise :SubCategory{name: "UnderWaterParadise"}),
+  (islandParadise     :SubCategory{name: "IslandParadise"});
 
 // Beach and Beach Category relationship
 CREATE (:Beach {name: 'Wijaya'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Relaxation'});
@@ -225,8 +225,40 @@ CREATE (:Beach {name: 'Hikkaduwa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Sur
 CREATE (:Beach {name: 'Hikkaduwa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'Snorkeling'});
 CREATE (:Beach {name: 'Hikkaduwa'})-[:HAS_CATEGORY]->(:BeachCategory {name: 'WildLife'});
 
+MATCH (b:Beach {name: 'Wijaya'})
+MATCH (c:Beach {name: 'Tangalle'})
+MATCH (s:BeachCategory {name: 'Relaxation'})
+CREATE (s)-[:IS_A_SUB_OF]->(b)
+CREATE (s)-[:IS_A_SUB_OF]->(c);
 
+// Delete query
+MATCH ()-[r:RELATIONSHIP_TYPE]->()
+DELETE r
 
+MATCH (n:Label)
+  WHERE n.property_name = {value}
+DELETE n
+
+// Beach has subCategory
+MATCH (a:SubCategory {name: 'Relaxation'})
+MATCH (b:SubCategory {name: 'Surfing'})
+MATCH (c:SubCategory {name: 'Snorkeling'})
+MATCH (d:SubCategory {name: 'WildLife'})
+MATCH (e:SubCategory {name: 'Party'})
+MATCH (f:SubCategory {name: 'Historic'})
+MATCH (g:SubCategory {name: 'Deserted'})
+MATCH (h:SubCategory {name: 'UnderWaterParadise'})
+MATCH (i:SubCategory {name: 'IslandParadise'})
+MATCH (beach:Interest {name: 'Beach'})
+CREATE (beach)-[:HAS_SUBCATEGORY]->(a)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(b)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(c)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(d)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(e)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(f)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(g)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(h)
+CREATE (beach)-[:HAS_SUBCATEGORY]->(i);
 
 
 
