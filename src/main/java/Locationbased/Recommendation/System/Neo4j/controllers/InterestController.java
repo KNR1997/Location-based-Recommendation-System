@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
+import Locationbased.Recommendation.System.Neo4j.dtos.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.dtos.InterestedFieldsDTO;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
@@ -35,8 +36,9 @@ public class InterestController {
     }
 
     @GetMapping("/getAllInterestFields")
-    public ResponseEntity<List<Interest>> getAllInterestedFields() {
-        return new ResponseEntity<>(interestFieldService.getAllInterestFields(), HttpStatus.OK);
+    public ResponseEntity<List<InterestFieldDTO>> getAllInterestedFields() {
+        List<InterestFieldDTO> interestFieldDTOList = interestFieldService.getAllInterestFields();
+        return new ResponseEntity<>(interestFieldDTOList, HttpStatus.OK);
     }
 
     @GetMapping("/getUserLikedInterestFields")

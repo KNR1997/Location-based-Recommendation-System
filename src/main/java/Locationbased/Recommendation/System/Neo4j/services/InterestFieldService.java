@@ -1,6 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.services;
 
+import Locationbased.Recommendation.System.Neo4j.dtos.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
+import Locationbased.Recommendation.System.Neo4j.queryResult.InterestFieldQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
@@ -22,13 +24,20 @@ public class InterestFieldService {
         this.userRepository = userRepository;
     }
 
-    public List<Interest> getAllInterestFields() {
-        return interestFieldRepository.findAll();
+    public List<InterestFieldDTO> getAllInterestFields() {
+        List<Interest> interestList = interestFieldRepository.findAll();
+        List<InterestFieldDTO> interestFieldDTOList = new ArrayList<>();
+        for (Interest interest : interestList) {
+            List<InterestFieldQueryResult> interestSubCategories = interestFieldRepository.getInterestFieldSubCategories(interest.getName());
+            InterestFieldDTO interestFieldDTO = new InterestFieldDTO(interest.getName(), interestSubCategories);
+            interestFieldDTOList.add(interestFieldDTO);
+        }
+        return interestFieldDTOList;
     }
 
     public UserLikeQueryResult createUserLikeFields(String username, ArrayList<Interest> interestArrayList) {
         String[] interestFields = new String[interestArrayList.size()];
-        if(userRepository.userAlreadyCreatedLikedFields(username)) {
+        if (userRepository.userAlreadyCreatedLikedFields(username)) {
             this.deleteAllUserLikedFields(username);
         }
         return createNewUserLikeFields(username, interestArrayList);
@@ -43,10 +52,10 @@ public class InterestFieldService {
         return userLikeQueryResults.get(0);
     }
 
-    public List<Interest> getUserLikedFields(String userName){
+    public List<Interest> getUserLikedFields(String userName) {
         List<Interest> interestList = new ArrayList<>();
-        List<UserLikedFieldsResult> interestFields =  userRepository.getUserLikedInterestFields(userName);
-        for (UserLikedFieldsResult userLikedFieldsResult: interestFields) {
+        List<UserLikedFieldsResult> interestFields = userRepository.getUserLikedInterestFields(userName);
+        for (UserLikedFieldsResult userLikedFieldsResult : interestFields) {
             interestList.add(new Interest(userLikedFieldsResult));
         }
         return interestList;
