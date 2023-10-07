@@ -2,6 +2,7 @@ package Locationbased.Recommendation.System.Neo4j.services;
 
 import Locationbased.Recommendation.System.Neo4j.dtos.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
+import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.queryResult.InterestFieldQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
@@ -35,7 +36,7 @@ public class InterestFieldService {
         return interestFieldDTOList;
     }
 
-    public UserLikeQueryResult createUserLikeFields(String username, ArrayList<Interest> interestArrayList) {
+    public UserLikeQueryResult createUserLikeFields(String username, ArrayList<SubCategory> interestArrayList) {
         String[] interestFields = new String[interestArrayList.size()];
         if (userRepository.userAlreadyCreatedLikedFields(username)) {
             this.deleteAllUserLikedFields(username);
@@ -43,12 +44,12 @@ public class InterestFieldService {
         return createNewUserLikeFields(username, interestArrayList);
     }
 
-    public UserLikeQueryResult createNewUserLikeFields(String username, ArrayList<Interest> interestArrayList) {
-        String[] interestFields = new String[interestArrayList.size()];
-        for (int i = 0; i < interestArrayList.size(); i++) {
-            interestFields[i] = interestArrayList.get(i).getName();
+    public UserLikeQueryResult createNewUserLikeFields(String username, ArrayList<SubCategory> subCategoryArrayList) {
+        String[] subCategories = new String[subCategoryArrayList.size()];
+        for (int i = 0; i < subCategoryArrayList.size(); i++) {
+            subCategories[i] = subCategoryArrayList.get(i).getName();
         }
-        List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, interestFields);
+        List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, subCategories);
         return userLikeQueryResults.get(0);
     }
 

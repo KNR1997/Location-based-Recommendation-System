@@ -24,7 +24,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (user:User {username: $username})" +
             "WITH user, $interestFields AS userLikeFields " +
             "UNWIND userLikeFields AS field " +
-            "MATCH (interestField:Interest {name: field})" +
+            "MATCH (interestField:SubCategory {name: field})" +
             "CREATE (user)-[:LIKE]->(interestField) RETURN interestField.name AS fieldName,user")
     List<UserLikeQueryResult> createUserInterestedFieldsRelationship(String username, String[] interestFields);
 

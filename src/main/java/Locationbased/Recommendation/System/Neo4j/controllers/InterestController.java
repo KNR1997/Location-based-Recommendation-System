@@ -25,7 +25,7 @@ public class InterestController {
 
     @PostMapping("/create")
     public ResponseEntity<InterestedFieldsDTO> userLikeFieldCreate(@RequestBody UserLikeFieldRequest request, Principal principal) {
-        UserLikeQueryResult userLikeQueryResult = interestFieldService.createUserLikeFields(principal.getName(), request.getInterestArrayList());
+        UserLikeQueryResult userLikeQueryResult = interestFieldService.createUserLikeFields(principal.getName(), request.getLikeSubCategories());
 
         InterestedFieldsDTO interestedFieldsDTO = new InterestedFieldsDTO();
 

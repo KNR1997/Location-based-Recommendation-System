@@ -13,6 +13,4 @@ public class SubCategory {
     private Long id;
     private String name;
 
-    public SubCategory() {
-    }
 }
