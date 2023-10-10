@@ -1,11 +1,15 @@
 package Locationbased.Recommendation.System.Neo4j.services;
 
+import Locationbased.Recommendation.System.Neo4j.models.Interest;
+import Locationbased.Recommendation.System.Neo4j.models.Place;
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserNameAndLikedCategoriesQueryResult;
+import Locationbased.Recommendation.System.Neo4j.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
+import org.neo4j.cypherdsl.core.Use;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +64,8 @@ public class UserService {
         return UserMatching.findSimilarUsers(subCategoryList, username);
     }
 
-    public int add(int numberA, int numberB) {
-        return numberA + numberB;
+    public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating){
+        return userRepository.createUserRatePlaceRelationship(userName, placeName, rating);
     }
+
 }

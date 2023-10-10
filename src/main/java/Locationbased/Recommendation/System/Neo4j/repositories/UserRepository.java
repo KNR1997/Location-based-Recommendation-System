@@ -41,7 +41,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     List<UserNameAndLikedCategoriesQueryResult> getAllUsersWithLikeCategories();
 
     @Query("MATCH (user:User {username: $username})" +
-            "MATCH (beach:Beach) {name: $placeName}" +
-            "CREATE (user)-[:RATE {rating: $rating}]->(beach) RETURN user.username AS userName, beach.name AS placeName, rating AS rating")
-    List<UserRatePlaceQueryResult> createUserRatePlaceRelationship(String username, String placeName, Integer rating);
+            "MATCH (place:Place {name: $placeName})" +
+            "CREATE (user)-[rating:RATE {rate: $rating}]->(place) RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
+    UserRatePlaceQueryResult createUserRatePlaceRelationship(String username, String placeName, Integer rating);
 }
