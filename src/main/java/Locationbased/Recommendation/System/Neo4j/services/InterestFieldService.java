@@ -20,9 +20,12 @@ public class InterestFieldService {
 
     private final InterestFieldRepository interestFieldRepository;
 
-    public InterestFieldService(UserRepository userRepository, InterestFieldRepository interestFieldRepository) {
+    private final UserService userService;
+
+    public InterestFieldService(UserRepository userRepository, InterestFieldRepository interestFieldRepository, UserService userService) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public List<InterestFieldDTO> getAllInterestFields() {
@@ -38,6 +41,7 @@ public class InterestFieldService {
 
     public UserLikeQueryResult createUserLikeFields(String username, ArrayList<SubCategory> interestArrayList) {
         String[] interestFields = new String[interestArrayList.size()];
+        List<String> similarUsers = userService.findSimilarUser(interestArrayList);
         if (userRepository.userAlreadyCreatedLikedFields(username)) {
             this.deleteAllUserLikedFields(username);
         }

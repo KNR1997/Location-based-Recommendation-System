@@ -4,6 +4,7 @@ import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.queryResult.CourseEnrolmentQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
+import Locationbased.Recommendation.System.Neo4j.queryResult.UserNameAndLikedCategoriesQueryResult;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -38,4 +39,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (:User{username: $username})-[relationship:LIKE]->()" +
             "DELETE relationship")
     Void deleteAllUserLikedFields(String username);
+
+    @Query("MATCH (user:User)-[:LIKE]->(subCategory:SubCategory) RETURN user.name AS userName, subCategory.name AS categoryName")
+    List<UserNameAndLikedCategoriesQueryResult> getAllUsersWithLikeCategories();
 }
