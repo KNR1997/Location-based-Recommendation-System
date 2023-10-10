@@ -41,7 +41,7 @@ public class InterestFieldService {
 
     public UserLikeQueryResult createUserLikeFields(String username, ArrayList<SubCategory> interestArrayList) {
         String[] interestFields = new String[interestArrayList.size()];
-        List<String> similarUsers = userService.findSimilarUser(interestArrayList);
+        List<String> similarUsers = userService.findSimilarUser(interestArrayList, username);
         if (userRepository.userAlreadyCreatedLikedFields(username)) {
             this.deleteAllUserLikedFields(username);
         }

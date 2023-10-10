@@ -15,15 +15,15 @@ public class UserMatching {
         return (double) intersection.size() / union.size();
     }
 
-    public static List<String> findSimilarUsers(Set<String> newUserCategories) {
+    public static List<String> findSimilarUsers(Set<String> newUserCategories, String username) {
         List<String> similarUsers = new ArrayList<>();
-
         for (Map.Entry<String, Set<String>> entry : userProfiles.entrySet()) {
-            double similarity = calculateJacquardSimilarity(newUserCategories, entry.getValue());
-
-            // Threshold for similarity (adjust as needed)
-            if (similarity >= 0.5) {
-                similarUsers.add(entry.getKey());
+            if (!username.equals(entry.getKey())) {
+                double similarity = calculateJacquardSimilarity(newUserCategories, entry.getValue());
+                // Threshold for similarity (adjust as needed)
+                if (similarity >= 0.5) {
+                    similarUsers.add(entry.getKey());
+                }
             }
         }
         return similarUsers;

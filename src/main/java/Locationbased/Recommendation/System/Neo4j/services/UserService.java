@@ -51,13 +51,13 @@ public class UserService {
         return userProfiles;
     }
 
-    public List<String> findSimilarUser(ArrayList<SubCategory> subCategories) {
+    public List<String> findSimilarUser(ArrayList<SubCategory> subCategories, String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         Set<String> subCategoryList = new HashSet<>();
         for (SubCategory subCategory : subCategories) {
             subCategoryList.add(subCategory.getName());
         }
-        return UserMatching.findSimilarUsers(subCategoryList);
+        return UserMatching.findSimilarUsers(subCategoryList, username);
     }
 
     public int add(int numberA, int numberB) {
