@@ -1,10 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
 import Locationbased.Recommendation.System.Neo4j.models.User;
-import Locationbased.Recommendation.System.Neo4j.queryResult.CourseEnrolmentQueryResult;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserNameAndLikedCategoriesQueryResult;
+import Locationbased.Recommendation.System.Neo4j.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -42,4 +39,9 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (user:User)-[:LIKE]->(subCategory:SubCategory) RETURN user.username AS userName, subCategory.name AS categoryName")
     List<UserNameAndLikedCategoriesQueryResult> getAllUsersWithLikeCategories();
+
+    @Query("MATCH (user:User {username: $username})" +
+            "MATCH (beach:Beach) {name: $placeName}" +
+            "CREATE (user)-[:RATE {rating: $rating}]->(beach) RETURN user.username AS userName, beach.name AS placeName, rating AS rating")
+    List<UserRatePlaceQueryResult> createUserRatePlaceRelationship(String username, String placeName, Integer rating);
 }

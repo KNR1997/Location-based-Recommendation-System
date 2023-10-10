@@ -81,40 +81,42 @@ CREATE (:District {name: 'Ratnapura'})-[:BELONGS_TO]->(:Province {name: 'Sabarag
 CREATE (:District {name: 'Trincomalee'})-[:BELONGS_TO]->(:Province {name: 'Eastern'});
 CREATE (:District {name: 'Vavuniya'})-[:BELONGS_TO]->(:Province {name: 'Northern'});
 
-CREATE
-  (unawatuna:Beach{name:"Unawatuna"}),
-  (bentota:Beach{name:"Bentota"}),
-  (mirissa:Beach{name:"Mirissa"}),
-  (dickwella:Beach{name:"Dickwella"}),
-  (weligama:Beach{name:"Weligama"}),
-  (galle:Beach{name:"Galle"}),
-  (induruwa:Beach{name:"Induruwa"}),
-  (koggala:Beach{name:"Koggala"}),
-  (negombo:Beach{name:"Negombo"}),
-  (arugamBay:Beach{name:"Arugam Bay"}),
-  (uppuveli:Beach{name:"Uppuveli"}),
-  (trincomalee:Beach{name:"Trincomalee"}),
-  (polhena:Beach{name:"Polhena"}),
-  (mountLavinia:Beach{name:"Mount Lavinia"}),
-  (kalpitiya:Beach{name:"Kalpitiya"}),
-  (tangalle:Beach{name:"Tangalle"}),
-  (pasakudahAndKalkudah:Beach{name:"Pasakudah And Kalkudah"}),
-  (talallaSouth:Beach{name:"Talalla South"}),
-  (matara:Beach{name:"Matara"}),
-  (nilaveli:Beach{name:"Nilaveli"}),
-  (muhathuwaram:Beach{name:"Muhathuwaram"}),
-  (wijaya:Beach{name:"Wijaya"}),
-  (pigeonIsland:Beach{name:"Pigeon Island"}),
-  (rekawa:Beach{name:"Rekawa"}),
-  (pottuvil:Beach{name:"Pottuvil"}),
-  (casuarinaBeach:Beach{name:"Casuarina Beach"}),
-  (kahandamodaraBeach:Beach{name:"Kahandamodara Beach"}),
-  (beruwalaBeach:Beach{name:"Beruwala Beach"}),
-  (batticaloaBeach:Beach{name:"Batticaloa Beach"}),
-  (wijaya:Beach{name:"Wijaya"}),
-  (kalkudah:Beach{name:"Kalkudah", rating:7}),
-  (hiriketiya:Beach{name:"Hiriketiya", rating:5}),
-  (hikkaduwa:Beach{name:"Hikkaduwa", rating:5});
+// Place Categories
+CREATE (beach:PlaceCategory{name:"Beach"});
+
+// 32 beaches
+CREATE (unawatuna:Place{name:"Unawatuna"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (bentota:Place{name:"Bentota"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (mirissa:Place{name:"Mirissa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (dickwella:Place{name:"Dickwella"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (weligama:Place{name:"Weligama"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (galle:Place{name:"Galle"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (induruwa:Place{name:"Induruwa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (koggala:Place{name:"Koggala"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (negombo:Place{name:"Negombo"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (arugamBay:Place{name:"Arugam Bay"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (uppuveli:Place{name:"Uppuveli"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (trincomalee:Place{name:"Trincomalee"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (polhena:Place{name:"Polhena"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (mountLavinia:Place{name:"Mount Lavinia"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (kalpitiya:Place{name:"Kalpitiya"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (tangalle:Place{name:"Tangalle"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (pasakudahAndKalkudah:Place{name:"Pasakudah And Kalkudah"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (talallaSouth:Place{name:"Talalla South"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (matara:Place{name:"Matara"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (nilaveli:Place{name:"Nilaveli"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (muhathuwaram:Place{name:"Muhathuwaram"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (wijaya:Place{name:"Wijaya"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (pigeonIsland:Place{name:"Pigeon Island"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (rekawa:Place{name:"Rekawa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (pottuvil:Place{name:"Pottuvil"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (casuarinaBeach:Place{name:"Casuarina Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (kahandamodaraBeach:Place{name:"Kahandamodara Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (beruwalaBeach:Place{name:"Beruwala Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (batticaloaBeach:Place{name:"Batticaloa Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (kalkudah:Place{name:"Kalkudah"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (hiriketiya:Place{name:"Hiriketiya"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+CREATE (hikkaduwa:Place{name:"Hikkaduwa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
 
 
 CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Unawatuna'});
@@ -234,6 +236,11 @@ CREATE (s)-[:IS_A_SUB_OF]->(c);
 // Delete query
 MATCH ()-[r:RELATIONSHIP_TYPE]->()
 DELETE r
+
+MATCH (user:User)-[r:RELATIONSHIP_TYPE]->(product:Product)
+  WHERE user.username = 'price'
+DELETE r
+
 
 MATCH (n:Label)
   WHERE n.property_name = {value}
