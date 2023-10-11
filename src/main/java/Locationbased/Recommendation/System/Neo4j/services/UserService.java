@@ -4,6 +4,7 @@ import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.Place;
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserNameAndLikedCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
@@ -62,6 +63,16 @@ public class UserService {
             subCategoryList.add(subCategory.getName());
         }
         return UserMatching.findSimilarUsers(subCategoryList, username);
+    }
+
+    public List<String> findSimilarUser(String username) {
+        UserMatching.userProfiles = getAllUsersWithLikeCategories();
+        List<UserLikedFieldsResult> interestFields = userRepository.getUserLikedInterestFields(username);
+        Set<String> categoriesSet = new HashSet<>();
+        for (UserLikedFieldsResult userLikedFieldsResult:interestFields){
+            categoriesSet.add(userLikedFieldsResult.getLikedField().getName());
+        }
+        return UserMatching.findSimilarUsers(categoriesSet, username);
     }
 
     public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating){
