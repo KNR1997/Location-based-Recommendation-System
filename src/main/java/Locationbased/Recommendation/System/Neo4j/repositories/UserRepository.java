@@ -50,4 +50,11 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "MATCH (place:Place {name: $placeName})" +
             "CREATE (user)-[rating:RATE {rate: $rating}]->(place) RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
     UserRatePlaceQueryResult createUserRatePlaceRelationship(String username, String placeName, Integer rating);
+
+    @Query("MATCH (user:User {username: $username})" +
+            "WITH user, @similarUsers AS SimilarUsers " +
+            "UNWIND SimilarUsers AS SimilarUser " +
+            "MATCH (similarUser:User {username: SimilarUser})" +
+            "CREATE (user)-[:SIMILAR_USER]->(similarUser) RETURN user.username AS userName,similarUser.username AS similarUser")
+    Void createSimilarUsers(String username, String[] similarUsers);
 }

@@ -1,23 +1,35 @@
-import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.services.UserService;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 
-import java.util.List;
-import java.util.Optional;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
+    @InjectMocks
+    private UserService userService;
 
-    @Test
-    public void findSimilarUsers(){
-        UserRepository userRepository = 
+    @Mock
+    private UserRepository userRepository;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
-
+    @Test
+    public void findSimilarUserTest() {
+        when(userRepository.getUserName("kamala")).thenReturn("kamala");
+        String result = userService.findSimilarUser("kamala");
+        assertEquals("price", result);
+    }
 }
+
+
+
+
+

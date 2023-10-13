@@ -85,38 +85,70 @@ CREATE (:District {name: 'Vavuniya'})-[:BELONGS_TO]->(:Province {name: 'Northern
 CREATE (beach:PlaceCategory{name:"Beach"});
 
 // 32 beaches
-CREATE (unawatuna:Place{name:"Unawatuna"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (bentota:Place{name:"Bentota"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (mirissa:Place{name:"Mirissa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (dickwella:Place{name:"Dickwella"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (weligama:Place{name:"Weligama"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (galle:Place{name:"Galle"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (induruwa:Place{name:"Induruwa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (koggala:Place{name:"Koggala"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (negombo:Place{name:"Negombo"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (arugamBay:Place{name:"Arugam Bay"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (uppuveli:Place{name:"Uppuveli"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (trincomalee:Place{name:"Trincomalee"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (polhena:Place{name:"Polhena"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (mountLavinia:Place{name:"Mount Lavinia"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (kalpitiya:Place{name:"Kalpitiya"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (tangalle:Place{name:"Tangalle"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (pasakudahAndKalkudah:Place{name:"Pasakudah And Kalkudah"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (talallaSouth:Place{name:"Talalla South"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (matara:Place{name:"Matara"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (nilaveli:Place{name:"Nilaveli"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (muhathuwaram:Place{name:"Muhathuwaram"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (wijaya:Place{name:"Wijaya"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (pigeonIsland:Place{name:"Pigeon Island"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (rekawa:Place{name:"Rekawa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (pottuvil:Place{name:"Pottuvil"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (casuarinaBeach:Place{name:"Casuarina Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (kahandamodaraBeach:Place{name:"Kahandamodara Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (beruwalaBeach:Place{name:"Beruwala Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (batticaloaBeach:Place{name:"Batticaloa Beach"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (kalkudah:Place{name:"Kalkudah"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (hiriketiya:Place{name:"Hiriketiya"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
-CREATE (hikkaduwa:Place{name:"Hikkaduwa"})-[:HAS_CATEGORY]->(:PlaceCategory {name: 'Beach'});
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (unawatuna:Place{name:"Unawatuna"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (bentota:Place{name:"Bentota"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (mirissa:Place{name:"Mirissa"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (dickwella:Place{name:"Dickwella"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (weligama:Place{name:"Weligama"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (galle:Place{name:"Galle"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (induruwa:Place{name:"Induruwa"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (koggala:Place{name:"Koggala"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (negombo:Place{name:"Negombo"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (arugamBay:Place{name:"Arugam Bay"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (uppuveli:Place{name:"Uppuveli"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (trincomalee:Place{name:"Trincomalee"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (polhena:Place{name:"Polhena"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (mountLavinia:Place{name:"Mount Lavinia"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (kalpitiya:Place{name:"Kalpitiya"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (tangalle:Place{name:"Tangalle"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (pasakudahAndKalkudah:Place{name:"Pasakudah And Kalkudah"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (talallaSouth:Place{name:"Talalla South"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (matara:Place{name:"Matara"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (nilaveli:Place{name:"Nilaveli"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (muhathuwaram:Place{name:"Muhathuwaram"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (wijaya:Place{name:"Wijaya"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (pigeonIsland:Place{name:"Pigeon Island"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (rekawa:Place{name:"Rekawa"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (pottuvil:Place{name:"Pottuvil"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (casuarinaBeach:Place{name:"Casuarina Beach"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (kahandamodaraBeach:Place{name:"Kahandamodara Beach"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (beruwalaBeach:Place{name:"Beruwala Beach"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (batticaloaBeach:Place{name:"Batticaloa Beach"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (kalkudah:Place{name:"Kalkudah"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (hiriketiya:Place{name:"Hiriketiya"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (hikkaduwa:Place{name:"Hikkaduwa"})-[:HAS_CATEGORY]->(beach);
 
 
 CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Unawatuna'});
@@ -246,7 +278,7 @@ MATCH (n:Label)
   WHERE n.property_name = {value}
 DELETE n
 
-// Beach has subCategory
+// subCategory
 MATCH (a:SubCategory {name: 'Relaxation'})
 MATCH (b:SubCategory {name: 'Surfing'})
 MATCH (c:SubCategory {name: 'Snorkeling'})
@@ -256,16 +288,15 @@ MATCH (f:SubCategory {name: 'Historic'})
 MATCH (g:SubCategory {name: 'Deserted'})
 MATCH (h:SubCategory {name: 'UnderWaterParadise'})
 MATCH (i:SubCategory {name: 'IslandParadise'})
-MATCH (beach:Interest {name: 'Beach'})
-CREATE (beach)-[:HAS_SUBCATEGORY]->(a)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(b)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(c)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(d)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(e)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(f)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(g)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(h)
-CREATE (beach)-[:HAS_SUBCATEGORY]->(i);
+
+CREATE (swimming:SubCategory {name: 'Swimming'});
+CREATE (diving:SubCategory {name: 'Diving'});
+CREATE (kitesurfing:SubCategory {name: 'Kitesurfing'});
+CREATE (windsurfing:SubCategory {name: 'Windsurfing'});
+CREATE (jetSkis:SubCategory {name: 'JetSkis'});
+CREATE (restaurant:SubCategory {name: 'Restaurant'});
+
+CREATE (beach:PlaceCategory{name:"Beach"});
 
 
 
