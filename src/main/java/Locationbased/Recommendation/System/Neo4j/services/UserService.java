@@ -1,16 +1,12 @@
 package Locationbased.Recommendation.System.Neo4j.services;
 
-import Locationbased.Recommendation.System.Neo4j.models.Interest;
-import Locationbased.Recommendation.System.Neo4j.models.Place;
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.User;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserNameAndLikedCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
-import org.neo4j.cypherdsl.core.Use;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -73,14 +69,24 @@ public class UserService {
         Set<String> categoriesSet = new HashSet<>();
         categoriesSet.addAll(interestFields);
         List<String> users = UserMatching.findSimilarUsers(categoriesSet, username);
+        // Convert the List to a String array
+        String[] stringArray = users.toArray(new String[0]);
+        createSimilarUsersRelationships(username, stringArray);
         return users.get(0);
     }
 
-    public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating){
+    public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating) {
         return userRepository.createUserRatePlaceRelationship(userName, placeName, rating);
     }
 
-    public Integer sumTwoNumbers(Integer a, Integer b){
-        return a+b;
+    public void createSimilarUsersRelationships(String userName, String[] similarUsers) {
+        if (userRepository.userAlreadyHasSimilarUsers(userName)) {
+            this.deleteUserSimilarUserRelationships(userName);
+        }
+        userRepository.createSimilarUsers(userName, similarUsers);
+    }
+
+    void deleteUserSimilarUserRelationships(String userName) {
+        userRepository.deleteExistingSimilarUsersRelationships(userName);
     }
 }

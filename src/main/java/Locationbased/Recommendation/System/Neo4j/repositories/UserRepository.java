@@ -52,9 +52,19 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     UserRatePlaceQueryResult createUserRatePlaceRelationship(String username, String placeName, Integer rating);
 
     @Query("MATCH (user:User {username: $username})" +
-            "WITH user, @similarUsers AS SimilarUsers " +
+            "WITH user, $similarUsers AS SimilarUsers " +
             "UNWIND SimilarUsers AS SimilarUser " +
             "MATCH (similarUser:User {username: SimilarUser})" +
             "CREATE (user)-[:SIMILAR_USER]->(similarUser) RETURN user.username AS userName,similarUser.username AS similarUser")
-    Void createSimilarUsers(String username, String[] similarUsers);
+    List<CreateSimilarUserQueryResult> createSimilarUsers(String username, String[] similarUsers);
+
+    @Query("MATCH (user:User {username: $username})-[:SIMILAR_USER]->(similarUser:User) RETURN similarUser")
+    List<FindExistingSimilarUsersQueryResult> findExistingSimilarUsers(String username);
+
+    @Query("MATCH (user:User {username: $username}) " +
+            "RETURN EXISTS((user)-[:SIMILAR_USER]->())")
+    Boolean userAlreadyHasSimilarUsers(String username);
+
+    @Query("MATCH (:User {username: $username})-[relationship:SIMILAR_USER]->()" + "DELETE relationship")
+    Void deleteExistingSimilarUsersRelationships(String username);
 }
