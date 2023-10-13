@@ -1,6 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserRatePlaceQueryResult;
+import Locationbased.Recommendation.System.Neo4j.requests.FindSimilarUserRequest;
 import Locationbased.Recommendation.System.Neo4j.requests.UserRatePlaceRequest;
 import Locationbased.Recommendation.System.Neo4j.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -24,5 +25,10 @@ public class UserController {
     public ResponseEntity<?> ratePlace(@RequestBody UserRatePlaceRequest request) {
         UserRatePlaceQueryResult userRatePlaceQueryResult = userService.ratePlace(request.getUserName(), request.getPlaceName(), request.getRating());
         return new ResponseEntity<>(userRatePlaceQueryResult, HttpStatus.OK);
+    }
+
+    @PostMapping("/getSimilarUser")
+    public ResponseEntity<?> getSimilarUser(@RequestBody FindSimilarUserRequest request){
+        return new ResponseEntity<>(userService.findSimilarUser(request.getUserName()), HttpStatus.OK);
     }
 }

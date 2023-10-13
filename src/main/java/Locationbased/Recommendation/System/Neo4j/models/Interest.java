@@ -19,7 +19,7 @@ public class Interest {
     }
 
     public Interest(UserLikedFieldsResult userLikedFieldsResult) {
-        this.id = userLikedFieldsResult.getLikedField().getId();
-        this.name = userLikedFieldsResult.getLikedField().getName();
+        this.id = userLikedFieldsResult.getSubCategory().getId();
+        this.name = userLikedFieldsResult.getSubCategory().getName();
     }
 }

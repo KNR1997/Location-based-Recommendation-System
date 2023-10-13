@@ -8,6 +8,7 @@ import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class InterestFieldService {
 
     private final UserService userService;
 
+    @Autowired
     public InterestFieldService(UserRepository userRepository, InterestFieldRepository interestFieldRepository, UserService userService) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;

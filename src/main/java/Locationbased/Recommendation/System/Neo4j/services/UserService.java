@@ -11,6 +11,7 @@ import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
 import org.neo4j.cypherdsl.core.Use;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -65,18 +67,20 @@ public class UserService {
         return UserMatching.findSimilarUsers(subCategoryList, username);
     }
 
-    public List<String> findSimilarUser(String username) {
+    public String findSimilarUser(String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
-        List<UserLikedFieldsResult> interestFields = userRepository.getUserLikedInterestFields(username);
+        List<String> interestFields = userRepository.getUserLikedSubCategories(username);
         Set<String> categoriesSet = new HashSet<>();
-        for (UserLikedFieldsResult userLikedFieldsResult:interestFields){
-            categoriesSet.add(userLikedFieldsResult.getLikedField().getName());
-        }
-        return UserMatching.findSimilarUsers(categoriesSet, username);
+        categoriesSet.addAll(interestFields);
+        List<String> users = UserMatching.findSimilarUsers(categoriesSet, username);
+        return users.get(0);
     }
 
     public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating){
         return userRepository.createUserRatePlaceRelationship(userName, placeName, rating);
     }
 
+    public Integer sumTwoNumbers(Integer a, Integer b){
+        return a+b;
+    }
 }

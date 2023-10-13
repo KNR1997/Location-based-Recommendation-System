@@ -11,6 +11,9 @@ import java.util.Optional;
 public interface UserRepository extends Neo4jRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 
+    @Query("MATCH (user:User {username: $userName}) RETURN user.username")
+    String getUserName(String userName);
+
     @Query("MATCH (user:User), (course:Course) WHERE user.username = $username AND course.identifier = $identifier" +
             "RETURN EXISTS((user)-[:ENROLLED_IN]->(course))")
     Boolean findEnrolmentStatus(String username, String identifier);
@@ -26,8 +29,11 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "CREATE (user)-[:LIKE]->(interestField) RETURN interestField.name AS fieldName,user")
     List<UserLikeQueryResult> createUserInterestedFieldsRelationship(String username, String[] interestFields);
 
-    @Query("MATCH (:User {username: $userName})-[:LIKE]->(interestField:Interest) RETURN interestField AS likedField")
+    @Query("MATCH (:User {username: $userName})-[:LIKE]->(interestField:SubCategory) RETURN interestField AS likedField")
     List<UserLikedFieldsResult> getUserLikedInterestFields(String userName);
+
+    @Query("MATCH (:User {username: $userName})-[:LIKE]->(subCategory:SubCategory) RETURN subCategory.name")
+    List<String> getUserLikedSubCategories(String userName);
 
     @Query("MATCH (user:User) WHERE user.username = $username " +
             "RETURN EXISTS((user)-[:LIKE]->())")
