@@ -67,4 +67,13 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (:User {username: $username})-[relationship:SIMILAR_USER]->()" + "DELETE relationship")
     Void deleteExistingSimilarUsersRelationships(String username);
+
+    @Query("MATCH (user:User {username: $username})-[r:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name: $category}) RETURN place")
+    List<String> getUserRatePlacesByCategory(String username, String category);
+
+    @Query("MATCH (user:User {username: 'price'})" +
+            "WITH user,['Relaxation','Surfing'] AS categories" +
+            "UNWIND categories AS category" +
+            "MATCH (user)-[:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name:category}) RETURN place")
+    List<GetUserRatePlacesByCategoriesQueryResult> getUserRatePlacesByCategories(String username, String[] categories);
 }

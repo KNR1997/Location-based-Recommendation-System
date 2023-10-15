@@ -27,8 +27,8 @@ public class UserController {
         return new ResponseEntity<>(userRatePlaceQueryResult, HttpStatus.OK);
     }
 
-    @PostMapping("/getSimilarUser")
-    public ResponseEntity<?> getSimilarUser(@RequestBody FindSimilarUserRequest request){
-        return new ResponseEntity<>(userService.findSimilarUser(request.getUserName()), HttpStatus.OK);
-    }
+//    @PostMapping("/getSimilarUser")
+//    public ResponseEntity<?> getSimilarUser(@RequestBody FindSimilarUserRequest request){
+//        return new ResponseEntity<>(userService.findSimilarUser(request.getUserName()), HttpStatus.OK);
+//    }
 }

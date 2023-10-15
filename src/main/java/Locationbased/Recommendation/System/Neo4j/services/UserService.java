@@ -38,6 +38,10 @@ public class UserService {
         return user;
     }
 
+    public List<String> getUserLikeSubCategories(String userName){
+        return userRepository.getUserLikedSubCategories(userName);
+    }
+
     public Map<String, Set<String>> getAllUsersWithLikeCategories() {
         Map<String, Set<String>> userProfiles = new HashMap<>();
         List<UserNameAndLikedCategoriesQueryResult> result = userRepository.getAllUsersWithLikeCategories();
@@ -63,7 +67,7 @@ public class UserService {
         return UserMatching.findSimilarUsers(subCategoryList, username);
     }
 
-    public String findSimilarUser(String username) {
+    public List<String> findSimilarUsers(String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         List<String> interestFields = userRepository.getUserLikedSubCategories(username);
         Set<String> categoriesSet = new HashSet<>();
@@ -72,7 +76,7 @@ public class UserService {
         // Convert the List to a String array
         String[] stringArray = users.toArray(new String[0]);
         createSimilarUsersRelationships(username, stringArray);
-        return users.get(0);
+        return users;
     }
 
     public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating) {
