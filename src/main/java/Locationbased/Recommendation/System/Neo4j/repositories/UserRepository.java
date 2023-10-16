@@ -71,9 +71,16 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (user:User {username: $username})-[r:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name: $category}) RETURN place")
     List<String> getUserRatePlacesByCategory(String username, String category);
 
-    @Query("MATCH (user:User {username: 'price'})" +
-            "WITH user,['Relaxation','Surfing'] AS categories" +
-            "UNWIND categories AS category" +
+    @Query("MATCH (user:User {username: $username})" +
+            "WITH user, $categories AS Categories" +
+            "UNWIND Categories AS category" +
             "MATCH (user)-[:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name:category}) RETURN place")
     List<GetUserRatePlacesByCategoriesQueryResult> getUserRatePlacesByCategories(String username, String[] categories);
+
+    @Query("MATCH (user:User {username:}" +
+            "WITH user, $places AS Places" +
+            "UNWIND Places AS place" +
+            "MATCH (recommendPlace:Place {name: place})" +
+            "CREATE (user)-[:RECOMMENDED]->(recommendPlace)")
+    Void createUserRecommendPlacesRelationship(String username, String[] places);
 }

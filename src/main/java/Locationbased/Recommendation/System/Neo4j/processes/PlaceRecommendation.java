@@ -24,7 +24,7 @@ public class PlaceRecommendation {
     public void recommendPlacesForUser(String userName) {
 
         // select relevant places
-        List<Place> relevantPlaces = new ArrayList<>();
+        List<String> relevantPlaces = new ArrayList<>();
 
         // get similar users
         List<String> similarUsers = userService.findSimilarUsers(userName);
@@ -50,7 +50,9 @@ public class PlaceRecommendation {
 
             // Get rated places and add to relevant places
             List<GetUserRatePlacesByCategoriesQueryResult> ratedPlaces = userRepository.getUserRatePlacesByCategories(similarUser ,stringArray);
-            relevantPlaces.add((Place) ratedPlaces);
+            for (GetUserRatePlacesByCategoriesQueryResult ratePlace: ratedPlaces){
+                relevantPlaces.add(ratePlace.getPlace().getName());
+            }
         }
 
         // aggregate place data
@@ -58,5 +60,8 @@ public class PlaceRecommendation {
         // filter and sort places
 
         //generate recommendations
+        // Convert the list to an array
+        String[] relevantPlacesArray = relevantPlaces.toArray(new String[relevantPlaces.size()]);
+        userRepository.createUserRecommendPlacesRelationship(userName, relevantPlacesArray);
     }
 }
