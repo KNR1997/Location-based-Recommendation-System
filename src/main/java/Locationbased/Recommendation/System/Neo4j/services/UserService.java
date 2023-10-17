@@ -8,6 +8,7 @@ import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,16 +67,16 @@ public class UserService {
         return UserMatching.findSimilarUsers(subCategoryList, username);
     }
 
-    public List<String> findSimilarUsers(String username) {
+    @Async
+    public void findSimilarUsers(String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         List<String> interestFields = userRepository.getUserLikedSubCategories(username);
         Set<String> categoriesSet = new HashSet<>();
         categoriesSet.addAll(interestFields);
-        List<String> users = UserMatching.findSimilarUsers(categoriesSet, username);
+        List<String> similarUsers = UserMatching.findSimilarUsers(categoriesSet, username);
         // Convert the List to a String array
-        String[] stringArray = users.toArray(new String[0]);
+        String[] stringArray = similarUsers.toArray(new String[0]);
         createSimilarUsersRelationships(username, stringArray);
-        return users;
     }
 
     public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating) {

@@ -8,7 +8,6 @@ import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,20 +40,17 @@ public class InterestFieldService {
     }
 
     public UserLikeQueryResult createUserLikeFields(String username, ArrayList<SubCategory> interestArrayList) {
-        String[] interestFields = new String[interestArrayList.size()];
-        List<String> similarUsers = userService.findSimilarUser(interestArrayList, username);
+        List<String> subCategories = new ArrayList<>();
+        for (SubCategory subCategory : interestArrayList) {
+            subCategories.add(subCategory.getName());
+        }
         if (userRepository.userAlreadyCreatedLikedFields(username)) {
             this.deleteAllUserLikedFields(username);
         }
-        return createNewUserLikeFields(username, interestArrayList);
-    }
-
-    public UserLikeQueryResult createNewUserLikeFields(String username, ArrayList<SubCategory> subCategoryArrayList) {
-        String[] subCategories = new String[subCategoryArrayList.size()];
-        for (int i = 0; i < subCategoryArrayList.size(); i++) {
-            subCategories[i] = subCategoryArrayList.get(i).getName();
-        }
-        List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, subCategories);
+        // Convert the list to an array
+        String[] stringArray = subCategories.toArray(new String[subCategories.size()]);
+        List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, stringArray);
+        userService.findSimilarUsers(username);
         return userLikeQueryResults.get(0);
     }
 
