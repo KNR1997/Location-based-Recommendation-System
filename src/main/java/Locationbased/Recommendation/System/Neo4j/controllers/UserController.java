@@ -4,6 +4,7 @@ import Locationbased.Recommendation.System.Neo4j.queryResult.UserRatePlaceQueryR
 import Locationbased.Recommendation.System.Neo4j.requests.FindSimilarUserRequest;
 import Locationbased.Recommendation.System.Neo4j.requests.UserRatePlaceRequest;
 import Locationbased.Recommendation.System.Neo4j.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }

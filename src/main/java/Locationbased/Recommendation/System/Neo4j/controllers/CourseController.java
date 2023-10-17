@@ -5,6 +5,7 @@ import Locationbased.Recommendation.System.Neo4j.dtos.CourseDTO;
 import Locationbased.Recommendation.System.Neo4j.services.CourseEnrolmentService;
 import Locationbased.Recommendation.System.Neo4j.services.CourseService;
 import Locationbased.Recommendation.System.Neo4j.services.LessonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +19,14 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/courses")
 public class CourseController {
+
     private final CourseService courseService;
 
     private final LessonService lessonService;
 
     private final CourseEnrolmentService courseEnrolmentService;
 
+    @Autowired
     public CourseController(CourseService courseService, LessonService lessonService, CourseEnrolmentService courseEnrolmentService) {
         this.courseService = courseService;
         this.lessonService = lessonService;

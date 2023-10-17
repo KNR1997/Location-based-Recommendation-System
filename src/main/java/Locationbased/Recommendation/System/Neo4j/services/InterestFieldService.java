@@ -23,7 +23,6 @@ public class InterestFieldService {
 
     private final UserService userService;
 
-    @Autowired
     public InterestFieldService(UserRepository userRepository, InterestFieldRepository interestFieldRepository, UserService userService) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;

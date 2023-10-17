@@ -4,6 +4,7 @@ import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.dtos.UserDTO;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ public class UserAuthController {
 
     private final UserService userService;
 
+    @Autowired
     public UserAuthController(UserService userService) {
         this.userService = userService;
     }

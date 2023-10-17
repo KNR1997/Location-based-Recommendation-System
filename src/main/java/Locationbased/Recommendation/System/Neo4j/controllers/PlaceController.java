@@ -3,6 +3,7 @@ package Locationbased.Recommendation.System.Neo4j.controllers;
 import Locationbased.Recommendation.System.Neo4j.queryResult.PlaceHasFeatureQueryResult;
 import Locationbased.Recommendation.System.Neo4j.requests.PlaceAddFeaturesRequest;
 import Locationbased.Recommendation.System.Neo4j.services.PlaceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ public class PlaceController {
 
     private final PlaceService placeService;
 
+    @Autowired
     public PlaceController(PlaceService placeService) {
         this.placeService = placeService;
     }

@@ -7,6 +7,7 @@ import Locationbased.Recommendation.System.Neo4j.queryResult.CourseEnrolmentQuer
 import Locationbased.Recommendation.System.Neo4j.requests.CourseEnrolmentRequest;
 import Locationbased.Recommendation.System.Neo4j.services.CourseEnrolmentService;
 import Locationbased.Recommendation.System.Neo4j.services.LessonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class CourseEnrolmentController {
     private final CourseEnrolmentService courseEnrolmentService;
     private final LessonService lessonService;
 
+    @Autowired
     public CourseEnrolmentController(CourseEnrolmentService courseEnrolmentService, LessonService lessonService) {
         this.courseEnrolmentService = courseEnrolmentService;
         this.lessonService = lessonService;

@@ -6,6 +6,7 @@ import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.requests.UserLikeFieldRequest;
 import Locationbased.Recommendation.System.Neo4j.services.InterestFieldService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class InterestController {
 
     private final InterestFieldService interestFieldService;
 
+    @Autowired
     public InterestController(InterestFieldService interestFieldService) {
         this.interestFieldService = interestFieldService;
     }
