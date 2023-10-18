@@ -1,8 +1,7 @@
-package Locationbased.Recommendation.System.Neo4j.services;
+package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.queryResult.GetUserRatePlacesByCategoriesQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.GetUserRatePlacesByCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.ArrayList;

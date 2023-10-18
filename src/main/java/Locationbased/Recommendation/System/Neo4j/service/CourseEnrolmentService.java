@@ -1,7 +1,7 @@
-package Locationbased.Recommendation.System.Neo4j.services;
+package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.Course;
-import Locationbased.Recommendation.System.Neo4j.queryResult.CourseEnrolmentQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.CourseEnrolmentQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.CourseRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import org.springframework.stereotype.Service;

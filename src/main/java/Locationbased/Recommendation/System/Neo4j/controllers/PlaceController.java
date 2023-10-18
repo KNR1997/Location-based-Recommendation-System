@@ -1,8 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.queryResult.PlaceHasFeatureQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import Locationbased.Recommendation.System.Neo4j.requests.PlaceAddFeaturesRequest;
-import Locationbased.Recommendation.System.Neo4j.services.PlaceService;
+import Locationbased.Recommendation.System.Neo4j.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

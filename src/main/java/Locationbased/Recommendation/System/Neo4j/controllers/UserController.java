@@ -1,9 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserRatePlaceQueryResult;
-import Locationbased.Recommendation.System.Neo4j.requests.FindSimilarUserRequest;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.requests.UserRatePlaceRequest;
-import Locationbased.Recommendation.System.Neo4j.services.UserService;
+import Locationbased.Recommendation.System.Neo4j.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

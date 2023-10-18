@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.services;
+package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

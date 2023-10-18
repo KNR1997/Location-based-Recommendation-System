@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.config;
 
-import Locationbased.Recommendation.System.Neo4j.services.Neo4jUserDetailsService;
+import Locationbased.Recommendation.System.Neo4j.service.Neo4jUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;

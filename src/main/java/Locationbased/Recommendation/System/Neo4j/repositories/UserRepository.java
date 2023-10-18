@@ -1,6 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
 import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
 import Locationbased.Recommendation.System.Neo4j.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;

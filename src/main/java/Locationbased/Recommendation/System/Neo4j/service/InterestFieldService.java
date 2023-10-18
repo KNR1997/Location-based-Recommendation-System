@@ -1,13 +1,13 @@
-package Locationbased.Recommendation.System.Neo4j.services;
+package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.dtos.InterestFieldDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.interfaces.DataPreparationStrategy;
 import Locationbased.Recommendation.System.Neo4j.interfaces.ExecutionStrategy;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
-import Locationbased.Recommendation.System.Neo4j.queryResult.InterestFieldQueryResult;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikeQueryResult;
-import Locationbased.Recommendation.System.Neo4j.queryResult.UserLikedFieldsResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import org.springframework.stereotype.Service;

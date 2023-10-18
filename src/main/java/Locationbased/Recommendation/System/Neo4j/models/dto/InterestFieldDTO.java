@@ -1,6 +1,6 @@
-package Locationbased.Recommendation.System.Neo4j.dtos;
+package Locationbased.Recommendation.System.Neo4j.models.dto;
 
-import Locationbased.Recommendation.System.Neo4j.queryResult.InterestFieldQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
 import lombok.Data;
 
 import java.util.List;

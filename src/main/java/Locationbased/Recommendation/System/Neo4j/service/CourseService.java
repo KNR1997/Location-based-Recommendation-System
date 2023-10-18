@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.services;
+package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.Course;
 import Locationbased.Recommendation.System.Neo4j.repositories.CourseRepository;

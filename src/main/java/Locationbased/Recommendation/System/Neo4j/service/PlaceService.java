@@ -1,6 +1,6 @@
-package Locationbased.Recommendation.System.Neo4j.services;
+package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.queryResult.PlaceHasFeatureQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.PlaceRepository;
 import org.springframework.stereotype.Service;
 

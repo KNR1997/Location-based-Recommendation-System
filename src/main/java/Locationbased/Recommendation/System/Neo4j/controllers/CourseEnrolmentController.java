@@ -1,12 +1,12 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.dtos.CourseEnrolmentDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.CourseEnrolmentDTO;
 import Locationbased.Recommendation.System.Neo4j.models.Course;
-import Locationbased.Recommendation.System.Neo4j.dtos.CourseDTO;
-import Locationbased.Recommendation.System.Neo4j.queryResult.CourseEnrolmentQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.dto.CourseDTO;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.CourseEnrolmentQueryResult;
 import Locationbased.Recommendation.System.Neo4j.requests.CourseEnrolmentRequest;
-import Locationbased.Recommendation.System.Neo4j.services.CourseEnrolmentService;
-import Locationbased.Recommendation.System.Neo4j.services.LessonService;
+import Locationbased.Recommendation.System.Neo4j.service.CourseEnrolmentService;
+import Locationbased.Recommendation.System.Neo4j.service.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
