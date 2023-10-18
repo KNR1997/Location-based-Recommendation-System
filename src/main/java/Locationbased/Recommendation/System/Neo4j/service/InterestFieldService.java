@@ -1,6 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.services;
 
 import Locationbased.Recommendation.System.Neo4j.dtos.InterestFieldDTO;
+import Locationbased.Recommendation.System.Neo4j.interfaces.DataPreparationStrategy;
+import Locationbased.Recommendation.System.Neo4j.interfaces.ExecutionStrategy;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.queryResult.InterestFieldQueryResult;
@@ -22,10 +24,19 @@ public class InterestFieldService {
 
     private final UserService userService;
 
-    public InterestFieldService(UserRepository userRepository, InterestFieldRepository interestFieldRepository, UserService userService) {
+    private final DataPreparationStrategy dataPreparationStrategy;
+
+    private final ExecutionStrategy executionStrategy;
+
+    public InterestFieldService(UserRepository userRepository,
+                                InterestFieldRepository interestFieldRepository, UserService userService,
+                                DataPreparationStrategy dataPreparationStrategy,
+                                ExecutionStrategy executionStrategy) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;
         this.userService = userService;
+        this.dataPreparationStrategy = dataPreparationStrategy;
+        this.executionStrategy = executionStrategy;
     }
 
     public List<InterestFieldDTO> getAllInterestFields() {
@@ -50,7 +61,11 @@ public class InterestFieldService {
         // Convert the list to an array
         String[] stringArray = subCategories.toArray(new String[subCategories.size()]);
         List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, stringArray);
-        userService.findSimilarUsers(username);
+
+        // Async function
+//        userService.findSimilarUsers(username);
+        dataPreparationStrategy.prepareData();
+        executionStrategy.execute();
         return userLikeQueryResults.get(0);
     }
 

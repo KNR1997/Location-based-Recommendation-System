@@ -13,13 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder
+                       ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -68,7 +71,7 @@ public class UserService {
     }
 
     @Async
-    public void findSimilarUsers(String username) {
+    public CompletableFuture<List<String>> findSimilarUsers(String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         List<String> interestFields = userRepository.getUserLikedSubCategories(username);
         Set<String> categoriesSet = new HashSet<>();
@@ -77,6 +80,7 @@ public class UserService {
         // Convert the List to a String array
         String[] stringArray = similarUsers.toArray(new String[0]);
         createSimilarUsersRelationships(username, stringArray);
+        return CompletableFuture.completedFuture(similarUsers);
     }
 
     public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating) {
