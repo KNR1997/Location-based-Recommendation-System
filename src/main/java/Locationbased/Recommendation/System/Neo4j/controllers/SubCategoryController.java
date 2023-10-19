@@ -16,12 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/interestFields")
-public class InterestController {
+public class SubCategoryController {
 
     private final InterestFieldService interestFieldService;
 
     @Autowired
-    public InterestController(InterestFieldService interestFieldService) {
+    public SubCategoryController(InterestFieldService interestFieldService) {
         this.interestFieldService = interestFieldService;
     }
 

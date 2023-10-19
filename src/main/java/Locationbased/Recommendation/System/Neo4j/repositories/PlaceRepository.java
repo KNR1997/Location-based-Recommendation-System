@@ -16,4 +16,17 @@ public interface PlaceRepository extends Neo4jRepository<Place, Long> {
             "CREATE (place)-[:HAS_FEATURE]->(feature) RETURN feature.name AS subCategory,place.name AS placeName")
     List<PlaceHasFeatureQueryResult> createPlaceAndSubCategoryRelationship(String placeName, String[] subCategories);
 
+    @Query("MATCH (place:Place {name: $placeName}) " +
+            "RETURN EXISTS((place)-[:HAS_FEATURE]->())")
+    Boolean placeHasSubCategoryRelationship(String placeName);
+
+    @Query("MATCH (place:Place {name: $placeName})" +
+            "-[r:HAS_FEATURE]->() " +
+            "DELETE r")
+    void deletePlaceSubCategoryRelationship(String placeName);
+
+    @Query("MATCH (place:Place {name: $placeName})-[:HAS_FEATURE]->(subCategory:SubCategory) " +
+            "RETURN subCategory.name")
+    List<String> getPlaceSubCategory(String placeName);
+
 }
