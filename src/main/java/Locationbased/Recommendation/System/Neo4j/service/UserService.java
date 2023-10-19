@@ -69,8 +69,7 @@ public class UserService {
         return UserMatching.findSimilarUsers(subCategoryList, username);
     }
 
-    @Async
-    public CompletableFuture<List<String>> findSimilarUsers(String username) {
+    public List<String> findSimilarUsers(String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         List<String> interestFields = userRepository.getUserLikedSubCategories(username);
         Set<String> categoriesSet = new HashSet<>();
@@ -79,7 +78,7 @@ public class UserService {
         // Convert the List to a String array
         String[] stringArray = similarUsers.toArray(new String[0]);
         createSimilarUsersRelationships(username, stringArray);
-        return CompletableFuture.completedFuture(similarUsers);
+        return similarUsers;
     }
 
     public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating) {

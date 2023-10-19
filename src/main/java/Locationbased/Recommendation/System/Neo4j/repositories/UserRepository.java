@@ -2,7 +2,6 @@ package Locationbased.Recommendation.System.Neo4j.repositories;
 
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
-import Locationbased.Recommendation.System.Neo4j.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -72,16 +71,16 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (user:User {username: $username})-[r:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name: $category}) RETURN place")
     List<String> getUserRatePlacesByCategory(String username, String category);
 
-    @Query("MATCH (user:User {username: $username})" +
-            "WITH user, $categories AS Categories" +
-            "UNWIND Categories AS category" +
+    @Query("MATCH (user:User {username: $username}) " +
+            "WITH user, $categories AS Categories " +
+            "UNWIND Categories AS category " +
             "MATCH (user)-[:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name:category}) RETURN place")
     List<GetUserRatePlacesByCategoriesQueryResult> getUserRatePlacesByCategories(String username, String[] categories);
 
-    @Query("MATCH (user:User {username:}" +
-            "WITH user, $places AS Places" +
-            "UNWIND Places AS place" +
-            "MATCH (recommendPlace:Place {name: place})" +
+    @Query("MATCH (user:User {username: $username}) " +
+            "WITH user, $places AS Places " +
+            "UNWIND Places AS place " +
+            "MATCH (recommendPlace:Place {name: place}) " +
             "CREATE (user)-[:RECOMMENDED]->(recommendPlace)")
     Void createUserRecommendPlacesRelationship(String username, String[] places);
 }

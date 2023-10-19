@@ -1,15 +1,16 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
-import Locationbased.Recommendation.System.Neo4j.interfaces.DataPreparationStrategy;
-import Locationbased.Recommendation.System.Neo4j.interfaces.ExecutionStrategy;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
+import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
+import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
+import Locationbased.Recommendation.System.Neo4j.service.generate.UserRecommendedPlacesGenerator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,19 +25,16 @@ public class InterestFieldService {
 
     private final UserService userService;
 
-    private final DataPreparationStrategy dataPreparationStrategy;
-
-    private final ExecutionStrategy executionStrategy;
+    private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
 
     public InterestFieldService(UserRepository userRepository,
-                                InterestFieldRepository interestFieldRepository, UserService userService,
-                                DataPreparationStrategy dataPreparationStrategy,
-                                ExecutionStrategy executionStrategy) {
+                                InterestFieldRepository interestFieldRepository,
+                                UserService userService,
+                                UserRecommendedPlacesGenerator userRecommendedPlacesGenerator) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;
         this.userService = userService;
-        this.dataPreparationStrategy = dataPreparationStrategy;
-        this.executionStrategy = executionStrategy;
+        this.userRecommendedPlacesGenerator = userRecommendedPlacesGenerator;
     }
 
     public List<InterestFieldDTO> getAllInterestFields() {
@@ -62,10 +60,7 @@ public class InterestFieldService {
         String[] stringArray = subCategories.toArray(new String[subCategories.size()]);
         List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, stringArray);
 
-        // Async function
-//        userService.findSimilarUsers(username);
-        dataPreparationStrategy.prepareData();
-        executionStrategy.execute();
+        generateRecommendedPlacesForUser(username);
         return userLikeQueryResults.get(0);
     }
 
@@ -80,6 +75,14 @@ public class InterestFieldService {
 
     void deleteAllUserLikedFields(String userName) {
         userRepository.deleteAllUserLikedFields(userName);
+    }
+
+    @Async
+    public void generateRecommendedPlacesForUser(String userName) {
+        UserRecommendedPlacesContext context = new UserRecommendedPlacesContext();
+
+        context.setUserName(userName);
+        userRecommendedPlacesGenerator.execute(context);
     }
 
 }

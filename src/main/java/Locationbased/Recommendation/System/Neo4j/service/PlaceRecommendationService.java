@@ -2,12 +2,14 @@ package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.GetUserRatePlacesByCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 
+@Service
 public class PlaceRecommendationService {
 
     private final UserService userService;
@@ -19,20 +21,15 @@ public class PlaceRecommendationService {
         this.userRepository = userRepository;
     }
 
-    @Async
-    public void recommendPlacesForUser(String userName) {
+    public Set<String> recommendPlacesForUser(String userName, List<String> similarUsers) {
 
         // select relevant places
-        List<String> relevantPlaces = new ArrayList<>();
-
-        // get similar users
-        CompletableFuture<List<String>> similarUsersResults = userService.findSimilarUsers(userName);
+        Set<String> relevantPlaces = new HashSet<>();
 
         // get newUser liked fields
         List<String> newUserLikedFields = userService.getUserLikeSubCategories(userName);
 
         // select relevant places
-        similarUsersResults.thenApply(similarUsers -> {
             for (String similarUser : similarUsers) {
                 // Create a list to store the similar categories
                 List<String> similarCategories = new ArrayList<>();
@@ -54,16 +51,6 @@ public class PlaceRecommendationService {
                     relevantPlaces.add(ratePlace.getPlace().getName());
                 }
             }
-            return null;
-        });
-
-        // aggregate place data
-
-        // filter and sort places
-
-        //generate recommendations
-        // Convert the list to an array
-        String[] relevantPlacesArray = relevantPlaces.toArray(new String[relevantPlaces.size()]);
-        userRepository.createUserRecommendPlacesRelationship(userName, relevantPlacesArray);
+        return relevantPlaces;
     }
 }
