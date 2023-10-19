@@ -2,17 +2,16 @@ package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserNameAndLikedCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 public class UserService {
@@ -21,7 +20,7 @@ public class UserService {
 
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder
-                       ) {
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -40,7 +39,7 @@ public class UserService {
         return user;
     }
 
-    public List<String> getUserLikeSubCategories(String userName){
+    public List<String> getUserLikeSubCategories(String userName) {
         return userRepository.getUserLikedSubCategories(userName);
     }
 
@@ -81,8 +80,18 @@ public class UserService {
         return similarUsers;
     }
 
-    public UserRatePlaceQueryResult ratePlace(String userName, String placeName, Integer rating) {
-        return userRepository.createUserRatePlaceRelationship(userName, placeName, rating);
+    public PlaceRateDTO saveOrUpdatePlaceRating(PlaceRateDTO updateDTO) {
+
+        boolean isNew = (!userRepository.userRatedPlace(updateDTO.getUserName(), updateDTO.getPlaceName()));
+        UserRatePlaceQueryResult result = null;
+
+        if (isNew) {
+            result = userRepository.createUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
+        } else {
+            result = userRepository.updateUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
+        }
+
+        return new PlaceRateDTO(result);
     }
 
     public void createSimilarUsersRelationships(String userName, String[] similarUsers) {

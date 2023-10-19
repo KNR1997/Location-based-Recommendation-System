@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.models.dto;
 
-import Locationbased.Recommendation.System.Neo4j.models.PlaceFeature;
+import Locationbased.Recommendation.System.Neo4j.models.place.PlaceFeature;
 import lombok.Data;
 
 import java.util.List;

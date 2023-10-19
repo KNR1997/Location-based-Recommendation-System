@@ -1,7 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.commons.CommonFunction;
-import Locationbased.Recommendation.System.Neo4j.models.PlaceFeature;
+import Locationbased.Recommendation.System.Neo4j.models.place.PlaceFeature;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.PlaceRepository;

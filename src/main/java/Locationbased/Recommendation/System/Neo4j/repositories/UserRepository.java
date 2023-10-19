@@ -43,22 +43,26 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "DELETE relationship")
     Void deleteAllUserLikedFields(String username);
 
-    @Query("MATCH (user:User)-[:LIKE]->(subCategory:SubCategory) RETURN user.username AS userName, subCategory.name AS categoryName")
+    @Query("MATCH (user:User)-[:LIKE]->(subCategory:SubCategory) " +
+            "RETURN user.username AS userName, subCategory.name AS categoryName")
     List<UserNameAndLikedCategoriesQueryResult> getAllUsersWithLikeCategories();
 
     @Query("MATCH (user:User {username: $username})" +
             "MATCH (place:Place {name: $placeName})" +
-            "CREATE (user)-[rating:RATE {rate: $rating}]->(place) RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
+            "CREATE (user)-[rating:RATE {rate: $rating}]->(place) " +
+            "RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
     UserRatePlaceQueryResult createUserRatePlaceRelationship(String username, String placeName, Integer rating);
 
     @Query("MATCH (user:User {username: $username})" +
             "WITH user, $similarUsers AS SimilarUsers " +
             "UNWIND SimilarUsers AS SimilarUser " +
             "MATCH (similarUser:User {username: SimilarUser})" +
-            "CREATE (user)-[:SIMILAR_USER]->(similarUser) RETURN user.username AS userName,similarUser.username AS similarUser")
+            "CREATE (user)-[:SIMILAR_USER]->(similarUser) " +
+            "RETURN user.username AS userName,similarUser.username AS similarUser")
     List<CreateSimilarUserQueryResult> createSimilarUsers(String username, String[] similarUsers);
 
-    @Query("MATCH (user:User {username: $username})-[:SIMILAR_USER]->(similarUser:User) RETURN similarUser")
+    @Query("MATCH (user:User {username: $username})-[:SIMILAR_USER]->(similarUser:User) " +
+            "RETURN similarUser")
     List<FindExistingSimilarUsersQueryResult> findExistingSimilarUsers(String username);
 
     @Query("MATCH (user:User {username: $username}) " +
@@ -74,7 +78,8 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (user:User {username: $username}) " +
             "WITH user, $categories AS Categories " +
             "UNWIND Categories AS category " +
-            "MATCH (user)-[:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name:category}) RETURN place")
+            "MATCH (user)-[:RATE]->(place:Place)-[:HAS_FEATURE]->(:SubCategory {name:category}) " +
+            "RETURN place")
     List<GetUserRatePlacesByCategoriesQueryResult> getUserRatePlacesByCategories(String username, String[] categories);
 
     @Query("MATCH (user:User {username: $username}) " +
@@ -83,4 +88,13 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "MATCH (recommendPlace:Place {name: place}) " +
             "CREATE (user)-[:RECOMMENDED]->(recommendPlace)")
     Void createUserRecommendPlacesRelationship(String username, String[] places);
+
+    @Query("RETURN EXISTS((:User {username: $userName})-[:RATE]->(:Place {name: $placeName}))")
+    Boolean userRatedPlace(String userName, String placeName);
+
+    @Query("MATCH (user:User {username: $username})-[rate:RATE]->(place:Place {name: $placeName}) " +
+            "SET rate = $rating " +
+            "RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
+    UserRatePlaceQueryResult updateUserRatePlaceRelationship(String username, String placeName, Integer rating);
+
 }
