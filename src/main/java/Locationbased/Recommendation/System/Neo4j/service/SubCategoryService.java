@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class InterestFieldService {
+public class SubCategoryService {
 
     private final UserRepository userRepository;
 
@@ -27,17 +27,17 @@ public class InterestFieldService {
 
     private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
 
-    public InterestFieldService(UserRepository userRepository,
-                                InterestFieldRepository interestFieldRepository,
-                                UserService userService,
-                                UserRecommendedPlacesGenerator userRecommendedPlacesGenerator) {
+    public SubCategoryService(UserRepository userRepository,
+                              InterestFieldRepository interestFieldRepository,
+                              UserService userService,
+                              UserRecommendedPlacesGenerator userRecommendedPlacesGenerator) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.userRecommendedPlacesGenerator = userRecommendedPlacesGenerator;
     }
 
-    public List<InterestFieldDTO> getAllInterestFields() {
+    public List<InterestFieldDTO> getAllSubCategories() {
         List<Interest> interestList = interestFieldRepository.findAll();
         List<InterestFieldDTO> interestFieldDTOList = new ArrayList<>();
         for (Interest interest : interestList) {
@@ -64,7 +64,7 @@ public class InterestFieldService {
         return userLikeQueryResults.get(0);
     }
 
-    public List<Interest> getUserLikedFields(String userName) {
+    public List<Interest> getUserLikedSubCategories(String userName) {
         List<Interest> interestList = new ArrayList<>();
         List<UserLikedFieldsResult> interestFields = userRepository.getUserLikedInterestFields(userName);
         for (UserLikedFieldsResult userLikedFieldsResult : interestFields) {
