@@ -1,10 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
 import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
-import Locationbased.Recommendation.System.Neo4j.models.dto.InterestedFieldsDTO;
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeQueryResult;
-import Locationbased.Recommendation.System.Neo4j.requests.UserLikeFieldRequest;
 import Locationbased.Recommendation.System.Neo4j.service.SubCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,18 +20,6 @@ public class SubCategoryController {
     @Autowired
     public SubCategoryController(SubCategoryService subCategoryService) {
         this.subCategoryService = subCategoryService;
-    }
-
-    @RequestMapping(value = "/create", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<InterestedFieldsDTO> userLikeFieldCreate(@RequestBody UserLikeFieldRequest request, Principal principal) {
-        UserLikeQueryResult userLikeQueryResult = subCategoryService.createUserLikeFields(principal.getName(), request.getLikeSubCategories());
-
-        InterestedFieldsDTO interestedFieldsDTO = new InterestedFieldsDTO();
-
-        interestedFieldsDTO.setName(userLikeQueryResult.getUser().getName());
-        interestedFieldsDTO.setInterestFields(userLikeQueryResult.getFieldName());
-
-        return new ResponseEntity<>(interestedFieldsDTO, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/getAllSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)

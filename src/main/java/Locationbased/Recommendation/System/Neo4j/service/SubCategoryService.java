@@ -1,16 +1,11 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.Interest;
-import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
-import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
-import Locationbased.Recommendation.System.Neo4j.service.generate.UserRecommendedPlacesGenerator;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,18 +18,10 @@ public class SubCategoryService {
 
     private final InterestFieldRepository interestFieldRepository;
 
-    private final UserService userService;
-
-    private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
-
     public SubCategoryService(UserRepository userRepository,
-                              InterestFieldRepository interestFieldRepository,
-                              UserService userService,
-                              UserRecommendedPlacesGenerator userRecommendedPlacesGenerator) {
+                              InterestFieldRepository interestFieldRepository) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;
-        this.userService = userService;
-        this.userRecommendedPlacesGenerator = userRecommendedPlacesGenerator;
     }
 
     public List<InterestFieldDTO> getAllSubCategories() {
@@ -48,22 +35,6 @@ public class SubCategoryService {
         return interestFieldDTOList;
     }
 
-    public UserLikeQueryResult createUserLikeFields(String username, ArrayList<SubCategory> interestArrayList) {
-        List<String> subCategories = new ArrayList<>();
-        for (SubCategory subCategory : interestArrayList) {
-            subCategories.add(subCategory.getName());
-        }
-        if (userRepository.userAlreadyCreatedLikedFields(username)) {
-            this.deleteAllUserLikedFields(username);
-        }
-        // Convert the list to an array
-        String[] stringArray = subCategories.toArray(new String[subCategories.size()]);
-        List<UserLikeQueryResult> userLikeQueryResults = userRepository.createUserInterestedFieldsRelationship(username, stringArray);
-
-        generateRecommendedPlacesForUser(username);
-        return userLikeQueryResults.get(0);
-    }
-
     public List<Interest> getUserLikedSubCategories(String userName) {
         List<Interest> interestList = new ArrayList<>();
         List<UserLikedFieldsResult> interestFields = userRepository.getUserLikedInterestFields(userName);
@@ -72,17 +43,34 @@ public class SubCategoryService {
         }
         return interestList;
     }
-
-    void deleteAllUserLikedFields(String userName) {
-        userRepository.deleteAllUserLikedFields(userName);
-    }
-
-    @Async
-    public void generateRecommendedPlacesForUser(String userName) {
-        UserRecommendedPlacesContext context = new UserRecommendedPlacesContext();
-
-        context.setUserName(userName);
-        userRecommendedPlacesGenerator.execute(context);
-    }
+//
+//    public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
+//        ArrayList<String> userLikeSubCategories = new ArrayList<>();
+//        if (userRepository.userAlreadyCreatedLikedFields(updateDTO.getUserName())) {
+//            this.deleteAllUserLikedFields(updateDTO.getUserName());
+//        }
+//        List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userRepository.createUserInterestedFieldsRelationship(
+//                updateDTO.getUserName(),
+//                updateDTO.getLikeSubCategories());
+//        generateRecommendedPlacesForUser(updateDTO.getUserName());
+//        for (UserLikeSubCategoryQueryResult result:userLikeSubCategoryQueryResults) {
+//            userLikeSubCategories.add(result.getSubCategoryName());
+//        }
+//        // Convert the List to a String array
+//        String[] stringArray = userLikeSubCategories.toArray(new String[0]);
+//        return new UserSubCategoryDTO(updateDTO.getUserName(), stringArray);
+//    }
+//
+//    void deleteAllUserLikedFields(String userName) {
+//        userRepository.deleteAllUserLikedFields(userName);
+//    }
+//
+//    @Async
+//    public void generateRecommendedPlacesForUser(String userName) {
+//        UserRecommendedPlacesContext context = new UserRecommendedPlacesContext();
+//
+//        context.setUserName(userName);
+//        userRecommendedPlacesGenerator.execute(context);
+//    }
 
 }

@@ -4,12 +4,12 @@ import Locationbased.Recommendation.System.Neo4j.models.User;
 import lombok.Data;
 
 @Data
-public class UserLikeQueryResult {
+public class UserLikeSubCategoryQueryResult {
 
     private User user;
 
-    private String fieldName;
+    private String subCategoryName;
 
-    public UserLikeQueryResult() {
+    public UserLikeSubCategoryQueryResult() {
     }
 }
