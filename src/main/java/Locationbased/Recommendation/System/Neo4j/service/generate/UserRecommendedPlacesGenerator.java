@@ -6,10 +6,13 @@ import Locationbased.Recommendation.System.Neo4j.service.command.SetRecommendedP
 import Locationbased.Recommendation.System.Neo4j.service.command.SimilarUsersFinder;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserRecommendedPlacesGenerator extends CommandExecutor<UserRecommendedPlacesContext> {
+@Lazy
+public class UserRecommendedPlacesGenerator extends CommandExecutor<UserRecommendedPlacesContext>{
 
     private final SimilarUsersFinder similarUsersFinder;
 

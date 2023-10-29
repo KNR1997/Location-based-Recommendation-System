@@ -2,17 +2,27 @@ package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
 import Locationbased.Recommendation.System.Neo4j.service.generate.UserRecommendedPlacesGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class UserService {
+public class UserService implements InitializingBean {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
@@ -40,6 +50,28 @@ public class UserService {
         return user;
     }
 
+    public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
+        logger.info("this is a logger info");
+        ArrayList<String> userLikeSubCategories = new ArrayList<>();
+        if (userRepository.userAlreadyCreatedLikedFields(updateDTO.getUserName())) {
+            this.deleteAllUserLikedFields(updateDTO.getUserName());
+        }
+        List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userRepository.createUserInterestedFieldsRelationship(
+                updateDTO.getUserName(),
+                updateDTO.getLikeSubCategories());
+        generateRecommendedPlacesForUser(updateDTO.getUserName());
+        for (UserLikeSubCategoryQueryResult result : userLikeSubCategoryQueryResults) {
+            userLikeSubCategories.add(result.getSubCategoryName());
+        }
+        // Convert the List to a String array
+        String[] stringArray = userLikeSubCategories.toArray(new String[0]);
+        return new UserSubCategoryDTO(updateDTO.getUserName(), stringArray);
+    }
+
+    void deleteAllUserLikedFields(String userName) {
+        userRepository.deleteAllUserLikedFields(userName);
+    }
+
     public PlaceRateDTO saveOrUpdatePlaceRating(PlaceRateDTO updateDTO) {
 
         boolean isNew = (!userRepository.userRatedPlace(updateDTO.getUserName(), updateDTO.getPlaceName()));
@@ -60,5 +92,10 @@ public class UserService {
 
         context.setUserName(userName);
         userRecommendedPlacesGenerator.execute(context);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        logger.info("Service class created");
     }
 }

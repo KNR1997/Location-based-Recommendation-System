@@ -291,12 +291,108 @@ MATCH (i:SubCategory {name: 'IslandParadise'})
 
 CREATE (swimming:SubCategory {name: 'Swimming'});
 CREATE (diving:SubCategory {name: 'Diving'});
-CREATE (kitesurfing:SubCategory {name: 'Kitesurfing'});
+CREATE (kiteSurfing:SubCategory {name: 'Kitesurfing'});
 CREATE (windsurfing:SubCategory {name: 'Windsurfing'});
 CREATE (jetSkis:SubCategory {name: 'JetSkis'});
 CREATE (restaurant:SubCategory {name: 'Restaurant'});
 
 CREATE (beach:PlaceCategory{name:"Beach"});
+
+//Create subCategories
+CREATE (Hiking:SubCategory {name: 'Hiking'});
+CREATE (Camping:SubCategory {name: 'Camping'});
+CREATE (Biking:SubCategory {name: 'Biking'});
+CREATE (WildlifeWatching:SubCategory {name: 'Wildlife watching'});
+CREATE (WaterSports :SubCategory {name: 'Water sports '});
+
+CREATE (Museums:SubCategory {name: 'Museums'});
+CREATE (HistoricalSites:SubCategory {name: 'Historical sites'});
+CREATE (ArtGalleries:SubCategory {name: 'Art galleries'});
+CREATE (ArchaeologicalSites:SubCategory {name: 'Archaeological sites'});
+CREATE (CulturalFestivals:SubCategory {name: 'Cultural festivals'});
+
+CREATE (LocalCuisine:SubCategory {name: 'Local cuisine'});
+CREATE (StreetFood:SubCategory {name: 'Street food'});
+CREATE (FineDining:SubCategory {name: 'Fine dining'});
+CREATE (CookingClasses:SubCategory {name: 'Cooking classes'});
+CREATE (FoodMarkets:SubCategory {name: 'Food markets'});
+
+CREATE (ZipLining:SubCategory {name: 'Zip-lining'});
+CREATE (Paragliding:SubCategory {name: 'Paragliding'});
+CREATE (RockClimbing:SubCategory {name: 'Rock climbing'});
+CREATE (BungeeJumping:SubCategory {name: 'Bungee jumping'});
+CREATE (ExtremeSports:SubCategory {name: 'Extreme sports'});
+
+CREATE (SpasAndWellnessCenters:SubCategory {name: 'Spas and wellness centers'});
+CREATE (YogaAndMeditation:SubCategory {name: 'Yoga and meditation'});
+CREATE (HotSprings:SubCategory {name: 'Hot springs'});
+CREATE (BeachResorts:SubCategory {name: 'Beach resorts'});
+CREATE (Retreats:SubCategory {name: 'Retreats'});
+
+CREATE (AmusementParks:SubCategory {name: 'Amusement parks'});
+CREATE (ZoosAndAquariums:SubCategory {name: 'Zoos and aquariums'});
+CREATE (FamilyFriendlyMuseums:SubCategory {name: 'Family-friendly museums'});
+CREATE (PicnicSpots:SubCategory {name: 'Picnic spots'});
+CREATE (EducationalActivities:SubCategory {name: 'Educational activities'});
+
+CREATE (Nightclubs:SubCategory {name: 'Nightclubs'});
+CREATE (LiveMusicVenues:SubCategory {name: 'Live music venues'});
+CREATE (TheatersAndShows:SubCategory {name: 'Theaters and shows'});
+CREATE (ComedyClubs:SubCategory {name: 'Comedy clubs'});
+CREATE (CasinoAndGambling:SubCategory {name: 'Casino and gambling'});
+
+CREATE (FleaMarkets:SubCategory {name: 'Flea markets'});
+CREATE (Boutiques:SubCategory {name: 'Boutiques'});
+CREATE (AntiquesShops:SubCategory {name: 'Antiques shops'});
+CREATE (SouvenirShops:SubCategory {name: 'Souvenir shops'});
+CREATE (ShoppingDistricts:SubCategory {name: 'Shopping districts'});
+
+CREATE (ScenicViewpoints:SubCategory {name: 'Scenic viewpoints'});
+CREATE (Waterfalls:SubCategory {name: 'Waterfalls'});
+CREATE (NationalParks:SubCategory {name: 'National parks'});
+CREATE (SunriseSunsetSpots:SubCategory {name: 'Sunrise/sunset spots'});
+CREATE (PhotographyTours:SubCategory {name: 'Photography tours'});
+
+CREATE (CulturalCeremonies:SubCategory {name: 'Cultural ceremonies'});
+CREATE (ReligiousFestivals:SubCategory {name: 'Religious festivals'});
+CREATE (LocalTraditionsAndCustoms:SubCategory {name: 'Local traditions and customs'});
+CREATE (SeasonalCelebrations:SubCategory {name: 'Seasonal celebrations'});
+CREATE (CarnivalsAndParades:SubCategory {name: 'Carnivals and parades'});
+
+CREATE (EcoFriendlyLodges:SubCategory {name: 'Eco-friendly lodges'});
+CREATE (SustainableTours:SubCategory {name: 'Sustainable tours'});
+CREATE (WildlifeConservation:SubCategory {name: 'Wildlife conservation'});
+CREATE (OrganicFarms:SubCategory {name: 'Organic farms'});
+CREATE (GreenInitiatives:SubCategory {name: 'Green initiatives'});
+
+CREATE (SportsAndRecreation:SubCategory {name: 'Sports and Recreation'});
+CREATE (GolfCourses:SubCategory {name: 'Golf courses'});
+CREATE (TennisCourts:SubCategory {name: 'Tennis courts'});
+CREATE (SkiResorts:SubCategory {name: 'Ski resortss'});
+CREATE (SportsBarsAndVenues:SubCategory {name: 'Sports bars and venues'});
+
+CREATE (ArtStudios:SubCategory {name: 'Art studios'});
+CREATE (CraftWorkshops:SubCategory {name: 'Craft workshops'});
+CREATE (ArtisanMarkets:SubCategory {name: 'Artisan markets'});
+CREATE (StreetArtTours:SubCategory {name: 'Street art tours'});
+
+CREATE (ReligiousSitesAndTemples:SubCategory {name: 'Religious sites and temples'});
+CREATE (SpiritualRetreats:SubCategory {name: 'Spiritual retreats'});
+CREATE (PilgrimageDestinations:SubCategory {name: 'Pilgrimage destinations'});
+CREATE (MeditationCenters:SubCategory {name: 'Meditation centers'});
+CREATE (SpiritualGuidance:SubCategory {name: 'Spiritual guidance'});
+
+CREATE (AuthorsHomes:SubCategory {name: 'Authors homes'});
+CREATE (LiteraryMuseums:SubCategory {name: 'Literary museums'});
+CREATE (FamousBookstores:SubCategory {name: 'Famous bookstores'});
+CREATE (HistoricLibraries:SubCategory {name: 'Historic libraries'});
+CREATE (LiteraryWalkingTours:SubCategory {name: 'Literary walking tours'});
+
+CREATE (EducationalTours:SubCategory {name: 'Educational tours'});
+CREATE (WorkshopsAndClasses:SubCategory {name: 'Workshops and classes'});
+CREATE (ScienceCenters:SubCategory {name: 'Science centers'});
+CREATE (InteractiveMuseums:SubCategory {name: 'Interactive museums'});
+CREATE (DIYAndCraftingWorkshops:SubCategory {name: 'DIY and crafting workshops'});
 
 
 

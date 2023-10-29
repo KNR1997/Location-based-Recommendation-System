@@ -31,9 +31,9 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/createLikeSubCategories", headers = "Accept=application/json", method = RequestMethod.POST)
-//    public ResponseEntity<UserSubCategoryDTO> userLikeFieldCreate(@RequestBody UserSubCategoryDTO updateDTO) {
-//        UserSubCategoryDTO result = userService.saveOrUpdateUserLikeSubCategories(updateDTO);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @RequestMapping(value = "/createLikeSubCategories", headers = "Accept=application/json", method = RequestMethod.POST)
+    public ResponseEntity<UserSubCategoryDTO> userLikeFieldCreate(@RequestBody UserSubCategoryDTO updateDTO) {
+        UserSubCategoryDTO result = userService.saveOrUpdateUserLikeSubCategories(updateDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

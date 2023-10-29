@@ -43,7 +43,7 @@ public class SubCategoryService {
         }
         return interestList;
     }
-//
+
 //    public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
 //        ArrayList<String> userLikeSubCategories = new ArrayList<>();
 //        if (userRepository.userAlreadyCreatedLikedFields(updateDTO.getUserName())) {

@@ -3,11 +3,13 @@ package Locationbased.Recommendation.System.Neo4j.process;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserNameAndLikedCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
+@Lazy
 public class UserProcess {
 
     private final UserRepository userRepository;
