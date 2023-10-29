@@ -6,6 +6,7 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface UserRepository extends Neo4jRepository<User, Long> {
@@ -97,4 +98,12 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
     UserRatePlaceQueryResult updateUserRatePlaceRelationship(String username, String placeName, Integer rating);
 
+    @Query("MATCH (newUser:User {username: $userName}) " +
+            "WITH newUser, $userSimilarityRatings AS userMap " +
+            "UNWIND keys(userMap) AS userName " +
+            "MATCH (user:User {username: userName}) " +
+            "CREATE (newUser)-[similarity:SIMILARITY]->(user) " +
+            "SET similarity.value = userMap[userName] " +
+            "RETURN user.username AS username, userMap[userName] AS rate")
+    List<CreateSimilarityRelationshipWithExistingUsersQueryResult> createSimilarityRelationshipWithExistingUsers(String userName, Map<String, Double> userSimilarityRatings);
 }

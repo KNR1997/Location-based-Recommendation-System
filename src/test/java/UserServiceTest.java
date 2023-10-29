@@ -1,5 +1,5 @@
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
-import Locationbased.Recommendation.System.Neo4j.service.UserService;
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
 import org.junit.Before;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

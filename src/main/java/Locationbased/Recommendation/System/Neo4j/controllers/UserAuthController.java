@@ -3,7 +3,7 @@ package Locationbased.Recommendation.System.Neo4j.controllers;
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserDTO;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
-import Locationbased.Recommendation.System.Neo4j.service.UserService;
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

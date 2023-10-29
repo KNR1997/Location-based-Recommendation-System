@@ -1,11 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.models.dto.InterestedFieldsDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
-import Locationbased.Recommendation.System.Neo4j.service.SubCategoryService;
-import Locationbased.Recommendation.System.Neo4j.service.UserService;
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

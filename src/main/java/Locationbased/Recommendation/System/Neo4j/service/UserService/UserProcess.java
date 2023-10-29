@@ -1,5 +1,6 @@
-package Locationbased.Recommendation.System.Neo4j.process;
+package Locationbased.Recommendation.System.Neo4j.service.UserService;
 
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.CreateSimilarityRelationshipWithExistingUsersQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserNameAndLikedCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
@@ -16,6 +17,17 @@ public class UserProcess {
 
     public UserProcess(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public List<CreateSimilarityRelationshipWithExistingUsersQueryResult> createSimilarityRelationshipWithOtherUsers(String userName) {
+        // Get all users
+        UserMatching.userProfiles = getAllUsersWithLikeCategories();
+        // Get new User like subCategories
+        List<String> interestFields = userRepository.getUserLikedSubCategories(userName);
+        Set<String> categoriesSet = new HashSet<>(interestFields);
+
+        Map<String, Double> result = UserMatching.calculateSimilarityWithExistingUsers(userName, categoriesSet);
+        return userRepository.createSimilarityRelationshipWithExistingUsers(userName, result);
     }
 
     public List<String> findSimilarUsers(String username) {

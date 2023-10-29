@@ -28,5 +28,16 @@ public class UserMatching {
         }
         return similarUsers;
     }
+
+    public static Map<String, Double> calculateSimilarityWithExistingUsers(String userName, Set<String> newUserCategories) {
+        Map<String, Double> allUsers = new HashMap<>();
+        for (Map.Entry<String, Set<String>> entry : userProfiles.entrySet()) {
+            if (!userName.equals(entry.getKey())) {
+                double similarity = calculateJacquardSimilarity(newUserCategories, entry.getValue());
+                allUsers.put(entry.getKey(), similarity);
+            }
+        }
+        return allUsers;
+    }
 }
 

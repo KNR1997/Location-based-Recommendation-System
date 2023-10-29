@@ -1,10 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.service.command;
 
 import Locationbased.Recommendation.System.Neo4j.commons.command.CommandExecutor;
-import Locationbased.Recommendation.System.Neo4j.process.UserProcess;
-import Locationbased.Recommendation.System.Neo4j.service.UserService;
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserProcess;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
