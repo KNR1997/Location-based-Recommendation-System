@@ -5,6 +5,7 @@ import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserNameAndL
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,7 +20,8 @@ public class UserProcess {
         this.userRepository = userRepository;
     }
 
-    public List<CreateSimilarityRelationshipWithExistingUsersQueryResult> createSimilarityRelationshipWithOtherUsers(String userName) {
+    @Async
+    public void createSimilarityRelationshipWithOtherUsers(String userName) {
         // Get all users
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         // Get new User like subCategories
@@ -27,7 +29,7 @@ public class UserProcess {
         Set<String> categoriesSet = new HashSet<>(interestFields);
 
         Map<String, Double> result = UserMatching.calculateSimilarityWithExistingUsers(userName, categoriesSet);
-        return userRepository.createSimilarityRelationshipWithExistingUsers(userName, result);
+        List<CreateSimilarityRelationshipWithExistingUsersQueryResult> queryResults = userRepository.createSimilarityRelationshipWithExistingUsers(userName, result);
     }
 
     public List<String> findSimilarUsers(String username) {

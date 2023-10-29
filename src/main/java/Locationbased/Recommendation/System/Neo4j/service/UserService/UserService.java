@@ -3,7 +3,6 @@ package Locationbased.Recommendation.System.Neo4j.service.UserService;
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.CreateSimilarityRelationshipWithExistingUsersQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
@@ -63,7 +62,8 @@ public class UserService implements InitializingBean {
                 updateDTO.getUserName(),
                 updateDTO.getLikeSubCategories());
 
-        List<CreateSimilarityRelationshipWithExistingUsersQueryResult> queryResults = userProcess.createSimilarityRelationshipWithOtherUsers(updateDTO.getUserName());
+        // Execute Async operation
+        userProcess.createSimilarityRelationshipWithOtherUsers(updateDTO.getUserName());
 //        generateRecommendedPlacesForUser(updateDTO.getUserName());
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
         for (UserLikeSubCategoryQueryResult result : userLikeSubCategoryQueryResults) {
