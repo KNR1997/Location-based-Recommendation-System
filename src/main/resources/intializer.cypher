@@ -278,6 +278,10 @@ MATCH (n:Label)
   WHERE n.property_name = {value}
 DELETE n
 
+MATCH (n:NodeLabel {name: 'old_name'})
+SET n.name = 'new_name'
+RETURN n
+
 // subCategory
 MATCH (a:SubCategory {name: 'Relaxation'})
 MATCH (b:SubCategory {name: 'Surfing'})

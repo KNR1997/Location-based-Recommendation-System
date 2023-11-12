@@ -14,13 +14,8 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class UserAuthController {
-
-    private final UserService userService;
-
     @Autowired
-    public UserAuthController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping("/me")
     public String loggedUser(Principal principal) {
@@ -31,7 +26,7 @@ public class UserAuthController {
     public ResponseEntity<UserDTO> signUp(@RequestBody CreateUserRequest request) {
         User user = userService.createUser(request);
 
-        UserDTO responseUser = new UserDTO(user.getName(), user.getUsername(), user.getRoles());
+        UserDTO responseUser = new UserDTO(user.getUsername(), user.getRoles());
 
         return new ResponseEntity<>(responseUser, HttpStatus.CREATED);
     }

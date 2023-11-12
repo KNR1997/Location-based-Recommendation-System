@@ -4,14 +4,14 @@ import lombok.Data;
 
 @Data
 public class CreateUserRequest {
-    private String name;
     private String username;
+    private String email;
     private String password;
     private String roles;
 
-    public CreateUserRequest(String name, String username, String password, String roles) {
-        this.name = name;
+    public CreateUserRequest(String username, String email, String password, String roles) {
         this.username = username;
+        this.email = email;
         this.password = password;
         this.roles = roles;
     }

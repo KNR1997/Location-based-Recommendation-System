@@ -1,8 +1,14 @@
 package Locationbased.Recommendation.System.Neo4j.userFiltering;
 
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserProcess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 public class UserMatching {
+    private static final Logger logger = LoggerFactory.getLogger(UserProcess.class);
+
     public static Map<String, Set<String>> userProfiles = new HashMap<>();
 
     private static double calculateJacquardSimilarity(Set<String> set1, Set<String> set2) {
@@ -30,6 +36,7 @@ public class UserMatching {
     }
 
     public static Map<String, Double> calculateSimilarityWithExistingUsers(String userName, Set<String> newUserCategories) {
+        logger.info("Calculate similarity with existing users {}", userName);
         Map<String, Double> allUsers = new HashMap<>();
         for (Map.Entry<String, Set<String>> entry : userProfiles.entrySet()) {
             if (!userName.equals(entry.getKey())) {

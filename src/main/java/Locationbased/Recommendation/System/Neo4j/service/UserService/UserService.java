@@ -22,7 +22,6 @@ import java.util.List;
 @Service
 public class UserService implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
@@ -40,11 +39,14 @@ public class UserService implements InitializingBean {
     }
 
     public User createUser(CreateUserRequest request) {
+        logger.info("Create user {}", request.getUsername());
+
         User user = new User();
 
-        user.setName(request.getName());
+//        user.setName(request.getName());
         // TODO: make sure this username doesn't exist.
         user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
         user.setRoles(request.getRoles());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 

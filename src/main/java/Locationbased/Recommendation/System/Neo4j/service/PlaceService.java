@@ -1,17 +1,21 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.commons.CommonFunction;
-import Locationbased.Recommendation.System.Neo4j.models.place.PlaceFeature;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
+import Locationbased.Recommendation.System.Neo4j.models.place.PlaceFeature;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.PlaceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PlaceService {
+public class PlaceService implements InitializingBean {
+    private static final Logger logger = LoggerFactory.getLogger(PlaceService.class);
 
     private final PlaceRepository placeRepository;
 
@@ -47,5 +51,11 @@ public class PlaceService {
         }
         placeFeature.setSubCategory(subCategory);
         return new PlaceFeatureDTO(placeFeature);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        logger.info("PlaceService created");
+
     }
 }

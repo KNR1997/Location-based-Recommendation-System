@@ -4,6 +4,8 @@ import Locationbased.Recommendation.System.Neo4j.models.queryResult.CreateSimila
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserNameAndLikedCategoriesQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import java.util.*;
 @Component
 @Lazy
 public class UserProcess {
+    private static final Logger logger = LoggerFactory.getLogger(UserProcess.class);
 
     private final UserRepository userRepository;
 
@@ -22,6 +25,7 @@ public class UserProcess {
 
     @Async
     public void createSimilarityRelationshipWithOtherUsers(String userName) {
+        logger.info("Create Similarity Relationships {} with other users", userName);
         // Get all users
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         // Get new User like subCategories
