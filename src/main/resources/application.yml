@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri : mongodb+srv://kethaka:xperiac1100@lbrs.extfbft.mongodb.net/?retryWrites=true&w=majority
+      database: lbrs

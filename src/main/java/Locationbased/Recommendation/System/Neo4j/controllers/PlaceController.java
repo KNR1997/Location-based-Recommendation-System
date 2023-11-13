@@ -1,26 +1,52 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
+import Locationbased.Recommendation.System.Neo4j.models.entity.Place;
 import Locationbased.Recommendation.System.Neo4j.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/Place")
 public class PlaceController {
+
     @Autowired
     private PlaceService placeService;
 
-    @PreAuthorize("hasAuthority('none')")
-    @RequestMapping(value = "/addPlaceFeature", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<PlaceFeatureDTO> addPlaceFeature(@RequestBody PlaceFeatureDTO updateDTO) {
-        PlaceFeatureDTO result = placeService.saveOrUpdatePlaceFeature(updateDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    @RequestMapping(value = "/addPlace", headers = "Accept=application/json", method = RequestMethod.POST)
+    public Place createPlace(@RequestBody Place place) {
+        return placeService.addPlace(place);
+    }
+
+    @RequestMapping(value = "/getAllPlaces", headers = "Accept=application/json", method = RequestMethod.GET)
+    public List<Place> getPlaces() {
+        return placeService.finAllPlaces();
+    }
+
+    @RequestMapping(value = "/{placeId}", headers = "Accept=application/json", method = RequestMethod.GET)
+    public Place getPlace(@PathVariable String placeId) {
+        return placeService.getPlaceByPlaceId(placeId);
+    }
+
+    @RequestMapping(value = "/city/{city}", headers = "Accept=application/json", method = RequestMethod.GET)
+    public List<Place> getPlaceByCity(@PathVariable String city) {
+        return placeService.getPlaceByCity(city);
+    }
+
+    @RequestMapping(value = "/title/{title}", headers = "Accept=application/json", method = RequestMethod.GET)
+    public List<Place> getPlaceByTitle(@PathVariable String title) {
+        return placeService.getPlaceByTitle(title);
+    }
+
+    @RequestMapping(headers = "Accept=application/json", method = RequestMethod.PUT)
+    public Place updatePlace(@RequestBody Place placeRequest) {
+        return placeService.updatePlace(placeRequest);
+    }
+
+    @RequestMapping(value = "/{placeId}", headers = "Accept=application/json", method = RequestMethod.DELETE)
+    public String deletePlace(@PathVariable String placeId) {
+        placeService.deletePlace(placeId);
+        return placeId + "place deleted from dashboard";
     }
 }

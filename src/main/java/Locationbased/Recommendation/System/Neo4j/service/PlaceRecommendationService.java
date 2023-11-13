@@ -1,8 +1,8 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.GetUserRatePlacesByCategoriesQueryResult;
-import Locationbased.Recommendation.System.Neo4j.service.UserService.UserProcess;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserProcess;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class PlaceRecommendationService {
             // Get rated places and add to relevant places
             List<GetUserRatePlacesByCategoriesQueryResult> ratedPlaces = userRepository.getUserRatePlacesByCategories(similarUser, stringArray);
             for (GetUserRatePlacesByCategoriesQueryResult ratePlace : ratedPlaces) {
-                relevantPlaces.add(ratePlace.getPlace().getName());
+                relevantPlaces.add(ratePlace.getPlaceNode().getName());
             }
         }
         return relevantPlaces;
