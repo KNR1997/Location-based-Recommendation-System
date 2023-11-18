@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
-import Locationbased.Recommendation.System.Neo4j.models.Interest;
+import Locationbased.Recommendation.System.Neo4j.models.node.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;

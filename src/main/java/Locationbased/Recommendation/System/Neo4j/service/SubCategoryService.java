@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.models.Interest;
+import Locationbased.Recommendation.System.Neo4j.models.node.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;

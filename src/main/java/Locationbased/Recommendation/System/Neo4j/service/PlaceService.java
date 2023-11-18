@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.models.entity.Place;
+import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Place;
 import Locationbased.Recommendation.System.Neo4j.repositories.PlaceRepository;
 import org.springframework.stereotype.Service;
 

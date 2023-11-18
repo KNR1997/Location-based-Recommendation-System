@@ -1,10 +1,10 @@
 package Locationbased.Recommendation.System.Neo4j.models.queryResult;
 
-import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserNode;
 import lombok.Data;
 
 @Data
 public class FindExistingSimilarUsersQueryResult {
 
-    private User similarUser;
+    private UserNode similarUserNode;
 }

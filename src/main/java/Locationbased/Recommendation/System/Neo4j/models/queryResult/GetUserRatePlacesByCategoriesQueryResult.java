@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.models.queryResult;
 
-import Locationbased.Recommendation.System.Neo4j.models.place.PlaceNode;
+import Locationbased.Recommendation.System.Neo4j.models.node.PlaceNode;
 import lombok.Data;
 
 @Data

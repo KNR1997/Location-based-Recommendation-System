@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
-import Locationbased.Recommendation.System.Neo4j.models.place.PlaceNode;
+import Locationbased.Recommendation.System.Neo4j.models.node.PlaceNode;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;

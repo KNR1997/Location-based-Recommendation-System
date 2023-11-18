@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.service.UserService;
 
-import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserNode;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
@@ -38,21 +38,21 @@ public class UserService implements InitializingBean {
         this.userProcess = userProcess;
     }
 
-    public User createUser(CreateUserRequest request) {
+    public UserNode createUser(CreateUserRequest request) {
         logger.info("Create user {}", request.getUsername());
 
-        User user = new User();
+        UserNode userNode = new UserNode();
 
 //        user.setName(request.getName());
         // TODO: make sure this username doesn't exist.
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setRoles(request.getRoles());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userNode.setUsername(request.getUsername());
+        userNode.setEmail(request.getEmail());
+        userNode.setRoles(request.getRoles());
+        userNode.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        userRepository.save(user);
+        userRepository.save(userNode);
 
-        return user;
+        return userNode;
     }
 
     public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {

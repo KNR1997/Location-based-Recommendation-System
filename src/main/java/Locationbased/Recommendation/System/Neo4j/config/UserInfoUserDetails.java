@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.config;
 
-import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserNode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +16,10 @@ public class UserInfoUserDetails implements UserDetails {
     private final String password;
     private final List<GrantedAuthority> authorities;
 
-    public UserInfoUserDetails(User user) {
-        username = user.getUsername();
-        password = user.getPassword();
-        authorities = Arrays.stream(user.getRoles().split(","))
+    public UserInfoUserDetails(UserNode userNode) {
+        username = userNode.getUsername();
+        password = userNode.getPassword();
+        authorities = Arrays.stream(userNode.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.models.entity;
+package Locationbased.Recommendation.System.Neo4j.models.mongoEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

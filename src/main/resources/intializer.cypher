@@ -102,6 +102,9 @@ CREATE
 
 // Place Categories
 CREATE (beach:PlaceCategory{name:"Beach"});
+CREATE (:PlaceCategory{name:"Mountain"});
+CREATE (:PlaceCategory{name:"Rock"});
+CREATE (:PlaceCategory{name:"RainForest"});
 
 // 32 beaches
 //MATCH (beach:PlaceCategory {name: "Beach"})
@@ -276,8 +279,8 @@ CREATE (s)-[:IS_A_SUB_OF]->(c);
 MATCH ()-[r:RELATIONSHIP_TYPE]->()
 DELETE r
 
-MATCH (user:User)-[r:RELATIONSHIP_TYPE]->(product:Product)
-  WHERE user.username = 'price'
+MATCH (userNode:User)-[r:RELATIONSHIP_TYPE]->(product:Product)
+  WHERE userNode.username = 'price'
 DELETE r
 
 

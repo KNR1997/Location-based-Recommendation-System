@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.requests;
 
-import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.models.place;
+package Locationbased.Recommendation.System.Neo4j.models.node;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;

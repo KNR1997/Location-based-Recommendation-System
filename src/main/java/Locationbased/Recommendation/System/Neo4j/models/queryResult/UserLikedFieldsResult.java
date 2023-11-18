@@ -1,7 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.models.queryResult;
 
-import Locationbased.Recommendation.System.Neo4j.models.Interest;
-import Locationbased.Recommendation.System.Neo4j.models.SubCategory;
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import lombok.Data;
 
 @Data

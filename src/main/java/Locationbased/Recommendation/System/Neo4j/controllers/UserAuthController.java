@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserNode;
 import Locationbased.Recommendation.System.Neo4j.models.dto.AuthRequest;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserAuthDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserDTO;
@@ -37,9 +37,9 @@ public class UserAuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> signUp(@RequestBody CreateUserRequest request) {
-        User user = userService.createUser(request);
+        UserNode userNode = userService.createUser(request);
 
-        UserDTO responseUser = new UserDTO(user.getUsername(), user.getRoles());
+        UserDTO responseUser = new UserDTO(userNode.getUsername(), userNode.getRoles());
 
         return new ResponseEntity<>(responseUser, HttpStatus.CREATED);
     }

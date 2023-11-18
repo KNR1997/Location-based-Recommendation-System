@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.models;
+package Locationbased.Recommendation.System.Neo4j.models.node;
 
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import lombok.Data;

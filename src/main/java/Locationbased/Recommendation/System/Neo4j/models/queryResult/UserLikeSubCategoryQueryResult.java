@@ -1,12 +1,12 @@
 package Locationbased.Recommendation.System.Neo4j.models.queryResult;
 
-import Locationbased.Recommendation.System.Neo4j.models.User;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserNode;
 import lombok.Data;
 
 @Data
 public class UserLikeSubCategoryQueryResult {
 
-    private User user;
+    private UserNode userNode;
 
     private String subCategoryName;
 
