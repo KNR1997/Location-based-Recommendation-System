@@ -18,17 +18,6 @@ CREATE
   (ohiya:PopularPlaces{name:"Ohiya"});
 
 CREATE
-  (central:Province{name:"Central", capital:"Kandy"}),
-  (eastern:Province{name:"Eastern", capital:"Trincomalee"}),
-  (northCentral:Province{name:"North Central", capital:"Anuradhapura"}),
-  (northern:Province{name:"Northern", capital:"Jaffna"}),
-  (northWestern:Province{name:"North Western", capital:"Kurunegala"}),
-  (sabaragamuwa:Province{name:"Sabaragamuwa", capital:"Ratnapura"}),
-  (southern:Province{name:"Southern", capital:"Galle"}),
-  (uva:Province{name:"Uva", capital:"Badulla"}),
-  (western:Province{name:"Western", capital:"Colombo"});
-
-CREATE
   (ampara:District{name:"Ampara"}),
   (anuradhapura:District{name:"Anuradhapura"}),
   (badulla:District{name:"Badulla"}),
@@ -55,100 +44,118 @@ CREATE
   (trincomalee:District{name:"Trincomalee"}),
   (vavuniya:District{name:"Vavuniya"});
 
-CREATE (:District {name: 'Ampara'})-[:BELONGS_TO]->(:Province {name: 'Eastern'});
-CREATE (:District {name: 'Anuradhapura'})-[:BELONGS_TO]->(:Province {name: 'North Central'});
-CREATE (:District {name: 'Badulla'})-[:BELONGS_TO]->(:Province {name: 'Uva'});
-CREATE (:District {name: 'Batticaloa'})-[:BELONGS_TO]->(:Province {name: 'Eastern'});
-CREATE (:District {name: 'Colombo'})-[:BELONGS_TO]->(:Province {name: 'Western'});
-CREATE (:District {name: 'Galle'})-[:BELONGS_TO]->(:Province {name: 'Southern'});
-CREATE (:District {name: 'Gampaha'})-[:BELONGS_TO]->(:Province {name: 'Western'});
-CREATE (:District {name: 'Hambantota'})-[:BELONGS_TO]->(:Province {name: 'Southern'});
-CREATE (:District {name: 'Jaffna'})-[:BELONGS_TO]->(:Province {name: 'Northern'});
-CREATE (:District {name: 'Kalutara'})-[:BELONGS_TO]->(:Province {name: 'Western'});
-CREATE (:District {name: 'Kandy'})-[:BELONGS_TO]->(:Province {name: 'Central'});
-CREATE (:District {name: 'Kegalle'})-[:BELONGS_TO]->(:Province {name: 'Sabaragamuwa'});
-CREATE (:District {name: 'Kilinochchi'})-[:BELONGS_TO]->(:Province {name: 'Northern'});
-CREATE (:District {name: 'Kurunegala'})-[:BELONGS_TO]->(:Province {name: 'North Western'});
-CREATE (:District {name: 'Mannar'})-[:BELONGS_TO]->(:Province {name: 'Northern'});
-CREATE (:District {name: 'Matale'})-[:BELONGS_TO]->(:Province {name: 'Central'});
-CREATE (:District {name: 'Matara'})-[:BELONGS_TO]->(:Province {name: 'Southern'});
-CREATE (:District {name: 'Monaragala'})-[:BELONGS_TO]->(:Province {name: 'Uva'});
-CREATE (:District {name: 'Mullaitivu'})-[:BELONGS_TO]->(:Province {name: 'Northern'});
-CREATE (:District {name: 'NuwaraEliya'})-[:BELONGS_TO]->(:Province {name: 'Central'});
-CREATE (:District {name: 'Polonnaruwa'})-[:BELONGS_TO]->(:Province {name: 'North Central'});
-CREATE (:District {name: 'Puttalama'})-[:BELONGS_TO]->(:Province {name: 'North Western'});
-CREATE (:District {name: 'Ratnapura'})-[:BELONGS_TO]->(:Province {name: 'Sabaragamuwa'});
-CREATE (:District {name: 'Trincomalee'})-[:BELONGS_TO]->(:Province {name: 'Eastern'});
-CREATE (:District {name: 'Vavuniya'})-[:BELONGS_TO]->(:Province {name: 'Northern'});
+CREATE
+  (:Province{name:"Central", capital:"Kandy"}),
+  (:Province{name:"Eastern", capital:"Trincomalee"}),
+  (:Province{name:"Northern", capital:"Jaffna"}),
+  (:Province{name:"NorthCentral", capital:"Anuradhapura"}),
+  (:Province{name:"NorthWestern", capital:"Kurunegala"}),
+  (:Province{name:"Southern", capital:"Galle"}),
+  (:Province{name:"Sabaragamuwa", capital:"Ratnapura"}),
+  (:Province{name:"Uva", capital:"Badulla"}),
+  (:Province{name:"Western", capital:"Colombo"});
+
+//MATCH (central:Province {name: 'Central'})
+//MATCH (district:District)
+//  WHERE district.name IN ['NuwaraEliya', 'Kandy', 'Matale']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'Eastern'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Ampara', 'Batticaloa', 'Trincomalee']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'Northern'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Jaffna', 'Kilinochchi', 'Mannar', 'Mullaitivu', 'Vavuniya']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'NorthCentral'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Anuradhapura', 'Polonnaruwa', 'Kurunegala', 'Puttalama']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'Southern'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Galle', 'Hambantota', 'Matara']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'Sabaragamuwa'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Kegalle', 'Ratnapura']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'Uva'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Badulla', 'Monaragala']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'Western'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Colombo', 'Gampaha', 'Kalutara']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
+
+//MATCH (central:Province {name: 'NorthWestern'})
+//MATCH (district:District)
+//  WHERE district.name IN ['Kurunegala', 'Puttalama']
+//FOREACH (d IN [district] | CREATE (central)-[:HAS_DISTRICT]->(d))
 
 // Place Categories
 CREATE (beach:PlaceCategory{name:"Beach"});
 
 // 32 beaches
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (unawatuna:Place{name:"Unawatuna"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (bentota:Place{name:"Bentota"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (mirissa:Place{name:"Mirissa"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (dickwella:Place{name:"Dickwella"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (weligama:Place{name:"Weligama"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (galle:Place{name:"Galle"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (induruwa:Place{name:"Induruwa"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (koggala:Place{name:"Koggala"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (negombo:Place{name:"Negombo"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (arugamBay:Place{name:"Arugam Bay"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (uppuveli:Place{name:"Uppuveli"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (trincomalee:Place{name:"Trincomalee"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (polhena:Place{name:"Polhena"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (mountLavinia:Place{name:"Mount Lavinia"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (kalpitiya:Place{name:"Kalpitiya"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (tangalle:Place{name:"Tangalle"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (pasakudahAndKalkudah:Place{name:"Pasakudah And Kalkudah"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (talallaSouth:Place{name:"Talalla South"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (matara:Place{name:"Matara"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (nilaveli:Place{name:"Nilaveli"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (muhathuwaram:Place{name:"Muhathuwaram"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (wijaya:Place{name:"Wijaya"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (pigeonIsland:Place{name:"Pigeon Island"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (rekawa:Place{name:"Rekawa"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (pottuvil:Place{name:"Pottuvil"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (casuarinaBeach:Place{name:"Casuarina Beach"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (kahandamodaraBeach:Place{name:"Kahandamodara Beach"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (beruwalaBeach:Place{name:"Beruwala Beach"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (batticaloaBeach:Place{name:"Batticaloa Beach"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (kalkudah:Place{name:"Kalkudah"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (hiriketiya:Place{name:"Hiriketiya"})-[:HAS_CATEGORY]->(beach);
-MATCH (beach:PlaceCategory {name: "Beach"})
-CREATE (hikkaduwa:Place{name:"Hikkaduwa"})-[:HAS_CATEGORY]->(beach);
+//MATCH (beach:PlaceCategory {name: "Beach"})
+//CREATE (:Place{name:"Unawatuna beach"})-[:HAS_CATEGORY]->(beach),
+//  (:Place{name:"Bentota beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Mirissa beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Dickwella beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Weligama beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Galle beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Induruwa beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Koggala beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Negombo beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Arugam Bay beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Uppuveli beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Trincomalee beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Polhena beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Mount Lavinia beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Kalpitiya beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Tangalle beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Pasakudah And Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Talalla South beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Matara beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Nilaveli beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Muhathuwaram beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Wijaya beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Pigeon Island beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Rekawa beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Pottuvil beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Casuarina beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Kahandamodara beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Beruwala beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Batticaloa beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Hiriketiya beach"})-[:HAS_CATEGORY]->(beach),
+// (:Place{name:"Hikkaduwa beach"})-[:HAS_CATEGORY]->(beach);
+
+// Beach Located In -> district
+//MATCH (galle:District {name: 'Galle'})
+//MATCH (beach:Place)
+//  WHERE beach.name IN ['Unawatuna beach', 'Bentota beach', 'Galle beach', 'Koggala beach', 'Wijaya beach'
+//  ,'Hikkaduwa beach']
+//FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(galle))
+
+//MATCH (matara:District {name: 'Matara'})
+//MATCH (beach:Place)
+//  WHERE beach.name IN ['Mirissa beach', 'Dickwella beach', 'Weligama beach', 'Talalla beach', 'Matara beach'
+//  ,'Hiriketiya beach', 'Polhena beach']
+//FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(matara))
+
+//MATCH (ratnapura:District {name: 'Ratnapura'})
+//MATCH (beach:Place)
+//  WHERE beach.name IN ['Induruwa beach', 'Dickwella beach', 'Weligama beach', 'Talalla beach', 'Matara beach'
+//  ,'Hiriketiya beach']
+//FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(ratnapura))
 
 
 CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Unawatuna'});

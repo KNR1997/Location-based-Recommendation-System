@@ -2,6 +2,7 @@ package Locationbased.Recommendation.System.Neo4j.controllers;
 
 import Locationbased.Recommendation.System.Neo4j.models.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.AuthRequest;
+import Locationbased.Recommendation.System.Neo4j.models.dto.UserAuthDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserDTO;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.JwtService;
@@ -44,10 +45,12 @@ public class UserAuthController {
     }
 
     @PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<UserAuthDTO> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
+            String token = jwtService.generateToken(authRequest.getUsername());
+            UserAuthDTO response = new UserAuthDTO(authRequest.getUsername(), token);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
