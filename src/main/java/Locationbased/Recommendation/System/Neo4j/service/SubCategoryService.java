@@ -1,10 +1,10 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.models.node.Interest;
-import Locationbased.Recommendation.System.Neo4j.models.dto.InterestFieldDTO;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.InterestFieldQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.SubCategoryRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +18,18 @@ public class SubCategoryService {
 
     private final InterestFieldRepository interestFieldRepository;
 
+    private final SubCategoryRepository subCategoryRepository;
+
     public SubCategoryService(UserRepository userRepository,
-                              InterestFieldRepository interestFieldRepository) {
+                              InterestFieldRepository interestFieldRepository,
+                              SubCategoryRepository subCategoryRepository) {
         this.interestFieldRepository = interestFieldRepository;
         this.userRepository = userRepository;
+        this.subCategoryRepository = subCategoryRepository;
     }
 
-    public List<InterestFieldDTO> getAllSubCategories() {
-        List<Interest> interestList = interestFieldRepository.findAll();
-        List<InterestFieldDTO> interestFieldDTOList = new ArrayList<>();
-        for (Interest interest : interestList) {
-            List<InterestFieldQueryResult> interestSubCategories = interestFieldRepository.getInterestFieldSubCategories(interest.getName());
-            InterestFieldDTO interestFieldDTO = new InterestFieldDTO(interest.getName(), interestSubCategories);
-            interestFieldDTOList.add(interestFieldDTO);
-        }
-        return interestFieldDTOList;
+    public List<SubCategory> getAllSubCategories() {
+        return subCategoryRepository.findAll();
     }
 
     public List<Interest> getUserLikedSubCategories(String userName) {

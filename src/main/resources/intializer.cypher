@@ -105,6 +105,10 @@ CREATE (beach:PlaceCategory{name:"Beach"});
 CREATE (:PlaceCategory{name:"Mountain"});
 CREATE (:PlaceCategory{name:"Rock"});
 CREATE (:PlaceCategory{name:"RainForest"});
+CREATE (:PlaceCategory{name:"Bridge"});
+CREATE (:PlaceCategory{name:"Trail"});
+CREATE (:PlaceCategory{name:"NationalPark"});
+CREATE (:PlaceCategory{name:"Waterfall"});
 
 // 32 beaches
 //MATCH (beach:PlaceCategory {name: "Beach"})
@@ -140,6 +144,73 @@ CREATE (:PlaceCategory{name:"RainForest"});
 // (:Place{name:"Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
 // (:Place{name:"Hiriketiya beach"})-[:HAS_CATEGORY]->(beach),
 // (:Place{name:"Hikkaduwa beach"})-[:HAS_CATEGORY]->(beach);
+
+// Mountains & Rocks
+MATCH (rock:PlaceCategory {name: "Rock"})
+// sigirya added
+CREATE (:Place{name:"Ella Rock Trail", difficulty: "Hard", length: 5.3, Est: 129})-[:HAS_CATEGORY]->(rock)
+CREATE (:Place{name:"Pidurangala Rock", difficulty: "Moderate", length: 1.4, Est: 40})-[:HAS_CATEGORY]->(rock)
+CREATE (:Place{name:"Katusu Konda", difficulty: "Hard"})-[:HAS_CATEGORY]->(rock)
+
+
+MATCH (mountain:PlaceCategory {name: "Mountain"})
+CREATE (:Place{name:"Ella to Ella Rock", difficulty: "Moderate", length: 10, Est: 190})-[:HAS_CATEGORY]->(mountain)
+CREATE (:Place{name:"Little Adam's Peak", difficulty: "Moderate", length: 1.6, Est: 34})-[:HAS_CATEGORY]->(mountain)
+CREATE (:Place{name:"Adam's Peak", difficulty: "Hard", length: 1.6, Est: 34})-[:HAS_CATEGORY]->(mountain)
+CREATE (:Place{name:"World's End Trail", difficulty: "Moderate", length: 8.2, Est: 160})-[:HAS_CATEGORY]->(mountain)
+CREATE (:Place{name:"Little Adam's Peak and Lookout", difficulty: "Moderate", length: 2.9, Est: 71})-[:HAS_CATEGORY]->(mountain)
+CREATE (:Place{name:"Kirigalpotta", difficulty: "Moderate", length: 11.7})-[:HAS_CATEGORY]->(mountain)
+
+MATCH (bridge:PlaceCategory {name: "Bridge"})
+CREATE (:Place{name:"Nine Arch Bridge from Ella Rd", difficulty: "Moderate", length: 8.2, Est: 160})-[:HAS_CATEGORY]->(bridge)
+CREATE (:Place{name:"Nine Arch Bridge", difficulty: "Moderate", length: 1.3, Est: 31})-[:HAS_CATEGORY]->(bridge)
+
+MATCH (rainForest:PlaceCategory {name: "RainForest"})
+CREATE (:Place{name:"Sinharaja World Heritage"})-[:HAS_CATEGORY]->(rainForest)
+CREATE (:Place{name:"Peak Wilderness Sanctuary"})-[:HAS_CATEGORY]->(rainForest)
+CREATE (:Place{name:"Kunckles"})-[:HAS_CATEGORY]->(rainForest)
+
+MATCH (waterfall:PlaceCategory {name: "Waterfall"})
+CREATE (:Place{name:"Baker Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Bambarakanda Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"St. Clair’s Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Ravana Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Dunhinda Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Gartmore Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Devon Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Diyaluma Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Bomburu Falls"})-[:HAS_CATEGORY]->(waterfall)
+CREATE (:Place{name:"Kirindi Ella Falls"})-[:HAS_CATEGORY]->(waterfall)
+
+MATCH (nationalPark:PlaceCategory {name: "NationalPark"})
+CREATE (:Place{name:"Yala National Park"})-[:HAS_CATEGORY]->(nationalPark)
+//MATCH (trail:PlaceCategory {name: "Trail"})
+//CREATE (:Place{name:"Nine Arch Bridge from Ella Rd")-[:HAS_CATEGORY]->(trail)
+//CREATE (:Place{name:"Diyaluwa Falls", difficulty: "Moderate", length: 2.3, Est: 55})-[:HAS_CATEGORY]->(trail)
+
+
+MATCH (Matale:District {name: 'Matale'})
+MATCH (beach:Place)
+  WHERE beach.name IN ['Sigiriya', 'Pidurangala Rock']
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(Matale))
+
+MATCH (Badulla:District {name: 'Badulla'})
+MATCH (beach:Place)
+  WHERE beach.name IN ['Ella Rock Trail', 'Ella to Ella Rock', 'Nine Arch Bridge', 'Bambarakanda Falls',
+'Ravana Falls', 'Dunhinda Falls', 'Diyaluma Falls', 'Nine Arch Bridge from Ella Rd']
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(Badulla))
+
+MATCH (nuwaraEliya:District {name: 'NuwaraEliya'})
+MATCH (beach:Place)
+  WHERE beach.name IN ['Gartmore Falls', 'Devon Falls', 'Bomburu Falls', 'Kirigalpotta', 'Baker Falls ',
+    "St. Clair’s Fall", "World's End Trail"]
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(nuwaraEliya))
+
+MATCH (ratnapura:District {name: 'Ratnapura'})
+MATCH (beach:Place)
+  WHERE beach.name IN ["Adam's Peak", "Sinharaja World Heritage", "Peak Wilderness Sanctuary", "Kirindi Ella Falls"]
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(ratnapura))
+
 
 // Beach Located In -> district
 //MATCH (galle:District {name: 'Galle'})
