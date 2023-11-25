@@ -21,7 +21,7 @@ public class SubCategoryController {
 
     @RequestMapping(value = "/getAllSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)
     public ResponseEntity<List<SubCategory>> getAllSubCategories() {
-        List<SubCategory> subCategories = subCategoryService.getAllSubCategories();
+        List<SubCategory> subCategories = subCategoryService.getAllActiveSubCategories();
         return new ResponseEntity<>(subCategories, HttpStatus.OK);
     }
 

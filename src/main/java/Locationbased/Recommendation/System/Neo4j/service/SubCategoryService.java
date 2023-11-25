@@ -28,8 +28,8 @@ public class SubCategoryService {
         this.subCategoryRepository = subCategoryRepository;
     }
 
-    public List<SubCategory> getAllSubCategories() {
-        return subCategoryRepository.findAll();
+    public List<SubCategory> getAllActiveSubCategories() {
+        return subCategoryRepository.findAllActiveSubCategories();
     }
 
     public List<Interest> getUserLikedSubCategories(String userName) {

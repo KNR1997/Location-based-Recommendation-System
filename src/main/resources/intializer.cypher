@@ -363,6 +363,11 @@ MATCH (n:NodeLabel {name: 'old_name'})
 SET n.name = 'new_name'
 RETURN n
 
+MATCH (s:SubCategory {name: 'Hiking'})
+SET s.status = 'Active'
+RETURN s;
+
+
 // subCategory
 MATCH (a:SubCategory {name: 'Relaxation'})
 MATCH (b:SubCategory {name: 'Surfing'})
@@ -384,38 +389,38 @@ CREATE (restaurant:SubCategory {name: 'Restaurant'});
 CREATE (beach:PlaceCategory{name:"Beach"});
 
 //Create subCategories
-CREATE (Hiking:SubCategory {name: 'Hiking'});
-CREATE (Camping:SubCategory {name: 'Camping'});
-CREATE (Biking:SubCategory {name: 'Biking'});
-CREATE (WildlifeWatching:SubCategory {name: 'Wildlife watching'});
-CREATE (WaterSports :SubCategory {name: 'Water sports '});
+CREATE (Hiking:SubCategory {name: 'Hiking'});                       // Active
+CREATE (Camping:SubCategory {name: 'Camping'});                     // Active
+CREATE (Biking:SubCategory {name: 'Biking'});                       // Active
+CREATE (WildlifeWatching:SubCategory {name: 'Wildlife watching'});  // Active
+CREATE (WaterSports :SubCategory {name: 'Water sports '});          // Active
 
-CREATE (Museums:SubCategory {name: 'Museums'});
-CREATE (HistoricalSites:SubCategory {name: 'Historical sites'});
-CREATE (ArtGalleries:SubCategory {name: 'Art galleries'});
+CREATE (Museums:SubCategory {name: 'Museums'});                     // Active
+CREATE (HistoricalSites:SubCategory {name: 'Historical sites'});     // Active
+CREATE (ArtGalleries:SubCategory {name: 'Art galleries'});            // Active
 CREATE (ArchaeologicalSites:SubCategory {name: 'Archaeological sites'});
-CREATE (CulturalFestivals:SubCategory {name: 'Cultural festivals'});
+CREATE (CulturalFestivals:SubCategory {name: 'Cultural festivals'}); // Active
 
 CREATE (LocalCuisine:SubCategory {name: 'Local cuisine'});
-CREATE (StreetFood:SubCategory {name: 'Street food'});
-CREATE (FineDining:SubCategory {name: 'Fine dining'});
+CREATE (StreetFood:SubCategory {name: 'Street food'});              // Active
+CREATE (FineDining:SubCategory {name: 'Fine dining'});              // Active
 CREATE (CookingClasses:SubCategory {name: 'Cooking classes'});
 CREATE (FoodMarkets:SubCategory {name: 'Food markets'});
 
-CREATE (ZipLining:SubCategory {name: 'Zip-lining'});
-CREATE (Paragliding:SubCategory {name: 'Paragliding'});
-CREATE (RockClimbing:SubCategory {name: 'Rock climbing'});
+CREATE (ZipLining:SubCategory {name: 'Zip-lining'});                // Active
+CREATE (Paragliding:SubCategory {name: 'Paragliding'});             // Active
+CREATE (RockClimbing:SubCategory {name: 'Rock climbing'});          // Active
 CREATE (BungeeJumping:SubCategory {name: 'Bungee jumping'});
-CREATE (ExtremeSports:SubCategory {name: 'Extreme sports'});
+CREATE (ExtremeSports:SubCategory {name: 'Extreme sports'});        // Active
 
-CREATE (SpasAndWellnessCenters:SubCategory {name: 'Spas and wellness centers'});
-CREATE (YogaAndMeditation:SubCategory {name: 'Yoga and meditation'});
-CREATE (HotSprings:SubCategory {name: 'Hot springs'});
-CREATE (BeachResorts:SubCategory {name: 'Beach resorts'});
+CREATE (SpasAndWellnessCenters:SubCategory {name: 'Spas and wellness centers'}); // Active
+CREATE (YogaAndMeditation:SubCategory {name: 'Yoga and meditation'}); // Active
+CREATE (HotSprings:SubCategory {name: 'Hot springs'});                // Active
+CREATE (BeachResorts:SubCategory {name: 'Beach resorts'});            // Active
 CREATE (Retreats:SubCategory {name: 'Retreats'});
 
 CREATE (AmusementParks:SubCategory {name: 'Amusement parks'});
-CREATE (ZoosAndAquariums:SubCategory {name: 'Zoos and aquariums'});
+CREATE (ZoosAndAquariums:SubCategory {name: 'Zoos and aquariums'});   // Active
 CREATE (FamilyFriendlyMuseums:SubCategory {name: 'Family-friendly museums'});
 CREATE (PicnicSpots:SubCategory {name: 'Picnic spots'});
 CREATE (EducationalActivities:SubCategory {name: 'Educational activities'});
@@ -427,14 +432,14 @@ CREATE (ComedyClubs:SubCategory {name: 'Comedy clubs'});
 CREATE (CasinoAndGambling:SubCategory {name: 'Casino and gambling'});
 
 CREATE (FleaMarkets:SubCategory {name: 'Flea markets'});
-CREATE (Boutiques:SubCategory {name: 'Boutiques'});
+CREATE (Boutiques:SubCategory {name: 'Boutiques'});               // Active
 CREATE (AntiquesShops:SubCategory {name: 'Antiques shops'});
 CREATE (SouvenirShops:SubCategory {name: 'Souvenir shops'});
 CREATE (ShoppingDistricts:SubCategory {name: 'Shopping districts'});
 
-CREATE (ScenicViewpoints:SubCategory {name: 'Scenic viewpoints'});
-CREATE (Waterfalls:SubCategory {name: 'Waterfalls'});
-CREATE (NationalParks:SubCategory {name: 'National parks'});
+CREATE (ScenicViewpoints:SubCategory {name: 'Scenic viewpoints'}); // Active
+CREATE (Waterfalls:SubCategory {name: 'Waterfalls'});             // Active
+CREATE (NationalParks:SubCategory {name: 'National parks'});      // Active
 CREATE (SunriseSunsetSpots:SubCategory {name: 'Sunrise/sunset spots'});
 CREATE (PhotographyTours:SubCategory {name: 'Photography tours'});
 
@@ -461,7 +466,7 @@ CREATE (CraftWorkshops:SubCategory {name: 'Craft workshops'});
 CREATE (ArtisanMarkets:SubCategory {name: 'Artisan markets'});
 CREATE (StreetArtTours:SubCategory {name: 'Street art tours'});
 
-CREATE (ReligiousSitesAndTemples:SubCategory {name: 'Religious sites and temples'});
+CREATE (ReligiousSitesAndTemples:SubCategory {name: 'Religious sites and temples'}); // Active
 CREATE (SpiritualRetreats:SubCategory {name: 'Spiritual retreats'});
 CREATE (PilgrimageDestinations:SubCategory {name: 'Pilgrimage destinations'});
 CREATE (MeditationCenters:SubCategory {name: 'Meditation centers'});
@@ -478,6 +483,19 @@ CREATE (WorkshopsAndClasses:SubCategory {name: 'Workshops and classes'});
 CREATE (ScienceCenters:SubCategory {name: 'Science centers'});
 CREATE (InteractiveMuseums:SubCategory {name: 'Interactive museums'});
 CREATE (DIYAndCraftingWorkshops:SubCategory {name: 'DIY and crafting workshops'});
+
+// Set subCategories Active/ Inactive
+// Hiking, Camping, Biking, Wildlife watching, Water sports, Museums, Historical sites, Art galleries, Cultural festivals, Street food, Fine dining
+// Zip-lining, Paragliding, Rock climbing, Extreme sports, SpasAndWellnessCenters, YogaAndMeditation, HotSprings, BeachResorts, ZoosAndAquariums
+// Waterfalls, National parks, ReligiousSitesAndTemples
+MATCH (s:SubCategory)
+SET s.status = CASE
+  WHEN s.name IN ['Hiking', 'Camping', 'Biking', 'Wildlife watching', 'Water sports', 'Museums', 'Historical sites', 'Art galleries', 'Cultural festivals', 'Street food',
+  'Fine dining', 'Zip-lining', 'Paragliding', 'Rock climbing', 'Extreme sports', 'Spas and wellness centers', 'Yoga and meditation', 'Hot springs'
+, 'Beach resorts', 'Zoos and aquariums', 'Waterfalls', 'National parks', 'Religious sites and temples', 'Scenic viewpoints' ] THEN 'Active'
+  ELSE 'Inactive'
+  END
+RETURN s;
 
 
 
