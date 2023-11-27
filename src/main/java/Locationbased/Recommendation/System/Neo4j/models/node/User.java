@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 
 @Data
 @Node
-public class UserNode {
+public class User {
     @Id
     @GeneratedValue
     private Long id;

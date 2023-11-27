@@ -7,7 +7,7 @@ import org.springframework.data.neo4j.core.schema.Node;
 
 @Data
 @Node
-public class PlaceNode {
+public class Place {
 
     @Id
     @GeneratedValue
