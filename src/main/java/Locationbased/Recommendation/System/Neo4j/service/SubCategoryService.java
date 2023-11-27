@@ -1,11 +1,15 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
+import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
 import Locationbased.Recommendation.System.Neo4j.models.node.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.SubCategoryRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

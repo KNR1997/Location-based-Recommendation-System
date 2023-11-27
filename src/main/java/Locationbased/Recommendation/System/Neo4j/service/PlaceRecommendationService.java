@@ -49,7 +49,7 @@ public class PlaceRecommendationService {
             // Get rated places and add to relevant places
             List<GetUserRatePlacesByCategoriesQueryResult> ratedPlaces = userRepository.getUserRatePlacesByCategories(similarUser, stringArray);
             for (GetUserRatePlacesByCategoriesQueryResult ratePlace : ratedPlaces) {
-                relevantPlaces.add(ratePlace.getPlaceNode().getName());
+                relevantPlaces.add(ratePlace.getPlace().getName());
             }
         }
         return relevantPlaces;

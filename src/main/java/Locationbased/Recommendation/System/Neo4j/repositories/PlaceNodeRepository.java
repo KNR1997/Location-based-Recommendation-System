@@ -1,13 +1,13 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.PlaceNode;
+import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
 import java.util.List;
 
-public interface PlaceNodeRepository extends Neo4jRepository<PlaceNode, Long> {
+public interface PlaceNodeRepository extends Neo4jRepository<Place, Long> {
 
     @Query("MATCH (place:Place {name: $placeName})" +
             "WITH place, $subCategories AS subCategories " +

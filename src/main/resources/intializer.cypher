@@ -350,8 +350,8 @@ CREATE (s)-[:IS_A_SUB_OF]->(c);
 MATCH ()-[r:RELATIONSHIP_TYPE]->()
 DELETE r
 
-MATCH (userNode:User)-[r:RELATIONSHIP_TYPE]->(product:Product)
-  WHERE userNode.username = 'price'
+MATCH (user:User)-[r:RELATIONSHIP_TYPE]->(product:Product)
+  WHERE user.username = 'price'
 DELETE r
 
 

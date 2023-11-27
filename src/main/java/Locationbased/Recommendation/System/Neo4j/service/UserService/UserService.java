@@ -1,6 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.service.UserService;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.UserNode;
+import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
+import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
@@ -38,42 +39,47 @@ public class UserService implements InitializingBean {
         this.userProcess = userProcess;
     }
 
-    public UserNode createUser(CreateUserRequest request) {
+    public User createUser(CreateUserRequest request) {
         logger.info("Create user {}", request.getUsername());
 
-        UserNode userNode = new UserNode();
+        User user = new User();
 
 //        user.setName(request.getName());
         // TODO: make sure this username doesn't exist.
-        userNode.setUsername(request.getUsername());
-        userNode.setEmail(request.getEmail());
-        userNode.setRoles(request.getRoles());
-        userNode.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setRoles(request.getRoles());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        userRepository.save(userNode);
+        userRepository.save(user);
 
-        return userNode;
+        return user;
     }
 
     public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
-        if (userRepository.userAlreadyCreatedLikedFields(updateDTO.getUserName())) {
+        // Use the utility method to get the authenticated username
+        String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+
+        if (userRepository.userAlreadyCreatedLikedFields(username)) {
             logger.info("Delete previous created user like subCategories");
-            this.deleteAllUserLikedFields(updateDTO.getUserName());
+            this.deleteAllUserLikedFields(username);
         }
+
         List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userRepository.createUserInterestedFieldsRelationship(
-                updateDTO.getUserName(),
+                username,
                 updateDTO.getLikeSubCategories());
 
         // Execute Async operation
-        userProcess.createSimilarityRelationshipWithOtherUsers(updateDTO.getUserName());
+//        userProcess.createSimilarityRelationshipWithOtherUsers(username);
 //        generateRecommendedPlacesForUser(updateDTO.getUserName());
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
         for (UserLikeSubCategoryQueryResult result : userLikeSubCategoryQueryResults) {
             userLikeSubCategories.add(result.getSubCategoryName());
         }
+
         // Convert the List to a String array
         String[] stringArray = userLikeSubCategories.toArray(new String[0]);
-        return new UserSubCategoryDTO(updateDTO.getUserName(), stringArray);
+        return new UserSubCategoryDTO(stringArray);
     }
 
     void deleteAllUserLikedFields(String userName) {
