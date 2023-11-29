@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.repositories;
 
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -31,6 +32,9 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (:User {username: $userName})-[:LIKE]->(subCategory:SubCategory) RETURN subCategory.name")
     List<String> getUserLikedSubCategories(String userName);
+
+    @Query("MATCH (:User {username: $userName})-[:LIKE]->(subCategory:SubCategory) RETURN subCategory")
+    List<UserLikedFieldsResult> getUserLikedSubCategories2(String userName);
 
     @Query("MATCH (user:User) WHERE user.username = $username " +
             "RETURN EXISTS((user)-[:LIKE]->())")

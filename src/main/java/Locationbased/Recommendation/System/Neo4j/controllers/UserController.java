@@ -3,6 +3,7 @@ package Locationbased.Recommendation.System.Neo4j.controllers;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.service.SubCategoryService;
 import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +33,16 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @RequestMapping(value = "/createLikeSubCategories", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<UserSubCategoryDTO> userLikeFieldCreate(@RequestBody UserSubCategoryDTO updateDTO) {
+    @RequestMapping(value = "/createUserLikeSubCategories", headers = "Accept=application/json", method = RequestMethod.POST)
+    public ResponseEntity<UserSubCategoryDTO> createUserLikeSubCategories(@RequestBody UserSubCategoryDTO updateDTO) {
         UserSubCategoryDTO result = userService.saveOrUpdateUserLikeSubCategories(updateDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @RequestMapping(value = "/getUserLikedSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)
+    public ResponseEntity<List<UserLikedFieldsResult>> getUserLikeSubCategories() {
+        List<UserLikedFieldsResult> result = userService.getUserLikeSubCategories();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

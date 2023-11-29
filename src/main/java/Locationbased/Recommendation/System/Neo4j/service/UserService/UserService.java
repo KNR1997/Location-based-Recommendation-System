@@ -1,10 +1,12 @@
 package Locationbased.Recommendation.System.Neo4j.service.UserService;
 
 import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
@@ -59,6 +61,7 @@ public class UserService implements InitializingBean {
     public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
         // Use the utility method to get the authenticated username
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+        String[] likeSubCategoriesNames;
 
         if (userRepository.userAlreadyCreatedLikedFields(username)) {
             logger.info("Delete previous created user like subCategories");
@@ -111,5 +114,10 @@ public class UserService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         logger.info("Service class created");
+    }
+
+    public List<UserLikedFieldsResult> getUserLikeSubCategories() {
+        String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+        return userRepository.getUserLikedSubCategories2(username);
     }
 }
