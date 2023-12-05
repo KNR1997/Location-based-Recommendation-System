@@ -36,8 +36,13 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (:User {username: $userName})-[:LIKE]->(subCategory:SubCategory) RETURN subCategory")
     List<UserLikedFieldsResult> getUserLikedSubCategories2(String userName);
 
-    @Query("MATCH (user:User) WHERE user.username = $username " +
-            "RETURN EXISTS((user)-[:LIKE]->())")
+    @Query("MATCH (user:User {username: $userName}) " +
+            "MATCH (subCategory:SubCategory {status: 'Active'}) " +
+            "WHERE NOT (user)-[:LIKE]->(subCategory) " +
+            "RETURN subCategory")
+    List<UserLikedFieldsResult> getUserNotLikedSubCategories(String userName);
+
+    @Query("MATCH (:User {username: $username})-[:LIKE]->(subCategory:SubCategory) RETURN COUNT(subCategory) > 0 AS userLikedSubCategories")
     Boolean userAlreadyCreatedLikedFields(String username);
 
     @Query("MATCH (:User{username: $username})-[relationship:LIKE]->()" +

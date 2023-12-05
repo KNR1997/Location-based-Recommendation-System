@@ -1,8 +1,10 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedAndNotLikedSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.service.SubCategoryService;
 import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
@@ -41,8 +43,15 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/getUserLikedSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)
-    public ResponseEntity<List<UserLikedFieldsResult>> getUserLikeSubCategories() {
+    public ResponseEntity<List<UserLikedFieldsResult>> getUserLikedSubCategories() {
         List<UserLikedFieldsResult> result = userService.getUserLikeSubCategories();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @RequestMapping(value = "/getUserLikedNotLikedSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)
+    public ResponseEntity<UserLikedNotLikedSubCategoryDTO> getUserLikedNotLikedSubCategories() {
+        UserLikedNotLikedSubCategoryDTO result = userService.getUserLikedAndNotLikedSubCategories();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

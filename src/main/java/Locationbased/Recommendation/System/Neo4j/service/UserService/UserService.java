@@ -1,13 +1,19 @@
 package Locationbased.Recommendation.System.Neo4j.service.UserService;
 
+import Locationbased.Recommendation.System.Neo4j.algorithm.ContentBasedFiltering;
+import Locationbased.Recommendation.System.Neo4j.algorithm.RecommendedPlaces;
 import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
+import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
+import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedAndNotLikedSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
+import Locationbased.Recommendation.System.Neo4j.repositories.SubCategoryRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
@@ -29,16 +35,27 @@ public class UserService implements InitializingBean {
     private final PasswordEncoder passwordEncoder;
     private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
     private final UserProcess userProcess;
+    private final SubCategoryRepository subCategoryRepository;
+
+    private final ContentBasedFiltering contentBasedFiltering;
+
+    private final RecommendedPlaces recommendedPlaces;
 
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        UserRecommendedPlacesGenerator userRecommendedPlacesGenerator,
-                       UserProcess userProcess
+                       UserProcess userProcess,
+                       SubCategoryRepository subCategoryRepository,
+                       RecommendedPlaces recommendedPlaces,
+                       ContentBasedFiltering contentBasedFiltering
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRecommendedPlacesGenerator = userRecommendedPlacesGenerator;
         this.userProcess = userProcess;
+        this.subCategoryRepository = subCategoryRepository;
+        this.recommendedPlaces = recommendedPlaces;
+        this.contentBasedFiltering = contentBasedFiltering;
     }
 
     public User createUser(CreateUserRequest request) {
@@ -61,21 +78,22 @@ public class UserService implements InitializingBean {
     public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
         // Use the utility method to get the authenticated username
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
-        String[] likeSubCategoriesNames;
+        ArrayList<String> userLikeSubCategories = new ArrayList<>();
 
+        // Delete previously created relationships if exists
         if (userRepository.userAlreadyCreatedLikedFields(username)) {
             logger.info("Delete previous created user like subCategories");
             this.deleteAllUserLikedFields(username);
         }
 
+        recommendedPlaces.getRecommendedPlaces(updateDTO.getLocation(), updateDTO.getLikeSubCategories());
+
         List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userRepository.createUserInterestedFieldsRelationship(
                 username,
                 updateDTO.getLikeSubCategories());
 
-        // Execute Async operation
-//        userProcess.createSimilarityRelationshipWithOtherUsers(username);
-//        generateRecommendedPlacesForUser(updateDTO.getUserName());
-        ArrayList<String> userLikeSubCategories = new ArrayList<>();
+        List<Place> places = contentBasedFiltering.contentBasedRecommendation(username);
+
         for (UserLikeSubCategoryQueryResult result : userLikeSubCategoryQueryResults) {
             userLikeSubCategories.add(result.getSubCategoryName());
         }
@@ -119,5 +137,12 @@ public class UserService implements InitializingBean {
     public List<UserLikedFieldsResult> getUserLikeSubCategories() {
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
         return userRepository.getUserLikedSubCategories2(username);
+    }
+
+    public UserLikedNotLikedSubCategoryDTO getUserLikedAndNotLikedSubCategories() {
+        String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+        List<UserLikedFieldsResult> userNotLikedSubCategories = userRepository.getUserNotLikedSubCategories(username);
+        List<UserLikedFieldsResult> userLikedSubCategories = userRepository.getUserLikedSubCategories2(username);
+        return new UserLikedNotLikedSubCategoryDTO(userLikedSubCategories, userNotLikedSubCategories);
     }
 }

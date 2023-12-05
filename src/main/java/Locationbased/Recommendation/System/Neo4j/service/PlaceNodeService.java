@@ -2,6 +2,7 @@ package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.commons.CommonFunction;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
+import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.node.PlaceFeature;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.PlaceNodeRepository;
@@ -57,5 +58,9 @@ public class PlaceNodeService implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         logger.info("PlaceService created");
 
+    }
+
+    public List<Place> getAllPlaces() {
+        return placeNodeRepository.findAll();
     }
 }

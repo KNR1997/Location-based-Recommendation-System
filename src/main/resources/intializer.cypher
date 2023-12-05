@@ -213,23 +213,23 @@ FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(ratnapura))
 
 
 // Beach Located In -> district
-//MATCH (galle:District {name: 'Galle'})
-//MATCH (beach:Place)
-//  WHERE beach.name IN ['Unawatuna beach', 'Bentota beach', 'Galle beach', 'Koggala beach', 'Wijaya beach'
-//  ,'Hikkaduwa beach']
-//FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(galle))
+MATCH (galle:District {name: 'Galle'})
+MATCH (beach:Place)
+  WHERE beach.name IN ['Unawatuna beach', 'Bentota beach', 'Galle beach', 'Koggala beach', 'Wijaya beach'
+  ,'Hikkaduwa beach']
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(galle))
 
-//MATCH (matara:District {name: 'Matara'})
-//MATCH (beach:Place)
-//  WHERE beach.name IN ['Mirissa beach', 'Dickwella beach', 'Weligama beach', 'Talalla beach', 'Matara beach'
-//  ,'Hiriketiya beach', 'Polhena beach']
-//FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(matara))
+MATCH (matara:District {name: 'Matara'})
+MATCH (beach:Place)
+  WHERE beach.name IN ['Mirissa beach', 'Dickwella beach', 'Weligama beach', 'Talalla beach', 'Matara beach'
+  ,'Hiriketiya beach', 'Polhena beach']
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(matara))
 
-//MATCH (ratnapura:District {name: 'Ratnapura'})
-//MATCH (beach:Place)
-//  WHERE beach.name IN ['Induruwa beach', 'Dickwella beach', 'Weligama beach', 'Talalla beach', 'Matara beach'
-//  ,'Hiriketiya beach']
-//FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(ratnapura))
+MATCH (ratnapura:District {name: 'Ratnapura'})
+MATCH (beach:Place)
+  WHERE beach.name IN ['Induruwa beach', 'Dickwella beach', 'Weligama beach', 'Talalla beach', 'Matara beach'
+  ,'Hiriketiya beach']
+FOREACH (b IN [beach] | CREATE (b)-[:LOCATED_IN]->(ratnapura))
 
 
 CREATE (:District {name: 'Galle'})-[:HAS_BEACH]->(:Beach {name: 'Unawatuna'});
@@ -484,6 +484,8 @@ CREATE (ScienceCenters:SubCategory {name: 'Science centers'});
 CREATE (InteractiveMuseums:SubCategory {name: 'Interactive museums'});
 CREATE (DIYAndCraftingWorkshops:SubCategory {name: 'DIY and crafting workshops'});
 
+CREATE (Relaxation:SubCategory {name: 'Relaxation', status: 'Active'});
+
 // Set subCategories Active/ Inactive
 // Hiking, Camping, Biking, Wildlife watching, Water sports, Museums, Historical sites, Art galleries, Cultural festivals, Street food, Fine dining
 // Zip-lining, Paragliding, Rock climbing, Extreme sports, SpasAndWellnessCenters, YogaAndMeditation, HotSprings, BeachResorts, ZoosAndAquariums
@@ -497,11 +499,155 @@ SET s.status = CASE
   END
 RETURN s;
 
+// CONTAINS_SUBCATEGORY relationship creation
+MATCH (p:Place {name: 'Unawatuna beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Relaxation', 'Water sports']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+MATCH (p:Place {name: 'Bentota beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Fine dining', 'Water sports', 'Beach resorts']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+MATCH (p:Place {name: 'Mirissa beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Fine dining', 'Water sports', 'Beach resorts', 'Wildlife watching']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+MATCH (p:Place {name: 'Koggala beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Relaxation', 'Water sports']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+MATCH (p:Place {name: 'Negombo beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Relaxation', 'Fine dining', 'Spas and wellness centers', 'Beach resorts']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+MATCH (p:Place {name: 'Arugam Bay beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Water sports', 'Fine dining', 'Historical sites']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+MATCH (p:Place {name: 'Hikkaduwa beach'})
+MATCH (s:SubCategory)
+  WHERE s.name IN ['Water sports']
+FOREACH (b IN [s] | CREATE (p)-[:HAS_SUBCATEGORY]->(s))
+
+
+// Hiking Places
+CREATE (:Place{name:"Hike to the Stunning Pidurangala & Sigiriya", difficulty: "Moderate", rating: 4.1});
+CREATE (:Place{name:"Hike through the Knuckles Mountain Range", difficulty: "Hard", rating: 4.2});
+CREATE (:Place{name:"Ella Rock & Little Adam’s Peak", difficulty: "Moderate", rating: 4.5});
+CREATE (:Place{name:"Trekking in the Sinharaja Forest", difficulty: "Moderate", rating: 4.4});
+CREATE (:Place{name:"The World’s End Cliff & Baker Falls", difficulty: "Moderate", rating: 4.5});
+
+MATCH (subCategory:SubCategory {name: 'Hiking'})
+MATCH (place:Place)
+  WHERE place.name IN ['Hike to the Stunning Pidurangala & Sigiriya', 'Hike through the Knuckles Mountain Range',
+    'Ella Rock & Little Adam’s Peak', 'Trekking in the Sinharaja Forest', 'The World’s End Cliff & Baker Falls']
+FOREACH (b IN [place] | CREATE (b)-[:HAS_SUBCATEGORY]->(subCategory))
+
+MATCH (district:District {name: 'Matale'})
+MATCH (place:Place)
+  WHERE place.name IN ['Hike to the Stunning Pidurangala & Sigiriya', 'Hike through the Knuckles Mountain Range']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Kandy'})
+MATCH (place:Place)
+  WHERE place.name IN ['Hike through the Knuckles Mountain Range']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Badulla'})
+MATCH (place:Place)
+  WHERE place.name IN ['Hike through the Knuckles Mountain Range']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Ratnapura'})
+MATCH (place:Place)
+  WHERE place.name IN ['Hike through the Knuckles Mountain Range']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'NuwaraEliya'})
+MATCH (place:Place)
+  WHERE place.name IN ['Hike through the Knuckles Mountain Range']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
 
 
 
+// National parks
+CREATE (:Place{name:"Kumana National Park", rating: 4.5});
+CREATE (:Place{name:"Yala National Park", rating: 4.6});
+CREATE (:Place{name:"Minneriya National Park", rating: 4.3});
+CREATE (:Place{name:"Udawalawe National Park", rating: 4.4});
+CREATE (:Place{name:"Wilpattu National Park", rating: 4.5});
 
+MATCH (subCategory:SubCategory {name: 'Wildlife watching'})
+MATCH (place:Place)
+  WHERE place.name IN ['Kumana National Park', 'Yala National Park',
+    'Minneriya National Park', 'Udawalawe National Park', 'Wilpattu National Park']
+FOREACH (b IN [place] | CREATE (b)-[:HAS_SUBCATEGORY]->(subCategory))
 
+MATCH (district:District {name: 'Ampara'})
+MATCH (place:Place)
+  WHERE place.name IN ['Kumana National Park']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
 
+MATCH (district:District {name: 'Hambantota'})
+MATCH (place:Place)
+  WHERE place.name IN ['Yala National Park']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
 
+MATCH (district:District {name: 'Polonnaruwa'})
+MATCH (place:Place)
+  WHERE place.name IN ['Minneriya National Park']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
 
+MATCH (district:District {name: 'Ratnapura'})
+MATCH (place:Place)
+  WHERE place.name IN ['Udawalawe National Park']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Puttalama'})
+MATCH (place:Place)
+  WHERE place.name IN ['Wilpattu National Park']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+// Museums
+CREATE (:Place{name:"Colombo National Museum", rating: 4.7});
+CREATE (:Place{name:"Community Tsunami Museum", rating: 4.6});
+CREATE (:Place{name:"Ceylon Tea Museum", rating: 4.5});
+CREATE (:Place{name:"Martin Wickramasinghe Folk Museum Complex", rating: 4.4});
+CREATE (:Place{name:"Sigiriya Museum", rating: 4.4});
+CREATE (:Place{name:"Ariyapala Mask Museum", rating: 4.3});
+CREATE (:Place{name:"World Buddhist Museum", rating: 4.2});
+CREATE (:Place{name:"Raja Museum", rating: 4.2});
+CREATE (:Place{name:"Maritime Archeology Museum", rating: 4.1});
+
+MATCH (subCategory:SubCategory {name: 'Museums'})
+MATCH (place:Place)
+  WHERE place.name IN ['Colombo National Museum', 'Community Tsunami Museum',
+    'Ceylon Tea Museum', 'Martin Wickramasinghe Folk Museum Complex', 'Sigiriya Museum', 'Ariyapala Mask Museum', 'World Buddhist Museum', 'Raja Museum', 'Maritime Archeology Museum']
+FOREACH (b IN [place] | CREATE (b)-[:HAS_SUBCATEGORY]->(subCategory))
+
+MATCH (district:District {name: 'Colombo'})
+MATCH (place:Place)
+  WHERE place.name IN ['Colombo National Museum']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Galle'})
+MATCH (place:Place)
+  WHERE place.name IN ['Community Tsunami Museum', 'Martin Wickramasinghe Folk Museum Complex',
+'Maritime Archeology Museum', 'Ariyapala Mask Museum']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Kandy'})
+MATCH (place:Place)
+  WHERE place.name IN ['Ceylon Tea Museum', 'World Buddhist Museum', 'Raja Museum']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
+
+MATCH (district:District {name: 'Matale'})
+MATCH (place:Place)
+  WHERE place.name IN ['Sigiriya Museum']
+FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district))
