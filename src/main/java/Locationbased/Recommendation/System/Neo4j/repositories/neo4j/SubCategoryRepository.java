@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.repositories;
+package Locationbased.Recommendation.System.Neo4j.repositories.neo4j;
 
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import org.springframework.data.neo4j.repository.Neo4jRepository;

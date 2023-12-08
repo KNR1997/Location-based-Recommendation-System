@@ -1,6 +1,5 @@
-package Locationbased.Recommendation.System.Neo4j.repositories;
+package Locationbased.Recommendation.System.Neo4j.repositories.neo4j;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface UserRepository extends Neo4jRepository<User, Long> {
+public interface UserNodeRepository extends Neo4jRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 
     @Query("MATCH (user:User {username: $userName}) RETURN user.username")
@@ -92,7 +91,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "WITH user, $places AS Places " +
             "UNWIND Places AS place " +
             "MATCH (recommendPlace:Place {name: place}) " +
-            "CREATE (user)-[:RECOMMENDED]->(recommendPlace)")
+            "CREATE (user)-[:RECOMMENDED_PLACES]->(recommendPlace)")
     Void createUserRecommendPlacesRelationship(String username, String[] places);
 
     @Query("RETURN EXISTS((:User {username: $userName})-[:RATE]->(:Place {name: $placeName}))")

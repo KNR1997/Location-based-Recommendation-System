@@ -1,15 +1,11 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
-import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
 import Locationbased.Recommendation.System.Neo4j.models.node.Interest;
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
-import Locationbased.Recommendation.System.Neo4j.repositories.InterestFieldRepository;
-import Locationbased.Recommendation.System.Neo4j.repositories.SubCategoryRepository;
-import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.InterestFieldRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.SubCategoryRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,17 +14,17 @@ import java.util.List;
 @Service
 public class SubCategoryService {
 
-    private final UserRepository userRepository;
+    private final UserNodeRepository userNodeRepository;
 
     private final InterestFieldRepository interestFieldRepository;
 
     private final SubCategoryRepository subCategoryRepository;
 
-    public SubCategoryService(UserRepository userRepository,
+    public SubCategoryService(UserNodeRepository userNodeRepository,
                               InterestFieldRepository interestFieldRepository,
                               SubCategoryRepository subCategoryRepository) {
         this.interestFieldRepository = interestFieldRepository;
-        this.userRepository = userRepository;
+        this.userNodeRepository = userNodeRepository;
         this.subCategoryRepository = subCategoryRepository;
     }
 
@@ -38,7 +34,7 @@ public class SubCategoryService {
 
     public List<Interest> getUserLikedSubCategories(String userName) {
         List<Interest> interestList = new ArrayList<>();
-        List<UserLikedFieldsResult> interestFields = userRepository.getUserLikedInterestFields(userName);
+        List<UserLikedFieldsResult> interestFields = userNodeRepository.getUserLikedInterestFields(userName);
         for (UserLikedFieldsResult userLikedFieldsResult : interestFields) {
             interestList.add(new Interest(userLikedFieldsResult));
         }

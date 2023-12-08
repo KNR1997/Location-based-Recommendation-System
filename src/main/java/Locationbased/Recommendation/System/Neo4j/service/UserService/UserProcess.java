@@ -2,7 +2,7 @@ package Locationbased.Recommendation.System.Neo4j.service.UserService;
 
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.CreateSimilarityRelationshipWithExistingUsersQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserNameAndLikedCategoriesQueryResult;
-import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
 import Locationbased.Recommendation.System.Neo4j.userFiltering.UserMatching;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +17,10 @@ import java.util.*;
 public class UserProcess {
     private static final Logger logger = LoggerFactory.getLogger(UserProcess.class);
 
-    private final UserRepository userRepository;
+    private final UserNodeRepository userNodeRepository;
 
-    public UserProcess(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserProcess(UserNodeRepository userNodeRepository) {
+        this.userNodeRepository = userNodeRepository;
     }
 
     @Async
@@ -29,16 +29,16 @@ public class UserProcess {
         // Get all users
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
         // Get new User like subCategories
-        List<String> interestFields = userRepository.getUserLikedSubCategories(userName);
+        List<String> interestFields = userNodeRepository.getUserLikedSubCategories(userName);
         Set<String> categoriesSet = new HashSet<>(interestFields);
 
         Map<String, Double> result = UserMatching.calculateSimilarityWithExistingUsers(userName, categoriesSet);
-        List<CreateSimilarityRelationshipWithExistingUsersQueryResult> queryResults = userRepository.createSimilarityRelationshipWithExistingUsers(userName, result);
+        List<CreateSimilarityRelationshipWithExistingUsersQueryResult> queryResults = userNodeRepository.createSimilarityRelationshipWithExistingUsers(userName, result);
     }
 
     public List<String> findSimilarUsers(String username) {
         UserMatching.userProfiles = getAllUsersWithLikeCategories();
-        List<String> interestFields = userRepository.getUserLikedSubCategories(username);
+        List<String> interestFields = userNodeRepository.getUserLikedSubCategories(username);
         Set<String> categoriesSet = new HashSet<>();
         categoriesSet.addAll(interestFields);
         List<String> similarUsers = UserMatching.findSimilarUsers(categoriesSet, username);
@@ -49,12 +49,12 @@ public class UserProcess {
     }
 
     public List<String> getUserLikeSubCategories(String userName) {
-        return userRepository.getUserLikedSubCategories(userName);
+        return userNodeRepository.getUserLikedSubCategories(userName);
     }
 
     public Map<String, Set<String>> getAllUsersWithLikeCategories() {
         Map<String, Set<String>> userProfiles = new HashMap<>();
-        List<UserNameAndLikedCategoriesQueryResult> result = userRepository.getAllUsersWithLikeCategories();
+        List<UserNameAndLikedCategoriesQueryResult> result = userNodeRepository.getAllUsersWithLikeCategories();
         for (UserNameAndLikedCategoriesQueryResult data : result) {
             if (userProfiles.containsKey(data.getUserName())) {
                 Set<String> stringSet = userProfiles.get((data.getUserName()));
@@ -69,13 +69,13 @@ public class UserProcess {
     }
 
     public void createSimilarUsersRelationships(String userName, String[] similarUsers) {
-        if (userRepository.userAlreadyHasSimilarUsers(userName)) {
+        if (userNodeRepository.userAlreadyHasSimilarUsers(userName)) {
             this.deleteUserSimilarUserRelationships(userName);
         }
-        userRepository.createSimilarUsers(userName, similarUsers);
+        userNodeRepository.createSimilarUsers(userName, similarUsers);
     }
 
     void deleteUserSimilarUserRelationships(String userName) {
-        userRepository.deleteExistingSimilarUsersRelationships(userName);
+        userNodeRepository.deleteExistingSimilarUsersRelationships(userName);
     }
 }

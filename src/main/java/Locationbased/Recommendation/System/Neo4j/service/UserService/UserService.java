@@ -3,18 +3,15 @@ package Locationbased.Recommendation.System.Neo4j.service.UserService;
 import Locationbased.Recommendation.System.Neo4j.algorithm.ContentBasedFiltering;
 import Locationbased.Recommendation.System.Neo4j.algorithm.RecommendedPlaces;
 import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
-import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
-import Locationbased.Recommendation.System.Neo4j.models.node.Place;
-import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
-import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
+import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedAndNotLikedSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
-import Locationbased.Recommendation.System.Neo4j.repositories.SubCategoryRepository;
-import Locationbased.Recommendation.System.Neo4j.repositories.UserRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.SubCategoryRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
 import Locationbased.Recommendation.System.Neo4j.service.generate.UserRecommendedPlacesGenerator;
@@ -31,7 +28,7 @@ import java.util.List;
 @Service
 public class UserService implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private final UserRepository userRepository;
+    private final UserNodeRepository userNodeRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
     private final UserProcess userProcess;
@@ -41,7 +38,7 @@ public class UserService implements InitializingBean {
 
     private final RecommendedPlaces recommendedPlaces;
 
-    public UserService(UserRepository userRepository,
+    public UserService(UserNodeRepository userNodeRepository,
                        PasswordEncoder passwordEncoder,
                        UserRecommendedPlacesGenerator userRecommendedPlacesGenerator,
                        UserProcess userProcess,
@@ -49,7 +46,7 @@ public class UserService implements InitializingBean {
                        RecommendedPlaces recommendedPlaces,
                        ContentBasedFiltering contentBasedFiltering
     ) {
-        this.userRepository = userRepository;
+        this.userNodeRepository = userNodeRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRecommendedPlacesGenerator = userRecommendedPlacesGenerator;
         this.userProcess = userProcess;
@@ -70,7 +67,7 @@ public class UserService implements InitializingBean {
         user.setRoles(request.getRoles());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        userRepository.save(user);
+        userNodeRepository.save(user);
 
         return user;
     }
@@ -81,18 +78,21 @@ public class UserService implements InitializingBean {
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
 
         // Delete previously created relationships if exists
-        if (userRepository.userAlreadyCreatedLikedFields(username)) {
+        if (userNodeRepository.userAlreadyCreatedLikedFields(username)) {
             logger.info("Delete previous created user like subCategories");
             this.deleteAllUserLikedFields(username);
         }
 
         recommendedPlaces.getRecommendedPlaces(updateDTO.getLocation(), updateDTO.getLikeSubCategories());
 
-        List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userRepository.createUserInterestedFieldsRelationship(
+        List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userNodeRepository.createUserInterestedFieldsRelationship(
                 username,
                 updateDTO.getLikeSubCategories());
 
-        List<Place> places = contentBasedFiltering.contentBasedRecommendation(username);
+//        List<Place> places = contentBasedFiltering.contentBasedRecommendation(username);
+        String[] placesNames = contentBasedFiltering.contentBasedRecommendationNames(username);
+
+        userNodeRepository.createUserRecommendPlacesRelationship(username, placesNames);
 
         for (UserLikeSubCategoryQueryResult result : userLikeSubCategoryQueryResults) {
             userLikeSubCategories.add(result.getSubCategoryName());
@@ -104,18 +104,18 @@ public class UserService implements InitializingBean {
     }
 
     void deleteAllUserLikedFields(String userName) {
-        userRepository.deleteAllUserLikedFields(userName);
+        userNodeRepository.deleteAllUserLikedFields(userName);
     }
 
     public PlaceRateDTO saveOrUpdatePlaceRating(PlaceRateDTO updateDTO) {
 
-        boolean isNew = (!userRepository.userRatedPlace(updateDTO.getUserName(), updateDTO.getPlaceName()));
+        boolean isNew = (!userNodeRepository.userRatedPlace(updateDTO.getUserName(), updateDTO.getPlaceName()));
         UserRatePlaceQueryResult result = null;
 
         if (isNew) {
-            result = userRepository.createUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
+            result = userNodeRepository.createUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
         } else {
-            result = userRepository.updateUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
+            result = userNodeRepository.updateUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
         }
 
         return new PlaceRateDTO(result);
@@ -136,13 +136,13 @@ public class UserService implements InitializingBean {
 
     public List<UserLikedFieldsResult> getUserLikeSubCategories() {
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
-        return userRepository.getUserLikedSubCategories2(username);
+        return userNodeRepository.getUserLikedSubCategories2(username);
     }
 
     public UserLikedNotLikedSubCategoryDTO getUserLikedAndNotLikedSubCategories() {
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
-        List<UserLikedFieldsResult> userNotLikedSubCategories = userRepository.getUserNotLikedSubCategories(username);
-        List<UserLikedFieldsResult> userLikedSubCategories = userRepository.getUserLikedSubCategories2(username);
+        List<UserLikedFieldsResult> userNotLikedSubCategories = userNodeRepository.getUserNotLikedSubCategories(username);
+        List<UserLikedFieldsResult> userLikedSubCategories = userNodeRepository.getUserLikedSubCategories2(username);
         return new UserLikedNotLikedSubCategoryDTO(userLikedSubCategories, userNotLikedSubCategories);
     }
 }

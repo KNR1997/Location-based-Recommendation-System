@@ -5,7 +5,7 @@ import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.node.PlaceFeature;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
-import Locationbased.Recommendation.System.Neo4j.repositories.PlaceNodeRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.PlaceNodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

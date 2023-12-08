@@ -1,4 +1,4 @@
-package Locationbased.Recommendation.System.Neo4j.repositories;
+package Locationbased.Recommendation.System.Neo4j.repositories.mongodb;
 
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Place;
 import org.springframework.data.mongodb.repository.MongoRepository;
