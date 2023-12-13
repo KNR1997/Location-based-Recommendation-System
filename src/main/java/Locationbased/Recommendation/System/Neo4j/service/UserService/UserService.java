@@ -76,11 +76,12 @@ public class UserService implements InitializingBean {
         // Use the utility method to get the authenticated username
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
+        Boolean oldUser = userNodeRepository.userAlreadyCreatedLikedFields(username);
 
-        // Delete previously created relationships if exists
-        if (userNodeRepository.userAlreadyCreatedLikedFields(username)) {
-            logger.info("Delete previous created user like subCategories");
-            this.deleteAllUserLikedFields(username);
+        if(oldUser) {
+            logger.info("Delete previous created user records");
+            userNodeRepository.deleteAllUserLikedFields(username);
+            userNodeRepository.deleteAllUserRecommendedPlaces(username);
         }
 
         recommendedPlaces.getRecommendedPlaces(updateDTO.getLocation(), updateDTO.getLikeSubCategories());
@@ -101,10 +102,6 @@ public class UserService implements InitializingBean {
         // Convert the List to a String array
         String[] stringArray = userLikeSubCategories.toArray(new String[0]);
         return new UserSubCategoryDTO(stringArray);
-    }
-
-    void deleteAllUserLikedFields(String userName) {
-        userNodeRepository.deleteAllUserLikedFields(userName);
     }
 
     public PlaceRateDTO saveOrUpdatePlaceRating(PlaceRateDTO updateDTO) {

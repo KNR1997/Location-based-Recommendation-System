@@ -20,7 +20,6 @@ public class PlaceNodeController {
     @Autowired
     private PlaceNodeService placeNodeService;
 
-    @PreAuthorize("hasAuthority('none')")
     @RequestMapping(value = "/addPlaceFeature", headers = "Accept=application/json", method = RequestMethod.POST)
     public ResponseEntity<PlaceFeatureDTO> addPlaceFeature(@RequestBody PlaceFeatureDTO updateDTO) {
         PlaceFeatureDTO result = placeNodeService.saveOrUpdatePlaceFeature(updateDTO);

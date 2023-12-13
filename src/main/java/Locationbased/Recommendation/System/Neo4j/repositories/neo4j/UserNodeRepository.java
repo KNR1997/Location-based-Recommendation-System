@@ -48,6 +48,10 @@ public interface UserNodeRepository extends Neo4jRepository<User, Long> {
             "DELETE relationship")
     Void deleteAllUserLikedFields(String username);
 
+    @Query("MATCH (:User{username: $username})-[relationship:RECOMMENDED_PLACES]->()" +
+            "DELETE relationship")
+    Void deleteAllUserRecommendedPlaces(String username);
+
     @Query("MATCH (user:User)-[:LIKE]->(subCategory:SubCategory) " +
             "RETURN user.username AS userName, subCategory.name AS categoryName")
     List<UserNameAndLikedCategoriesQueryResult> getAllUsersWithLikeCategories();

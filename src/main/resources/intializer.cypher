@@ -1,21 +1,21 @@
-CREATE
-  (adventure:Interest{name:"Adventure"}),
-  (hiking:Interest{name:"Hiking"}),
-  (natureWildLife:Interest{name:"Nature & Wild Life"}),
-  (camping:Interest{name:"Camping"}),
-  (resort:Interest{name:"Resort"});
-CREATE (beach:Interest{name:"Beach"});
+//CREATE
+//  (adventure:Interest{name:"Adventure"}),
+//  (hiking:Interest{name:"Hiking"}),
+//  (natureWildLife:Interest{name:"Nature & Wild Life"}),
+//  (camping:Interest{name:"Camping"}),
+//  (resort:Interest{name:"Resort"});
+//CREATE (beach:Interest{name:"Beach"});
 
-CREATE
-  (kandy:PopularPlaces{name:"Kandy"}),
-  (galle:PopularPlaces{name:"Galle"}),
-  (mirissa:PopularPlaces{name:"Mirissa"}),
-  (ella:PopularPlaces{name:"Ella"}),
-  (kitulgala:PopularPlaces{name:"Kitulgala"}),
-  (anuradhapura:PopularPlaces{name:"Anuradhapura"}),
-  (bentota:PopularPlaces{name:"Bentota"}),
-  (dambulla:PopularPlaces{name:"Dambulla"}),
-  (ohiya:PopularPlaces{name:"Ohiya"});
+//CREATE
+//  (kandy:PopularPlaces{name:"Kandy"}),
+//  (galle:PopularPlaces{name:"Galle"}),
+//  (mirissa:PopularPlaces{name:"Mirissa"}),
+//  (ella:PopularPlaces{name:"Ella"}),
+//  (kitulgala:PopularPlaces{name:"Kitulgala"}),
+//  (anuradhapura:PopularPlaces{name:"Anuradhapura"}),
+//  (bentota:PopularPlaces{name:"Bentota"}),
+//  (dambulla:PopularPlaces{name:"Dambulla"}),
+//  (ohiya:PopularPlaces{name:"Ohiya"});
 
 CREATE
   (ampara:District{name:"Ampara"}),
@@ -111,39 +111,42 @@ CREATE (:PlaceCategory{name:"NationalPark"});
 CREATE (:PlaceCategory{name:"Waterfall"});
 
 // 32 beaches
-//MATCH (beach:PlaceCategory {name: "Beach"})
-//CREATE (:Place{name:"Unawatuna beach"})-[:HAS_CATEGORY]->(beach),
-//  (:Place{name:"Bentota beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Mirissa beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Dickwella beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Weligama beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Galle beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Induruwa beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Koggala beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Negombo beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Arugam Bay beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Uppuveli beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Trincomalee beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Polhena beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Mount Lavinia beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Kalpitiya beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Tangalle beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Pasakudah And Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Talalla South beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Matara beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Nilaveli beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Muhathuwaram beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Wijaya beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Pigeon Island beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Rekawa beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Pottuvil beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Casuarina beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Kahandamodara beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Beruwala beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Batticaloa beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Hiriketiya beach"})-[:HAS_CATEGORY]->(beach),
-// (:Place{name:"Hikkaduwa beach"})-[:HAS_CATEGORY]->(beach);
+MATCH (beach:PlaceCategory {name: "Beach"})
+CREATE (:Place{name:"Unawatuna beach"})-[:HAS_CATEGORY]->(beach),
+  (:Place{name:"Bentota beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Mirissa beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Dickwella beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Weligama beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Galle beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Induruwa beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Koggala beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Negombo beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Arugam Bay beach"})-[:HAS_CATEGORY]->(beach),
+
+ (:Place{name:"Uppuveli beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Trincomalee beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Polhena beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Mount Lavinia beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Kalpitiya beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Tangalle beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Pasakudah And Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Talalla South beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Matara beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Nilaveli beach"})-[:HAS_CATEGORY]->(beach),
+
+ (:Place{name:"Muhathuwaram beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Wijaya beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Pigeon Island beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Rekawa beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Pottuvil beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Casuarina beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Kahandamodara beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Beruwala beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Batticaloa beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Kalkudah beach"})-[:HAS_CATEGORY]->(beach),
+
+ (:Place{name:"Hiriketiya beach"})-[:HAS_CATEGORY]->(beach),
+ (:Place{name:"Hikkaduwa beach"})-[:HAS_CATEGORY]->(beach);
 
 // Mountains & Rocks
 MATCH (rock:PlaceCategory {name: "Rock"})
