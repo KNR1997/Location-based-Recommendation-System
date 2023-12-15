@@ -13,9 +13,7 @@ public class UserRecommendedPlacesContext extends ExecutionContext {
 
     private static final String RECOMMENDED_PLACES = "recommended_places";
 
-    public String getUserName() {
-        return getParam(USER_NAME);
-    }
+    public String getUserName() {return getParam(USER_NAME);}
 
     public void setUserName(String userName) {
         putParam(USER_NAME, userName);

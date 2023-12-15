@@ -370,6 +370,11 @@ MATCH (s:SubCategory {name: 'Hiking'})
 SET s.status = 'Active'
 RETURN s;
 
+MATCH (s)
+  WHERE ID(s) = 65110
+RETURN s
+
+
 
 // subCategory
 MATCH (a:SubCategory {name: 'Relaxation'})

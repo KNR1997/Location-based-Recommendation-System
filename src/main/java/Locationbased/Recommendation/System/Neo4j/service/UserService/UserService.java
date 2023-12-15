@@ -5,14 +5,20 @@ import Locationbased.Recommendation.System.Neo4j.algorithm.RecommendedPlaces;
 import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
+import Locationbased.Recommendation.System.Neo4j.models.node.District;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserRecord;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.DistrictRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.SubCategoryRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserRecordRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
+import Locationbased.Recommendation.System.Neo4j.service.async.FindUserRecommendedPlaces;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
 import Locationbased.Recommendation.System.Neo4j.service.generate.UserRecommendedPlacesGenerator;
 import org.slf4j.Logger;
@@ -24,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements InitializingBean {
@@ -33,10 +40,11 @@ public class UserService implements InitializingBean {
     private final UserRecommendedPlacesGenerator userRecommendedPlacesGenerator;
     private final UserProcess userProcess;
     private final SubCategoryRepository subCategoryRepository;
-
     private final ContentBasedFiltering contentBasedFiltering;
-
     private final RecommendedPlaces recommendedPlaces;
+    private final FindUserRecommendedPlaces findUserRecommendedPlaces;
+    private final DistrictRepository districtRepository;
+    private final UserRecordRepository userRecordRepository;
 
     public UserService(UserNodeRepository userNodeRepository,
                        PasswordEncoder passwordEncoder,
@@ -44,7 +52,10 @@ public class UserService implements InitializingBean {
                        UserProcess userProcess,
                        SubCategoryRepository subCategoryRepository,
                        RecommendedPlaces recommendedPlaces,
-                       ContentBasedFiltering contentBasedFiltering
+                       ContentBasedFiltering contentBasedFiltering,
+                       FindUserRecommendedPlaces findUserRecommendedPlaces,
+                       DistrictRepository districtRepository,
+                       UserRecordRepository userRecordRepository
     ) {
         this.userNodeRepository = userNodeRepository;
         this.passwordEncoder = passwordEncoder;
@@ -53,6 +64,9 @@ public class UserService implements InitializingBean {
         this.subCategoryRepository = subCategoryRepository;
         this.recommendedPlaces = recommendedPlaces;
         this.contentBasedFiltering = contentBasedFiltering;
+        this.findUserRecommendedPlaces = findUserRecommendedPlaces;
+        this.districtRepository = districtRepository;
+        this.userRecordRepository = userRecordRepository;
     }
 
     public User createUser(CreateUserRequest request) {
@@ -78,7 +92,7 @@ public class UserService implements InitializingBean {
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
         Boolean oldUser = userNodeRepository.userAlreadyCreatedLikedFields(username);
 
-        if(oldUser) {
+        if (oldUser) {
             logger.info("Delete previous created user records");
             userNodeRepository.deleteAllUserLikedFields(username);
             userNodeRepository.deleteAllUserRecommendedPlaces(username);
@@ -141,5 +155,25 @@ public class UserService implements InitializingBean {
         List<UserLikedFieldsResult> userNotLikedSubCategories = userNodeRepository.getUserNotLikedSubCategories(username);
         List<UserLikedFieldsResult> userLikedSubCategories = userNodeRepository.getUserLikedSubCategories2(username);
         return new UserLikedNotLikedSubCategoryDTO(userLikedSubCategories, userNotLikedSubCategories);
+    }
+
+    public UserRecord saveUserDestination(UserRecordDTO updateDTO) {
+        String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+        Optional<User> userOptional = userNodeRepository.findUserByUsername(username);
+//        Optional<District> districtOptional = districtRepository.findDistrictByName(updateDTO.getDistrict());
+
+        // Convert Optional<User> to User
+        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+//        District district1 = districtOptional.orElseThrow(() -> new RuntimeException("District not found"));
+
+        UserRecord userRecord = new UserRecord();
+
+        // update userRecord details
+        userRecord.setUser(user);
+        userRecord.setDistrict(updateDTO.getDistrict());
+        userRecordRepository.save(userRecord);
+        return userRecord;
+
+//        findUserRecommendedPlaces.executeCollaborativeFiltering(district);
     }
 }
