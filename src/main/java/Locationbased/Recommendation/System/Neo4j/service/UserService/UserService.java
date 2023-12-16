@@ -8,14 +8,14 @@ import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSub
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
-import Locationbased.Recommendation.System.Neo4j.models.node.UserRecord;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserRecordNode;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.DistrictRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.SubCategoryRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
-import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserRecordRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserRecordNodeRepository;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.async.FindUserRecommendedPlaces;
 import Locationbased.Recommendation.System.Neo4j.service.context.UserRecommendedPlacesContext;
@@ -43,7 +43,7 @@ public class UserService implements InitializingBean {
     private final RecommendedPlaces recommendedPlaces;
     private final FindUserRecommendedPlaces findUserRecommendedPlaces;
     private final DistrictRepository districtRepository;
-    private final UserRecordRepository userRecordRepository;
+    private final UserRecordNodeRepository userRecordNodeRepository;
 
     public UserService(UserNodeRepository userNodeRepository,
                        PasswordEncoder passwordEncoder,
@@ -54,7 +54,7 @@ public class UserService implements InitializingBean {
                        ContentBasedFiltering contentBasedFiltering,
                        FindUserRecommendedPlaces findUserRecommendedPlaces,
                        DistrictRepository districtRepository,
-                       UserRecordRepository userRecordRepository
+                       UserRecordNodeRepository userRecordNodeRepository
     ) {
         this.userNodeRepository = userNodeRepository;
         this.passwordEncoder = passwordEncoder;
@@ -65,7 +65,7 @@ public class UserService implements InitializingBean {
         this.contentBasedFiltering = contentBasedFiltering;
         this.findUserRecommendedPlaces = findUserRecommendedPlaces;
         this.districtRepository = districtRepository;
-        this.userRecordRepository = userRecordRepository;
+        this.userRecordNodeRepository = userRecordNodeRepository;
     }
 
     public User createUser(CreateUserRequest request) {
@@ -87,7 +87,7 @@ public class UserService implements InitializingBean {
 
     public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
 
-        UserRecord userRecord = new UserRecord();
+        UserRecordNode userRecordNode = new UserRecordNode();
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
 
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
@@ -166,7 +166,7 @@ public class UserService implements InitializingBean {
         return new UserLikedNotLikedSubCategoryDTO(userLikedSubCategories, userNotLikedSubCategories);
     }
 
-    public UserRecord saveUserDestination(UserRecordDTO updateDTO) {
+    public UserRecordNode saveUserDestination(UserRecordDTO updateDTO) {
         String username = AuthenticatedUserUtil.getAuthenticatedUsername();
         Optional<User> userOptional = userNodeRepository.findUserByUsername(username);
 //        Optional<District> districtOptional = districtRepository.findDistrictByName(updateDTO.getDistrict());
@@ -175,14 +175,14 @@ public class UserService implements InitializingBean {
         User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
 //        District district1 = districtOptional.orElseThrow(() -> new RuntimeException("District not found"));
 
-        UserRecord userRecord = new UserRecord();
+        UserRecordNode userRecordNode = new UserRecordNode();
 
         // update userRecord details
-        userRecord.setUserID(user.getId());
+        userRecordNode.setUserID(user.getId());
 //        userRecord.setUser(user);
-        userRecord.setDistrict(updateDTO.getDistrict());
-        userRecordRepository.save(userRecord);
-        return userRecord;
+        userRecordNode.setDistrict(updateDTO.getDistrict());
+        userRecordNodeRepository.save(userRecordNode);
+        return userRecordNode;
 
 //        findUserRecommendedPlaces.executeCollaborativeFiltering(district);
     }

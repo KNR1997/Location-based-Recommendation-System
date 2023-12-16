@@ -1,6 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.models.dto;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.UserRecord;
+import Locationbased.Recommendation.System.Neo4j.models.node.UserRecordNode;
 import lombok.Data;
 
 @Data
@@ -19,10 +19,10 @@ public class UserRecordDTO {
     public UserRecordDTO() {
     }
 
-    public UserRecordDTO(UserRecord userRecord) {
-        this.userRecordID = userRecord.getID();
-        this.userID = userRecord.getUserID();
-        this.likeSubCategories = userRecord.getLikeSubCategories();
-        this.recommendPlaces = userRecord.getRecommendPlaces();
+    public UserRecordDTO(UserRecordNode userRecordNode) {
+        this.userRecordID = userRecordNode.getID();
+        this.userID = userRecordNode.getUserID();
+        this.likeSubCategories = userRecordNode.getLikeSubCategories();
+        this.recommendPlaces = userRecordNode.getRecommendPlaces();
     }
 }

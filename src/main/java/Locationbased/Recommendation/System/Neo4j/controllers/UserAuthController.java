@@ -1,12 +1,13 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.dto.AuthRequest;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserAuthDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserDTO;
+import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.JwtService;
 import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
+import Locationbased.Recommendation.System.Neo4j.service.UserService.UserServiceNew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,9 @@ public class UserAuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserServiceNew userServiceNew;
 
     @GetMapping("/me")
     public String loggedUser(Principal principal) {
@@ -54,5 +58,11 @@ public class UserAuthController {
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
+    }
+
+    @RequestMapping(value = "/saveOrUpdateUser", headers = "Accept=application/json", method = RequestMethod.POST)
+    public ResponseEntity<UserDTO> saveOrUpdateUser(@RequestBody UserDTO updateDTO) {
+        UserDTO result = userServiceNew.saveOrUpdateUser(updateDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
