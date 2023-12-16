@@ -12,6 +12,17 @@ import java.util.Optional;
 public interface UserNodeRepository extends Neo4jRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 
+    @Query("MATCH (user:User {username: $username})" +
+            "WITH user, $interestFields AS userLikeFields " +
+            "UNWIND userLikeFields AS field " +
+            "MATCH (interestField:SubCategory {name: field})" +
+            "CREATE (user)-[:LIKE]->(interestField) RETURN interestField.name AS subCategoryName,user")
+    List<UserLikeSubCategoryQueryResult> createUserLikeSubCategories(String username, String[] interestFields);
+
+    @Query("MATCH (user:User {username: $username})-[oldRel:LIKE]->(:SubCategory)" +
+            "DELETE oldRel ")
+    List<UserLikeSubCategoryQueryResult> deleteUserLikeSubCategories(String username);
+
     @Query("MATCH (user:User {username: $userName}) RETURN user.username")
     String getUserName(String userName);
 

@@ -4,17 +4,25 @@ import lombok.Data;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
+
+import java.util.List;
 
 @Data
 @Node
 public class UserRecord {
+
     @Id
     @GeneratedValue
-    private Long id;
-    @Relationship(type = "HAS", direction = Relationship.Direction.INCOMING)
-    private User user = new User();
+    private Long ID;
+
+    private Long userID;
+
     private String province;
+
     private String district;
+
+    private String[] likeSubCategories;
+
+    private String[] recommendPlaces;
 
 }

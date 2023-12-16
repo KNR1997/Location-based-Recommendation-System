@@ -7,7 +7,6 @@ import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
-import Locationbased.Recommendation.System.Neo4j.models.node.District;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.node.UserRecord;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
@@ -87,32 +86,42 @@ public class UserService implements InitializingBean {
     }
 
     public UserSubCategoryDTO saveOrUpdateUserLikeSubCategories(UserSubCategoryDTO updateDTO) {
-        // Use the utility method to get the authenticated username
-        String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+
+        UserRecord userRecord = new UserRecord();
         ArrayList<String> userLikeSubCategories = new ArrayList<>();
+
+        String username = AuthenticatedUserUtil.getAuthenticatedUsername();
+
+        // check user old or new
         Boolean oldUser = userNodeRepository.userAlreadyCreatedLikedFields(username);
 
+        // find user in the db, exist or not
+        Optional<User> userOptional = userNodeRepository.findUserByUsername(username);
+        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+
+        // if old user delete previous records
         if (oldUser) {
             logger.info("Delete previous created user records");
-            userNodeRepository.deleteAllUserLikedFields(username);
-            userNodeRepository.deleteAllUserRecommendedPlaces(username);
+            userNodeRepository.deleteAllUserLikedFields(user.getUsername());
+            userNodeRepository.deleteAllUserRecommendedPlaces(user.getUsername());
         }
 
-        recommendedPlaces.getRecommendedPlaces(updateDTO.getLocation(), updateDTO.getLikeSubCategories());
-
+        // create new relationship with subcategories
         List<UserLikeSubCategoryQueryResult> userLikeSubCategoryQueryResults = userNodeRepository.createUserInterestedFieldsRelationship(
                 username,
                 updateDTO.getLikeSubCategories());
 
 //        List<Place> places = contentBasedFiltering.contentBasedRecommendation(username);
-        String[] placesNames = contentBasedFiltering.contentBasedRecommendationNames(username);
+//        String[] placesNames = contentBasedFiltering.contentBasedRecommendationNames(username);
 
-        userNodeRepository.createUserRecommendPlacesRelationship(username, placesNames);
+//        userNodeRepository.createUserRecommendPlacesRelationship(username, placesNames);
+//        userRecord.setRecommendPlaces(places);
+//        userRecordRepository.save(userRecord);
 
+        // prepare return data
         for (UserLikeSubCategoryQueryResult result : userLikeSubCategoryQueryResults) {
             userLikeSubCategories.add(result.getSubCategoryName());
         }
-
         // Convert the List to a String array
         String[] stringArray = userLikeSubCategories.toArray(new String[0]);
         return new UserSubCategoryDTO(stringArray);
@@ -169,11 +178,13 @@ public class UserService implements InitializingBean {
         UserRecord userRecord = new UserRecord();
 
         // update userRecord details
-        userRecord.setUser(user);
+        userRecord.setUserID(user.getId());
+//        userRecord.setUser(user);
         userRecord.setDistrict(updateDTO.getDistrict());
         userRecordRepository.save(userRecord);
         return userRecord;
 
 //        findUserRecommendedPlaces.executeCollaborativeFiltering(district);
     }
+
 }
