@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @Document(collection = "tour")
 public class Tour {
 
+    private String id;
+
     private String destination;
 
     private LocalDate startDate;
