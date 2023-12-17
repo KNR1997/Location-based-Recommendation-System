@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface TourRepository extends MongoRepository<Tour, String> {
 
-    Tour findByid(String id);
+    Tour findByid(Integer id);
 }

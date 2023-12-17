@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Document(collection = "tour")
 public class Tour {
 
-    private String id;
+    private Integer id;
 
     private String destination;
 
@@ -26,4 +26,6 @@ public class Tour {
     private Integer budget;
 
     private Integer crew;
+
+    private String[] recommendedPlaces;
 }

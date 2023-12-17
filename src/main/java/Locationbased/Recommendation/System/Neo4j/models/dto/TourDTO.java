@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @Data
 public class TourDTO {
 
-    private String tourID;
+    private Integer tourID;
 
     private String userRecordID;
 
