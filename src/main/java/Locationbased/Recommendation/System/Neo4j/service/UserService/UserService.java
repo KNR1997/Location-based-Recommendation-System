@@ -178,7 +178,7 @@ public class UserService implements InitializingBean {
         UserRecordNode userRecordNode = new UserRecordNode();
 
         // update userRecord details
-        userRecordNode.setUserID(user.getId());
+        userRecordNode.setUserID(user.getID());
 //        userRecord.setUser(user);
         userRecordNode.setDistrict(updateDTO.getDistrict());
         userRecordNodeRepository.save(userRecordNode);

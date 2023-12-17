@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface UserNodeRepository extends Neo4jRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 
+    User findUserByID(Long userID);
+
     @Query("MATCH (user:User {username: $username})" +
             "WITH user, $interestFields AS userLikeFields " +
             "UNWIND userLikeFields AS field " +

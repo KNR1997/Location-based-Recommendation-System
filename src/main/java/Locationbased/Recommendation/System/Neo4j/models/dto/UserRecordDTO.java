@@ -1,12 +1,12 @@
 package Locationbased.Recommendation.System.Neo4j.models.dto;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.UserRecordNode;
+import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
 import lombok.Data;
 
 @Data
 public class UserRecordDTO {
 
-    private Long userRecordID;
+    private String userRecordID;
 
     private Long userID;
 
@@ -19,10 +19,9 @@ public class UserRecordDTO {
     public UserRecordDTO() {
     }
 
-    public UserRecordDTO(UserRecordNode userRecordNode) {
-        this.userRecordID = userRecordNode.getID();
-        this.userID = userRecordNode.getUserID();
-        this.likeSubCategories = userRecordNode.getLikeSubCategories();
-        this.recommendPlaces = userRecordNode.getRecommendPlaces();
+    public UserRecordDTO(UserRecord userRecord) {
+        this.userRecordID = userRecord.getId();
+        this.userID = userRecord.getUserID();
+        this.likeSubCategories = userRecord.getLikeSubCategories();
     }
 }

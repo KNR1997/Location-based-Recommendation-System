@@ -5,15 +5,12 @@ import Locationbased.Recommendation.System.Neo4j.models.dto.UserDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
-import Locationbased.Recommendation.System.Neo4j.models.node.UserRecordNode;
 import Locationbased.Recommendation.System.Neo4j.repositories.mongodb.UserRecordRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserRecordNodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserServiceNew {
@@ -40,51 +37,45 @@ public class UserServiceNew {
         boolean isNewUser = (userDTO.getUserID() == null);
 
         if (!isNewUser) {
-            Optional<User> optionalUser = this.userNodeRepository.findById(userDTO.getUserID());
-            user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+            user = this.userNodeRepository.findUserByID(userDTO.getUserID());
             userRecord = this.userRecordRepository.findByUserID(userDTO.getUserID());
 
         } else {
             user = new User();
-            userRecord = new UserRecord();
 
             user.setUsername(userDTO.getUsername());
             user.setEmail(userDTO.getEmail());
             user.setRoles(userDTO.getRoles());
             user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
-            userRecord.setUserID(user.getId());
 
         }
 
         user = this.userNodeRepository.save(user);
-        this.userRecordRepository.save(userRecord);
         return new UserDTO(user);
     }
 
     public UserRecordDTO saveOrUpdateUserRecord(UserRecordDTO userRecordDTO) {
 
-        UserRecordNode userRecordNode;
+        UserRecord userRecord;
         boolean isNewUserRecord = (userRecordDTO.getUserRecordID() == null);
-        Optional<User> userOptional = userNodeRepository.findById(userRecordDTO.getUserID());
-        User user = userOptional.orElseThrow(() -> new RuntimeException("User not found"));
+        User user = this.userNodeRepository.findUserByID(userRecordDTO.getUserID());
 
         if (!isNewUserRecord) {
-            userRecordNode = this.userRecordNodeRepository.findUserRecordByID(userRecordDTO.getUserRecordID());
+            userRecord = this.userRecordRepository.findByUserID(userRecordDTO.getUserID());
 
-            userRecordNode.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
+            userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
             userNodeRepository.deleteUserLikeSubCategories(user.getUsername());
         } else {
-            userRecordNode = new UserRecordNode();
+            userRecord = new UserRecord();
 
-            userRecordNode.setUserID(userRecordDTO.getUserID());
-            userRecordNode.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
+            userRecord.setUserID(userRecordDTO.getUserID());
+            userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
         }
 
-        userRecordNode.setRecommendPlaces(contentBasedFiltering.contentBasedRecommendedPlaces(userRecordNode.getLikeSubCategories()));
         userNodeRepository.createUserLikeSubCategories(user.getUsername(), userRecordDTO.getLikeSubCategories());
 
-        userRecordNode = this.userRecordNodeRepository.save(userRecordNode);
-        return new UserRecordDTO(userRecordNode);
+        userRecord = this.userRecordRepository.save(userRecord);
+        return new UserRecordDTO(userRecord);
     }
 
 }

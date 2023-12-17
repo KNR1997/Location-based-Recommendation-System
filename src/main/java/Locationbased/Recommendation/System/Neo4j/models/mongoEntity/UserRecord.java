@@ -15,5 +15,7 @@ public class UserRecord {
 
     private Long userID;
 
+    private String[] likeSubCategories;
+
     private Tour tour;
 }
