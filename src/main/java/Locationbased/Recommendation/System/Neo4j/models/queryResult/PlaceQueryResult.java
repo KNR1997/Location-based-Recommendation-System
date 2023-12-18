@@ -4,7 +4,7 @@ import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import lombok.Data;
 
 @Data
-public class PlacesQueryResult {
+public class PlaceQueryResult {
 
     private Place place;
 }

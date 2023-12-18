@@ -1,8 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.repositories.neo4j;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
-import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlacesQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceQueryResult;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 
@@ -16,5 +15,5 @@ public interface SubCategoryRepository extends Neo4jRepository<SubCategory, Long
     @Query("MATCH (place:Place)-[r:HAS_FEATURE]->(subCategory:SubCategory) " +
             "WHERE subCategory.name IN $subCategoryNames " +
             "return place")
-    List<PlacesQueryResult> findPlacesContainsSubCategory(String[] subCategoryNames);
+    List<PlaceQueryResult> findPlacesContainsSubCategory(String[] subCategoryNames);
 }
