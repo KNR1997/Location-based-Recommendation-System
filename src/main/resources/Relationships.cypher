@@ -151,20 +151,20 @@ FOREACH (b IN [place] | CREATE (b)-[:HAS_SUBCATEGORY]->(subCategory));
 MATCH (district:District {name: 'Colombo'})
 MATCH (place:Place)
   WHERE place.name IN ['Colombo National Museum']
-FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district));
+FOREACH (b IN [place] | CREATE (district)-[:HAS_PLACE]->(b));
 
 MATCH (district:District {name: 'Galle'})
 MATCH (place:Place)
   WHERE place.name IN ['Community Tsunami Museum', 'Martin Wickramasinghe Folk Museum Complex',
     'Maritime Archeology Museum', 'Ariyapala Mask Museum']
-FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district));
+FOREACH (b IN [place] | CREATE (district)-[:HAS_PLACE]->(b));
 
 MATCH (district:District {name: 'Kandy'})
 MATCH (place:Place)
   WHERE place.name IN ['Ceylon Tea Museum', 'World Buddhist Museum', 'Raja Museum']
-FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district));
+FOREACH (b IN [place] | CREATE (district)-[:HAS_PLACE]->(b));
 
 MATCH (district:District {name: 'Matale'})
 MATCH (place:Place)
   WHERE place.name IN ['Sigiriya Museum']
-FOREACH (b IN [place] | CREATE (b)-[:LOCATED_IN]->(district));
+FOREACH (b IN [place] | CREATE (district)-[:HAS_PLACE]->(b));

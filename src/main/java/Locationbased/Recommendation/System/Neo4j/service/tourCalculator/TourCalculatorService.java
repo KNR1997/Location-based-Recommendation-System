@@ -19,7 +19,6 @@ public class TourCalculatorService {
     @Autowired
     private UserRecordRepository userRecordRepository;
 
-    @Async
     public void addRecommendedPlaces(UserRecord userRecord, Tour tour) {
 
         String[] likeSubCategories = userRecord.getLikeSubCategories();

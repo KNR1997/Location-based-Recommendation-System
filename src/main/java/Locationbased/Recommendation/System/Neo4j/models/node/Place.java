@@ -16,8 +16,9 @@ public class Place {
     @GeneratedValue
     private Long id;
     private String name;
-    @Relationship(type = "HAS_SUBCATEGORY", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "HAS_FEATURE", direction = Relationship.Direction.OUTGOING)
     private List<SubCategory> subCategories = new ArrayList<>();
-    @Relationship(type = "LOCATED_IN", direction = Relationship.Direction.OUTGOING)
+
+    @Relationship(type = "HAS_PLACE", direction = Relationship.Direction.INCOMING)
     private List<District> districts = new ArrayList<>();
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ProvinceRepository extends Neo4jRepository<Province, Long> {
 
-    @Query()
+    @Query("MATCH (province:Province {name: $province})-[:HAS_DISTRICT]" +
+            "->(district:District)-[:HAS_PLACE]->(place:Place) " +
+            "RETURN place ")
     List<PlaceQueryResult> getAllPlacesInProvince(String province);
 }
