@@ -44,7 +44,7 @@ public class PlaceService {
         Place existingPlace = placeRepository.findById(placeRequest.getId()).get();
         existingPlace.setDescription(placeRequest.getDescription());
         existingPlace.setCity(placeRequest.getCity());
-        existingPlace.setReviews(placeRequest.getReviews());
+        existingPlace.setAvgRating(placeRequest.getAvgRating());
         return placeRepository.save(existingPlace);
     }
 
