@@ -29,6 +29,12 @@ public class Place {
 
     private Float avgRating;
 
+    private Float defaultRating;
+
+    private Float calculatedRating;
+
+    private Integer noRatings;
+
     private Boolean featured;
 
     private String cover;

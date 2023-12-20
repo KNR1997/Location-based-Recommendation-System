@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface PlaceRepository extends MongoRepository<Place, String> {
 
+    Place findByid(String id);
+
     List<Place> findByCity(String city);
 
     @Query("{title: ?0}")

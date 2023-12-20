@@ -62,19 +62,33 @@ public class PlaceService {
 
         Rating rating;
         boolean isNewRating = (placeRateDTO.getRatingID() == null);
+        Place place = placeRepository.findByid(placeRateDTO.getPlaceID());
 
         if (!isNewRating) {
             rating = this.ratingRepository.findByid(placeRateDTO.getRatingID());
-            rating.setRating(placeRateDTO.getRating());
+            place.setCalculatedRating(updateRatingAndCalculateNew(place, placeRateDTO.getRating(), place.getNoRatings()));
         } else {
             rating = new Rating();
-
             rating.setUserID(placeRateDTO.getUserID());
             rating.setPlaceID(placeRateDTO.getPlaceID());
             rating.setRating(placeRateDTO.getRating());
+
+            place.setCalculatedRating(calculateNewRatingWithNewRating(place, placeRateDTO.getRating(), place.getNoRatings()));
         }
+
+        place.setNoRatings(place.getNoRatings() + 1);
+        placeRepository.save(place);
 
         rating = this.ratingRepository.save(rating);
         return new PlaceRateDTO(rating);
+    }
+
+    private float updateRatingAndCalculateNew(Place place, float newRating, int noRatings) {
+        Float oldRating = place.getCalculatedRating();
+        return (oldRating * noRatings + newRating) / (noRatings + 1);
+    }
+
+    private float calculateNewRatingWithNewRating(Place place, float newRating, int noRatings) {
+        return (place.getDefaultRating() * noRatings + newRating) / (noRatings + 2);
     }
 }
