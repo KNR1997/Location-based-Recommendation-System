@@ -9,7 +9,7 @@ public class PlaceRateDTO {
 
     private String placeName;
 
-    private Integer rating;
+    private Float rating;
 
     public PlaceRateDTO() {
     }

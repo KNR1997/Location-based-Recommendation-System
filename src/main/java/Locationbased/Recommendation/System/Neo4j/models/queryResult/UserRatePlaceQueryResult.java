@@ -9,5 +9,5 @@ public class UserRatePlaceQueryResult {
 
     private String placeName;
 
-    private Integer rating;
+    private Float rating;
 }

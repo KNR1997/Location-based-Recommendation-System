@@ -2,13 +2,17 @@ package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.commons.CommonFunction;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.node.PlaceFeature;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.PlaceNodeRepository;
+import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,15 +22,14 @@ import java.util.List;
 public class PlaceNodeService implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(PlaceNodeService.class);
 
-    private final PlaceNodeRepository placeNodeRepository;
+    @Autowired
+    private PlaceNodeRepository placeNodeRepository;
 
-    private final PlaceFeature placeFeature;
+    @Autowired
+    private PlaceFeature placeFeature;
 
-    public PlaceNodeService(PlaceNodeRepository placeNodeRepository,
-                            PlaceFeature placeFeature) {
-        this.placeNodeRepository = placeNodeRepository;
-        this.placeFeature = placeFeature;
-    }
+    @Autowired
+    private UserNodeRepository userNodeRepository;
 
     public PlaceFeatureDTO saveOrUpdatePlaceFeature(PlaceFeatureDTO updateDTO) {
 
@@ -63,4 +66,14 @@ public class PlaceNodeService implements InitializingBean {
     public List<Place> getAllPlaces() {
         return placeNodeRepository.findAll();
     }
+
+    public PlaceRateDTO ratePlace(PlaceRateDTO updateDTO){
+        UserRatePlaceQueryResult result = placeNodeRepository.ratePlace(
+                updateDTO.getUserName(),
+                updateDTO.getPlaceName(),
+                updateDTO.getRating());
+
+        return new PlaceRateDTO(result);
+    }
+
 }

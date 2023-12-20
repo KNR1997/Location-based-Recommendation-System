@@ -27,12 +27,6 @@ public class UserController {
     @Autowired
     private UserServiceNew userServiceNew;
 
-    @RequestMapping(value = "/ratePlace", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<PlaceRateDTO> ratePlace(@RequestBody PlaceRateDTO updateDTO) {
-        PlaceRateDTO result = userService.saveOrUpdatePlaceRating(updateDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
     @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/getUserLikedSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)
     public ResponseEntity<List<UserLikedFieldsResult>> getUserLikedSubCategories() {

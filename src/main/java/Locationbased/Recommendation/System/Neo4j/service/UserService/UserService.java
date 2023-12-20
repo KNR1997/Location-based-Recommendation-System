@@ -127,20 +127,6 @@ public class UserService implements InitializingBean {
         return new UserSubCategoryDTO(stringArray);
     }
 
-    public PlaceRateDTO saveOrUpdatePlaceRating(PlaceRateDTO updateDTO) {
-
-        boolean isNew = (!userNodeRepository.userRatedPlace(updateDTO.getUserName(), updateDTO.getPlaceName()));
-        UserRatePlaceQueryResult result = null;
-
-        if (isNew) {
-            result = userNodeRepository.createUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
-        } else {
-            result = userNodeRepository.updateUserRatePlaceRelationship(updateDTO.getUserName(), updateDTO.getPlaceName(), updateDTO.getRating());
-        }
-
-        return new PlaceRateDTO(result);
-    }
-
     @Async
     public void generateRecommendedPlacesForUser(String userName) {
         UserRecommendedPlacesContext context = new UserRecommendedPlacesContext();
