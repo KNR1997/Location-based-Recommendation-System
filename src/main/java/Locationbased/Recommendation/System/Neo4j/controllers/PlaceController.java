@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Place;
 import Locationbased.Recommendation.System.Neo4j.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,10 @@ public class PlaceController {
     public String deletePlace(@PathVariable String placeId) {
         placeService.deletePlace(placeId);
         return placeId + "place deleted from dashboard";
+    }
+
+    @RequestMapping(value = "/ratePlace", headers = "Accept=application/json", method = RequestMethod.POST)
+    public PlaceRateDTO ratePlace(@RequestBody PlaceRateDTO placeRateDTO) {
+        return placeService.saveOrUpdatePlaceRate(placeRateDTO);
     }
 }
