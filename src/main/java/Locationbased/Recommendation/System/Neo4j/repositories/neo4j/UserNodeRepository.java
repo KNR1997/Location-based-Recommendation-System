@@ -1,9 +1,11 @@
 package Locationbased.Recommendation.System.Neo4j.repositories.neo4j;
 
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +19,16 @@ public interface UserNodeRepository extends Neo4jRepository<User, Long> {
     @Query("MATCH (user:User {username: $username})" +
             "WITH user, $interestFields AS userLikeFields " +
             "UNWIND userLikeFields AS field " +
-            "MATCH (interestField:SubCategory {name: field})" +
-            "CREATE (user)-[:LIKE]->(interestField) RETURN interestField.name AS subCategoryName,user")
+            "MERGE (user)-[:LIKE]->(interestField:SubCategory {name: field}) " +
+            "RETURN interestField.name AS subCategoryName, user")
     List<UserLikeSubCategoryQueryResult> createUserLikeSubCategories(String username, String[] interestFields);
+
+//    @Query("MATCH (user:User {username: $username}) " +
+//            "WITH user, $interestFields AS userLikeFields " +
+//            "UNWIND userLikeFields AS field " +
+//            "MATCH (interestField:SubCategory {name: field.name}) " +
+//            "CREATE (user)-[:LIKE]->(interestField)")
+//    List<Void> createUserLikeSubCategories(@Param("username") String username, @Param("interestFields") List<SubCategory> interestFields);
 
     @Query("MATCH (user:User {username: $username})-[oldRel:LIKE]->(:SubCategory)" +
             "DELETE oldRel ")

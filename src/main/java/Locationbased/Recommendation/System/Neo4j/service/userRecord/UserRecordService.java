@@ -3,6 +3,7 @@ package Locationbased.Recommendation.System.Neo4j.service.userRecord;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Tour;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.repositories.mongodb.UserRecordRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
@@ -24,6 +25,7 @@ public class UserRecordService {
     public UserRecordDTO saveOrUpdateUserRecord(UserRecordDTO userRecordDTO) {
 
         UserRecord userRecord;
+        List<String> likeSubCategories = new ArrayList<>();
         boolean isNewUserRecord = (userRecordDTO.getUserRecordID() == null);
         User user = this.userNodeRepository.findUserByID(userRecordDTO.getUserID());
 
@@ -41,7 +43,11 @@ public class UserRecordService {
             userRecord.setTour(tourList);
         }
 
-        userNodeRepository.createUserLikeSubCategories(user.getUsername(), userRecordDTO.getLikeSubCategories());
+        for (SubCategory subCategory : userRecordDTO.getLikeSubCategories()) {
+            likeSubCategories.add(subCategory.getName());
+        }
+
+        userNodeRepository.createUserLikeSubCategories(user.getUsername(), likeSubCategories.toArray(new String[0]));
 
         userRecord = this.userRecordRepository.save(userRecord);
         return new UserRecordDTO(userRecord);

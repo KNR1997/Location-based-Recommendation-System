@@ -46,28 +46,4 @@ public class UserServiceNew {
         user = this.userNodeRepository.save(user);
         return new UserDTO(user);
     }
-
-    public UserRecordDTO saveOrUpdateUserRecord(UserRecordDTO userRecordDTO) {
-
-        UserRecord userRecord;
-        boolean isNewUserRecord = (userRecordDTO.getUserRecordID() == null);
-        User user = this.userNodeRepository.findUserByID(userRecordDTO.getUserID());
-
-        if (!isNewUserRecord) {
-            userRecord = this.userRecordRepository.findByUserID(userRecordDTO.getUserID());
-
-            userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
-            userNodeRepository.deleteUserLikeSubCategories(user.getUsername());
-        } else {
-            userRecord = new UserRecord();
-
-            userRecord.setUserID(userRecordDTO.getUserID());
-            userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
-        }
-
-        userNodeRepository.createUserLikeSubCategories(user.getUsername(), userRecordDTO.getLikeSubCategories());
-
-        userRecord = this.userRecordRepository.save(userRecord);
-        return new UserRecordDTO(userRecord);
-    }
 }

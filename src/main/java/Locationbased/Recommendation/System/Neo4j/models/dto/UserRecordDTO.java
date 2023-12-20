@@ -1,7 +1,10 @@
 package Locationbased.Recommendation.System.Neo4j.models.dto;
 
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserRecordDTO {
@@ -12,7 +15,7 @@ public class UserRecordDTO {
 
     private String district;
 
-    private String[] likeSubCategories;
+    private List<SubCategory> likeSubCategories;
 
     private String[] recommendPlaces;
 

@@ -34,13 +34,6 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @RequestMapping(value = "/saveOrUpdateUserRecord", headers = "Accept=application/json", method = RequestMethod.POST)
-    public ResponseEntity<UserRecordDTO> saveOrUpdateUserRecord(@RequestBody UserRecordDTO updateDTO) {
-        UserRecordDTO result = userServiceNew.saveOrUpdateUserRecord(updateDTO);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAuthority('USER')")
     @RequestMapping(value = "/getUserLikedSubCategories", headers = "Accept=application/json", method = RequestMethod.GET)
     public ResponseEntity<List<UserLikedFieldsResult>> getUserLikedSubCategories() {
         List<UserLikedFieldsResult> result = userService.getUserLikeSubCategories();

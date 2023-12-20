@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.models.mongoEntity;
 
+import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ public class UserRecord {
 
     private Long userID;
 
-    private String[] likeSubCategories;
+    private List<SubCategory> likeSubCategories;
 
     private List<Tour> tour;
 }
