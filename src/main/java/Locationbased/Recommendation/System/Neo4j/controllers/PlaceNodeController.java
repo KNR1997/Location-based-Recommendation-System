@@ -7,10 +7,7 @@ import Locationbased.Recommendation.System.Neo4j.service.PlaceNodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class PlaceNodeController {
         PlaceFeatureDTO result = placeNodeService.saveOrUpdatePlaceFeature(updateDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
     @RequestMapping(value = "/getAllPlaces", headers = "Accept=application/json", method = RequestMethod.GET)
     public ResponseEntity<List<Place>> getAllPlaces() {
         List<Place> places = placeNodeService.getAllPlaces();
@@ -35,5 +33,11 @@ public class PlaceNodeController {
     public ResponseEntity<PlaceRateDTO> ratePlace(@RequestBody PlaceRateDTO updateDTO) {
         PlaceRateDTO result = placeNodeService.ratePlace(updateDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{placeName}", headers = "Accept=application/json", method = RequestMethod.GET)
+    public ResponseEntity<Place> getPlace(@PathVariable String placeName) {
+        Place place = placeNodeService.getPlace(placeName);
+        return new ResponseEntity<>(place, HttpStatus.OK);
     }
 }

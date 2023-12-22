@@ -67,7 +67,7 @@ public class PlaceNodeService implements InitializingBean {
         return placeNodeRepository.findAll();
     }
 
-    public PlaceRateDTO ratePlace(PlaceRateDTO updateDTO){
+    public PlaceRateDTO ratePlace(PlaceRateDTO updateDTO) {
         UserRatePlaceQueryResult result = placeNodeRepository.ratePlace(
                 updateDTO.getUserName(),
                 updateDTO.getPlaceName(),
@@ -76,4 +76,7 @@ public class PlaceNodeService implements InitializingBean {
         return new PlaceRateDTO(result);
     }
 
+    public Place getPlace(String placeName) {
+        return placeNodeRepository.findPlaceByname(placeName);
+    }
 }

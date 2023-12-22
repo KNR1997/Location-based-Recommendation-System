@@ -2,6 +2,7 @@ package Locationbased.Recommendation.System.Neo4j.repositories.neo4j;
 
 import Locationbased.Recommendation.System.Neo4j.models.node.Place;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceHasFeatureQueryResult;
+import Locationbased.Recommendation.System.Neo4j.models.queryResult.PlaceQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
@@ -36,4 +37,5 @@ public interface PlaceNodeRepository extends Neo4jRepository<Place, Long> {
             "RETURN user.username AS username, place.name AS placeName, rating.rate AS rating")
     UserRatePlaceQueryResult ratePlace(String username, String placeName, Float rating);
 
+    Place findPlaceByname(String name);
 }
