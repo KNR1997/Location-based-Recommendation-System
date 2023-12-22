@@ -28,4 +28,6 @@ public class Tour {
     private Integer crew;
 
     private String[] recommendedPlaces;
+
+    private String[] ratedPlaces;
 }

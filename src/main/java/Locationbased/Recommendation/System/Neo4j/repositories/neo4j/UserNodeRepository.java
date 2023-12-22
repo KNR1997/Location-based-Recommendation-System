@@ -1,11 +1,9 @@
 package Locationbased.Recommendation.System.Neo4j.repositories.neo4j;
 
-import Locationbased.Recommendation.System.Neo4j.models.node.SubCategory;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -136,4 +134,9 @@ public interface UserNodeRepository extends Neo4jRepository<User, Long> {
             "SET similarity.value = userMap[userName] " +
             "RETURN user.username AS username, userMap[userName] AS rate")
     List<CreateSimilarityRelationshipWithExistingUsersQueryResult> createSimilarityRelationshipWithExistingUsers(String userName, Map<String, Double> userSimilarityRatings);
+
+    @Query("MATCH (user:User {username: $username}) " +
+            "MATCH (district:DISTRICT {name: $district}) " +
+            "CREATE (district)-[:DISTRICT_VISITORS]->(user)")
+    Void createDistrictVisitorRelationship(String username, String district);
 }

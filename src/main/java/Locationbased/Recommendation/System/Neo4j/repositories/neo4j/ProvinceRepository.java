@@ -13,4 +13,9 @@ public interface ProvinceRepository extends Neo4jRepository<Province, Long> {
             "->(district:District)-[:HAS_PLACE]->(place:Place) " +
             "RETURN place ")
     List<PlaceQueryResult> getAllPlacesInProvince(String province);
+
+    @Query("MATCH (user:User)-[:RATE]->(place:Place)<-[:HAS_PLACE]-(district:District)" +
+            "<-[:HAS_DISTRICT]-(province:Province {name: 'Southern'}) " +
+            "RETURN place ")
+    List<PlaceQueryResult> getAllRatedPlacesInProvince(String province);
 }
