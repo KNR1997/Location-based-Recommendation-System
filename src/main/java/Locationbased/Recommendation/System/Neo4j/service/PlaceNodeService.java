@@ -1,6 +1,7 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
 import Locationbased.Recommendation.System.Neo4j.commons.CommonFunction;
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.Place;
@@ -30,6 +31,27 @@ public class PlaceNodeService implements InitializingBean {
 
     @Autowired
     private UserNodeRepository userNodeRepository;
+
+    public PlaceDTO saveOrUpdatePlace(PlaceDTO updateDTO) {
+
+        Place place;
+        boolean isNewPlace = (updateDTO.getPlaceID() == null);
+
+        if (!isNewPlace) {
+            place = this.placeNodeRepository.findPlaceByID(updateDTO.getPlaceID());
+
+        } else {
+            place = new Place();
+
+        }
+        place.setName(updateDTO.getName());
+        place.setDistricts(updateDTO.getDistricts());
+        place.setSubCategories(updateDTO.getSubCategories());
+        place.setPlaceCategories(updateDTO.getPlaceCategories());
+
+        place = this.placeNodeRepository.save(place);
+        return new PlaceDTO(place);
+    }
 
     public PlaceFeatureDTO saveOrUpdatePlaceFeature(PlaceFeatureDTO updateDTO) {
 

@@ -11,6 +11,8 @@ import java.util.List;
 
 public interface PlaceNodeRepository extends Neo4jRepository<Place, Long> {
 
+    Place findPlaceByID(Long ID);
+
     @Query("MATCH (place:Place {name: $placeName})" +
             "WITH place, $subCategories AS subCategories " +
             "UNWIND subCategories AS subCategory " +

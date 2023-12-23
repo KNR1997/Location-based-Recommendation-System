@@ -14,11 +14,14 @@ import java.util.List;
 public class Place {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long ID;
     private String name;
     @Relationship(type = "HAS_FEATURE", direction = Relationship.Direction.OUTGOING)
     private List<SubCategory> subCategories = new ArrayList<>();
 
     @Relationship(type = "HAS_PLACE", direction = Relationship.Direction.INCOMING)
     private List<District> districts = new ArrayList<>();
+
+    @Relationship(type = "HAS_CATEGORY", direction = Relationship.Direction.OUTGOING)
+    private List<PlaceCategory> placeCategories = new ArrayList<>();
 }

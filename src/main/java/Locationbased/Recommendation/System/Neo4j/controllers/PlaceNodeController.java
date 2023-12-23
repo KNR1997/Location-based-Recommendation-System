@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceFeatureDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.node.Place;
@@ -16,6 +17,12 @@ import java.util.List;
 public class PlaceNodeController {
     @Autowired
     private PlaceNodeService placeNodeService;
+
+    @RequestMapping(value = "/saveOrUpdatePlace", headers = "Accept=application/json", method = RequestMethod.POST)
+    public ResponseEntity<PlaceDTO> saveOrUpdatePlace(@RequestBody PlaceDTO updateDTO) {
+        PlaceDTO result = placeNodeService.saveOrUpdatePlace(updateDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "/addPlaceFeature", headers = "Accept=application/json", method = RequestMethod.POST)
     public ResponseEntity<PlaceFeatureDTO> addPlaceFeature(@RequestBody PlaceFeatureDTO updateDTO) {

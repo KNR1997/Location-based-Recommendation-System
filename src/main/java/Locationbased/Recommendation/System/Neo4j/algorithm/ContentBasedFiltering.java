@@ -58,7 +58,7 @@ public class ContentBasedFiltering {
             for (PlaceQueryResult placeQueryResult : placeQueryResultList) {
                 Place place = placeQueryResult.getPlace();
 
-                Optional<Place> optionalPlace = placeNodeRepository.findById(place.getId());
+                Optional<Place> optionalPlace = placeNodeRepository.findById(place.getID());
 
                 // Retain only the subCategories that exist in both place.getSubCategories() and subCategoryList
                 List<SubCategory> commonSubCategories = new ArrayList<>(optionalPlace.get().getSubCategories());
