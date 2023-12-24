@@ -4,11 +4,13 @@ import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.*;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Repository
 public interface UserNodeRepository extends Neo4jRepository<User, Long> {
     Optional<User> findUserByUsername(String username);
 

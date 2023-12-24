@@ -54,7 +54,8 @@ public class SecurityConfig {
                                 "/api/v1/enrollments/**",
                                 "/api/v1/interestFields/**",
                                 "api/v1/user/**",
-                                "api/v1/tour/**"
+                                "api/v1/tour/**",
+                                "/api/v1/userRecord/**"
                         ).authenticated()
                         .anyRequest().permitAll()
                 )

@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.service.userRecord;
 
+import Locationbased.Recommendation.System.Neo4j.config.AuthenticatedUserUtil;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Tour;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
@@ -27,10 +28,10 @@ public class UserRecordService {
         UserRecord userRecord;
         List<String> likeSubCategories = new ArrayList<>();
         boolean isNewUserRecord = (userRecordDTO.getUserRecordID() == null);
-        User user = this.userNodeRepository.findUserByID(userRecordDTO.getUserID());
+        User user = AuthenticatedUserUtil.getAuthenticatedUser(userNodeRepository);
 
         if (!isNewUserRecord) {
-            userRecord = this.userRecordRepository.findByUserID(userRecordDTO.getUserID());
+            userRecord = this.userRecordRepository.findByUserID(user.getID());
 
             userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
             userNodeRepository.deleteUserLikeSubCategories(user.getUsername());
@@ -38,7 +39,7 @@ public class UserRecordService {
             userRecord = new UserRecord();
             List<Tour> tourList = new ArrayList<>();
 
-            userRecord.setUserID(userRecordDTO.getUserID());
+            userRecord.setUserID(user.getID());
             userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
             userRecord.setTour(tourList);
         }

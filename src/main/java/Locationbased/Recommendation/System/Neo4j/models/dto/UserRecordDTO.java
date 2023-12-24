@@ -11,8 +11,6 @@ public class UserRecordDTO {
 
     private String userRecordID;
 
-    private Long userID;
-
     private String district;
 
     private List<SubCategory> likeSubCategories;
@@ -24,7 +22,6 @@ public class UserRecordDTO {
 
     public UserRecordDTO(UserRecord userRecord) {
         this.userRecordID = userRecord.getId();
-        this.userID = userRecord.getUserID();
         this.likeSubCategories = userRecord.getLikeSubCategories();
     }
 }
