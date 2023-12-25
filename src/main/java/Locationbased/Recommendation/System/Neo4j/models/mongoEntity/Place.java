@@ -1,5 +1,6 @@
 package Locationbased.Recommendation.System.Neo4j.models.mongoEntity;
 
+import Locationbased.Recommendation.System.Neo4j.models.node.PlaceCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,4 +41,6 @@ public class Place {
     private String cover;
 
     private List<String> images;
+
+    private String placeCategory;
 }

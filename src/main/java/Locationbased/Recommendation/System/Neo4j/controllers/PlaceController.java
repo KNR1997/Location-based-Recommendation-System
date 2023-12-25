@@ -1,9 +1,12 @@
 package Locationbased.Recommendation.System.Neo4j.controllers;
 
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlacePageDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Place;
 import Locationbased.Recommendation.System.Neo4j.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,5 +57,11 @@ public class PlaceController {
     @RequestMapping(value = "/ratePlace", headers = "Accept=application/json", method = RequestMethod.POST)
     public PlaceRateDTO ratePlace(@RequestBody PlaceRateDTO placeRateDTO) {
         return placeService.saveOrUpdatePlaceRate(placeRateDTO);
+    }
+
+    @RequestMapping(value = "/placeCategory/{category}/{pageNo}", headers = "Accept=application/json", method = RequestMethod.GET)
+    public ResponseEntity<PlacePageDTO> getPlaceByPlaceCategory(@PathVariable String category, @PathVariable Integer pageNo) {
+        PlacePageDTO result =  placeService.getPlaceByPlaceCategory(category, pageNo);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

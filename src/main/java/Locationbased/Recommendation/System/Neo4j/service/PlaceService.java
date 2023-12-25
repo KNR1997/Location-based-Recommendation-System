@@ -1,11 +1,15 @@
 package Locationbased.Recommendation.System.Neo4j.service;
 
+import Locationbased.Recommendation.System.Neo4j.models.dto.PlacePageDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Place;
 import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.Rating;
 import Locationbased.Recommendation.System.Neo4j.repositories.mongodb.PlaceRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.mongodb.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -90,5 +94,15 @@ public class PlaceService {
 
     private float calculateNewRatingWithNewRating(Place place, float newRating, int noRatings) {
         return (place.getDefaultRating() * noRatings + newRating) / (noRatings + 2);
+    }
+
+    public PlacePageDTO getPlaceByPlaceCategory(String placeCategory, Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNo, 8);
+        Page<Place> placePage = placeRepository.findByPlaceCategory(placeCategory, pageable);
+
+        List<Place> content = placePage.getContent();
+        int totalPages = placePage.getTotalPages();
+
+        return new PlacePageDTO(content, totalPages);
     }
 }
