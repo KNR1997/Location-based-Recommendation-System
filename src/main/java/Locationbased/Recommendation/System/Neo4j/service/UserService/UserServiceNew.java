@@ -30,7 +30,7 @@ public class UserServiceNew {
         boolean isNewUser = (userDTO.getUserID() == null);
 
         if (!isNewUser) {
-            user = this.userNodeRepository.findUserByID(userDTO.getUserID());
+            user = this.userNodeRepository.findUserByid(userDTO.getUserID());
             userRecord = this.userRecordRepository.findByUserID(userDTO.getUserID());
 
         } else {

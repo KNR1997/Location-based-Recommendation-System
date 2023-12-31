@@ -7,11 +7,13 @@ import Locationbased.Recommendation.System.Neo4j.models.dto.PlaceRateDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserLikedNotLikedSubCategoryDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserRecordDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserSubCategoryDTO;
+import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.models.node.UserRecordNode;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikeSubCategoryQueryResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserLikedFieldsResult;
 import Locationbased.Recommendation.System.Neo4j.models.queryResult.UserRatePlaceQueryResult;
+import Locationbased.Recommendation.System.Neo4j.repositories.mongodb.UserRecordRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.DistrictRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.SubCategoryRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
@@ -164,7 +166,7 @@ public class UserService implements InitializingBean {
         UserRecordNode userRecordNode = new UserRecordNode();
 
         // update userRecord details
-        userRecordNode.setUserID(user.getID());
+        userRecordNode.setUserID(user.getId());
 //        userRecord.setUser(user);
         userRecordNode.setDistrict(updateDTO.getDistrict());
         userRecordNodeRepository.save(userRecordNode);

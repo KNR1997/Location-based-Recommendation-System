@@ -31,7 +31,7 @@ public class UserRecordService {
         User user = AuthenticatedUserUtil.getAuthenticatedUser(userNodeRepository);
 
         if (!isNewUserRecord) {
-            userRecord = this.userRecordRepository.findByUserID(user.getID());
+            userRecord = this.userRecordRepository.findByUserID(user.getId());
 
             userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
             userNodeRepository.deleteUserLikeSubCategories(user.getUsername());
@@ -39,7 +39,7 @@ public class UserRecordService {
             userRecord = new UserRecord();
             List<Tour> tourList = new ArrayList<>();
 
-            userRecord.setUserID(user.getID());
+            userRecord.setUserID(user.getId());
             userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
             userRecord.setTour(tourList);
         }
@@ -52,5 +52,21 @@ public class UserRecordService {
 
         userRecord = this.userRecordRepository.save(userRecord);
         return new UserRecordDTO(userRecord);
+    }
+
+    public UserRecord getLatestUserRecord(String userName){
+
+        UserRecord userRecord;
+        User user = userNodeRepository.findUserByusername(userName);
+
+        if (userRecordRepository.findLatestUserRecord(user.getId()) != null){
+            userRecord = userRecordRepository.findLatestUserRecord(user.getId());
+        } else {
+            userRecord = new UserRecord();
+
+            userRecord.setUserID(user.getId());
+        }
+
+        return userRecord;
     }
 }

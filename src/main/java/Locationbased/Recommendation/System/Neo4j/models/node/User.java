@@ -14,7 +14,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
-    private Long ID;
+    private Long id;
     private String username;
     private String email;
     private String password;

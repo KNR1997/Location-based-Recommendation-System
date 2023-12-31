@@ -3,11 +3,13 @@ package Locationbased.Recommendation.System.Neo4j.controllers;
 import Locationbased.Recommendation.System.Neo4j.models.dto.AuthRequest;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserAuthDTO;
 import Locationbased.Recommendation.System.Neo4j.models.dto.UserDTO;
+import Locationbased.Recommendation.System.Neo4j.models.mongoEntity.UserRecord;
 import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.requests.CreateUserRequest;
 import Locationbased.Recommendation.System.Neo4j.service.JwtService;
 import Locationbased.Recommendation.System.Neo4j.service.UserService.UserService;
 import Locationbased.Recommendation.System.Neo4j.service.UserService.UserServiceNew;
+import Locationbased.Recommendation.System.Neo4j.service.userRecord.UserRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,9 @@ public class UserAuthController {
     @Autowired
     private UserServiceNew userServiceNew;
 
+    @Autowired
+    private UserRecordService userRecordService;
+
     @GetMapping("/me")
     public String loggedUser(Principal principal) {
         return principal.getName();
@@ -53,7 +58,8 @@ public class UserAuthController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(authRequest.getUsername());
-            UserAuthDTO response = new UserAuthDTO(authRequest.getUsername(), token);
+            UserRecord userRecord = userRecordService.getLatestUserRecord(authRequest.getUsername());
+            UserAuthDTO response = new UserAuthDTO(authRequest.getUsername(), token, userRecord);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             throw new UsernameNotFoundException("invalid user request !");
