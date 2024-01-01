@@ -9,8 +9,10 @@ import Locationbased.Recommendation.System.Neo4j.models.node.User;
 import Locationbased.Recommendation.System.Neo4j.repositories.mongodb.UserRecordRepository;
 import Locationbased.Recommendation.System.Neo4j.repositories.neo4j.UserNodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class UserRecordService {
             userRecord.setUserID(user.getId());
             userRecord.setLikeSubCategories(userRecordDTO.getLikeSubCategories());
             userRecord.setTour(tourList);
+            userRecord.setTimeStamp(LocalDateTime.now());
         }
 
         for (SubCategory subCategory : userRecordDTO.getLikeSubCategories()) {
@@ -58,13 +61,17 @@ public class UserRecordService {
 
         UserRecord userRecord;
         User user = userNodeRepository.findUserByusername(userName);
+        Sort sort = Sort.by(Sort.Order.desc("timeStamp"));
+        boolean hasRecord = userRecordRepository.existsByUserID(user.getId());
 
-        if (userRecordRepository.findLatestUserRecord(user.getId()) != null){
-            userRecord = userRecordRepository.findLatestUserRecord(user.getId());
+        if (hasRecord){
+            userRecord = userRecordRepository.findLatestUserRecord(user.getId(), sort);
         } else {
             userRecord = new UserRecord();
 
             userRecord.setUserID(user.getId());
+            userRecord.setLikeSubCategories(new ArrayList<>());
+            userRecord = this.userRecordRepository.save(userRecord);
         }
 
         return userRecord;
