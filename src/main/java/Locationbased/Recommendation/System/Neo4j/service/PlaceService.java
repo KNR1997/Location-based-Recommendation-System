@@ -105,4 +105,8 @@ public class PlaceService {
 
         return new PlacePageDTO(content, totalPages);
     }
+
+    public List<Place> getFeaturedPlaces() {
+        return placeRepository.findFeaturedPlaces();
+    }
 }

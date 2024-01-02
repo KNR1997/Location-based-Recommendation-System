@@ -21,4 +21,7 @@ public interface PlaceRepository extends MongoRepository<Place, String> {
 
     @Query("{placeCategory: ?0}")
     Page<Place> findByPlaceCategory(String placeCategory, Pageable pageable);
+
+    @Query("{ 'featured' : true }")
+    List<Place> findFeaturedPlaces();
 }

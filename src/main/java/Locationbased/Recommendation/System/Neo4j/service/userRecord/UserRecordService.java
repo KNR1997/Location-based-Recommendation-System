@@ -57,15 +57,16 @@ public class UserRecordService {
         return new UserRecordDTO(userRecord);
     }
 
-    public UserRecord getLatestUserRecord(String userName){
+    public UserRecord getLatestUserRecord(String userName) {
 
         UserRecord userRecord;
         User user = userNodeRepository.findUserByusername(userName);
         Sort sort = Sort.by(Sort.Order.desc("timeStamp"));
         boolean hasRecord = userRecordRepository.existsByUserID(user.getId());
 
-        if (hasRecord){
-            userRecord = userRecordRepository.findLatestUserRecord(user.getId(), sort);
+        if (hasRecord) {
+            List<UserRecord> latestUserRecords = userRecordRepository.findTop1ByUserIDOrderByTimeStampDesc(user.getId());
+            userRecord = latestUserRecords.get(0);
         } else {
             userRecord = new UserRecord();
 

@@ -61,7 +61,12 @@ public class PlaceController {
 
     @RequestMapping(value = "/placeCategory/{category}/{pageNo}", headers = "Accept=application/json", method = RequestMethod.GET)
     public ResponseEntity<PlacePageDTO> getPlaceByPlaceCategory(@PathVariable String category, @PathVariable Integer pageNo) {
-        PlacePageDTO result =  placeService.getPlaceByPlaceCategory(category, pageNo);
+        PlacePageDTO result = placeService.getPlaceByPlaceCategory(category, pageNo);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getFeaturedPlaces", headers = "Accept=application/json", method = RequestMethod.GET)
+    public List<Place> getFeaturedPlaces() {
+        return placeService.getFeaturedPlaces();
     }
 }
