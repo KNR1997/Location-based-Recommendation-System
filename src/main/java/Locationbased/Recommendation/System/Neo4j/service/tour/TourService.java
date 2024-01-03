@@ -22,10 +22,12 @@ public class TourService {
     private TourCalculatorService tourCalculatorService;
 
     public TourDTO saveOrUpdateTour(TourDTO tourDTO) {
+
         Tour tour;
         int noOfTours = 0;
         boolean isNewTour = (tourDTO.getTourID() == null);
         UserRecord userRecord = this.userRecordRepository.findByid(tourDTO.getUserRecordID());
+
         if (userRecord.getTour() != null) {
             noOfTours = userRecord.getTour().size();
         }
